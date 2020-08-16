@@ -18,9 +18,9 @@ function EditUnit(props: IEditUnitProps) {
     }
 
     return (
-        <form onSubmit={() => props.saveUnit(unit)}>
+        <form onSubmit={() => props.saveUnit(unit)} id="edit-unit">
             <h2>
-                {(isNewUnit ? "Add Unit:" : "Edit Unit: ") + unit.name}
+                {(isNewUnit ? "Add Unit: " : "Edit Unit: ") + unit.name}
             </h2>
             <div className="expand">
                 <table>
@@ -47,10 +47,10 @@ function EditUnit(props: IEditUnitProps) {
                 </table>
             </div>
             <div>
-                <button onClick={props.goBack}>
+                <button onClick={props.goBack} type="button">
                     Back
                 </button>
-                <button onClick={() => props.saveUnit(unit)}>
+                <button onClick={() => props.saveUnit(unit)} type="submit">
                     Done
                 </button>
             </div>

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import CrusadeArmyRoster from "./CrusadeArmyRoster";
 import { ICrusadeArmy, CRUSADE_ARMIES_STORAGE_KEY } from "./Constants";
+import EditArmy from "./EditArmy";
 
 function ArmiesList() {
+    const [edittingArmy, setEdittingArmy] = useState<ICrusadeArmy>()
     const [crusadeArmies, setCrusadeArmies] = useState<ICrusadeArmy[]>();
     const [selectedCrusadeArmy, setSelectedCrusadeArmy] = useState<ICrusadeArmy>();
     const [crusadeArmiesDisplay, setCrusadeArmiesDisplay] = useState<JSX.Element[]>();
@@ -29,9 +31,9 @@ function ArmiesList() {
 
             return (
                 <div className="armies-list-display" onClick={() => setSelectedCrusadeArmy(crusadeArmy)}>
-                    <h1>
+                    <h2>
                         {crusadeArmy.name}
-                    </h1>
+                    </h2>
                     <span>{powerLevel + " PL"}</span>
                     <span>{crusadePoints + " CP"}</span>
                 </div>
@@ -58,6 +60,21 @@ function ArmiesList() {
         setSelectedCrusadeArmy(selectedArmy)
     }
 
+    function addArmy() {
+        const newArmy: ICrusadeArmy = { name: "", id: crusadeArmies?.length ?? 0, units: [] }
+        setEdittingArmy(newArmy)
+    }
+
+    if (edittingArmy) {
+        return (
+            <EditArmy
+                crusadeArmy={edittingArmy}
+                goBack={() => setEdittingArmy(undefined)}
+                saveArmy={updateArmy}
+            />
+        )
+    }
+
     if (selectedCrusadeArmy) {
         return (
             <CrusadeArmyRoster
@@ -70,7 +87,18 @@ function ArmiesList() {
 
     return (
         <>
-            {crusadeArmiesDisplay}
+            <h1>
+                Crusade Armies
+        </h1>
+            <div className="expand">
+
+                {crusadeArmiesDisplay}
+            </div>
+            <div>
+                <button onClick={addArmy}>
+                    Add
+            </button>
+            </div>
         </>
     )
 }
