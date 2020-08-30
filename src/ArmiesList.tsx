@@ -94,7 +94,7 @@ function ArmiesList() {
 
                 {crusadeArmiesDisplay}
             </div>
-            <div>
+            <div className="button-container">
                 <button onClick={addArmy}>
                     Add
             </button>

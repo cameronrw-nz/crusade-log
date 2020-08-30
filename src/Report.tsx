@@ -71,7 +71,7 @@ function Report(props: IReportProps) {
             <div className="report-units expand">
                 {display}
             </div>
-            <div>
+            <div className="button-container">
                 <button onClick={props.goBack}>
                     Back
                 </button>

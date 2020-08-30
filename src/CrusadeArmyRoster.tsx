@@ -23,17 +23,24 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                 + unit.agendaXp
                 + Math.floor(unit.kills / 3);
             const isSelected = unit.id === selectedUnitId;
+            const crusadePoints = unit.battleHonours && unit.battleHonours.length > 0 ?
+                unit.battleHonours
+                    ?.map(bh => bh.crusadePoints)
+                    ?.reduce((total, newvalue) => {
+                        return (total ?? 0) + newvalue;
+                    })
+                : 0;
 
             return (
                 <tr className={`army-roster-units-item${isSelected ? " selected" : ""}`} onClick={() => setSelectedUnitId(unit.id)}>
                     <td>
                         {unit.name}
                     </td>
-                    <td>
+                    <td style={{ whiteSpace: "nowrap" }}>
                         {highestRank}
                     </td>
                     <td>
-                        {totalExperience + "XP"}
+                        {crusadePoints}
                     </td>
                 </tr>
             )
@@ -108,6 +115,23 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         )
     }
 
+    let unitsTableDisplay = null;
+    if (unitsDisplay?.length !== 0) {
+        unitsTableDisplay = (
+            <table className="army-roster-units">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Rank</th>
+                        <th>CP</th>
+                    </tr>
+                </thead>
+                {unitsDisplay}
+            </table>
+
+        )
+    }
+
     return (
         <>
             <div className="army-roster-header">
@@ -120,11 +144,9 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                 </div>
             </div>
             <div className="army-roster-content">
-                <table className="army-roster-units">
-                    {unitsDisplay}
-                </table>
+                {unitsTableDisplay}
             </div>
-            <div>
+            <div className="button-container">
                 <button onClick={props.goBack}>
                     Back
                 </button>
@@ -134,8 +156,8 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                 <button onClick={() => setEdittingUnit(props.crusadeArmy.units.find(u => u.id === selectedUnitId))}>
                     Edit
                 </button>
-                <button onClick={() => setIsReporting(true)}>
-                    Report
+                <button className="primary" onClick={() => setIsReporting(true)}>
+                    Log
                 </button>
             </div>
         </>

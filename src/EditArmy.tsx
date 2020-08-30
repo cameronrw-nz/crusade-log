@@ -37,7 +37,7 @@ function EditArmy(props: IEditArmyProps) {
                         </tr>
                     </table>
                 </div>
-                <div>
+                <div className="button-container">
                     <button onClick={props.goBack} type="button">
                         Back
                     </button>

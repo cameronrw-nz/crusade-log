@@ -60,7 +60,7 @@ function ReportUnits(props: IReportUnitsProps) {
             </h1>
             <div className="expand">
                 <div>
-                    Additional Requisition Points:
+                    Requisition Points:
                 <input
                         type="number"
                         onChange={event => setRequisitionPoints(Number.parseInt(event.target.value))}
@@ -69,7 +69,7 @@ function ReportUnits(props: IReportUnitsProps) {
                 </div>
                 {unitsDisplay}
             </div>
-            <div>
+            <div className="button-container">
                 <button onClick={props.goBack}>
                     Back
                 </button>
