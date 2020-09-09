@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Report from "./Report";
 import EditUnit from "./EditUnit";
 import { ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "./Constants";
+import UnitDisplay from "./UnitDisplay";
 
 interface ICrusadeArmyRoster {
     crusadeArmy: ICrusadeArmy;
@@ -18,10 +19,6 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     useEffect(() => {
         const display = props.crusadeArmy.units.map(unit => {
             const highestRank = unit.battleHonours[unit.battleHonours.length - 1]?.rank ?? BattleHonourRank.BattleReady;
-            const totalExperience = unit.battleParticipation +
-                + unit.markedForGreatness * 3
-                + unit.agendaXp
-                + Math.floor(unit.kills / 3);
             const isSelected = unit.id === selectedUnitId;
             const crusadePoints = unit.battleHonours && unit.battleHonours.length > 0 ?
                 unit.battleHonours
@@ -32,7 +29,10 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                 : 0;
 
             return (
-                <tr className={`army-roster-units-item${isSelected ? " selected" : ""}`} onClick={() => setSelectedUnitId(unit.id)}>
+                <tr
+                    className={`army-roster-units-item${isSelected ? " selected" : ""}`}
+                    onClick={() => setEdittingUnit(unit)}
+                >
                     <td>
                         {unit.name}
                     </td>
@@ -78,7 +78,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         }
 
         props.updateArmy(crusadeArmy)
-        setEdittingUnit(undefined);
+        setEdittingUnit(unit);
     }
 
     function saveArmy(army: ICrusadeArmy) {
@@ -107,7 +107,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
 
     if (edittingUnit) {
         return (
-            <EditUnit
+            <UnitDisplay
                 goBack={() => setEdittingUnit(undefined)}
                 saveUnit={saveUnit}
                 unit={edittingUnit}
@@ -128,7 +128,6 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                 </thead>
                 {unitsDisplay}
             </table>
-
         )
     }
 
@@ -152,9 +151,6 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                 </button>
                 <button onClick={addUnit}>
                     Add
-                </button>
-                <button onClick={() => setEdittingUnit(props.crusadeArmy.units.find(u => u.id === selectedUnitId))}>
-                    Edit
                 </button>
                 <button className="primary" onClick={() => setIsReporting(true)}>
                     Log

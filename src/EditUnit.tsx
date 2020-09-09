@@ -77,8 +77,14 @@ function EditUnit(props: IEditUnitProps) {
         )
     });
 
+    function save(e: React.FormEvent | React.MouseEvent) {
+        props.saveUnit(unit)
+        e.preventDefault()
+        e.stopPropagation()
+    }
+
     return (
-        <form onSubmit={() => props.saveUnit(unit)} id="edit-unit">
+        <form onSubmit={save} id="edit-unit">
             <h2>
                 {(isNewUnit ? "Add Unit: " : "Edit Unit: ") + unit.name}
             </h2>
@@ -163,8 +169,8 @@ function EditUnit(props: IEditUnitProps) {
                 <button onClick={props.goBack} type="button">
                     Back
                 </button>
-                <button onClick={() => props.saveUnit(unit)} type="submit">
-                    Done
+                <button onClick={save} type="submit">
+                    Save
                 </button>
             </div>
         </form>
