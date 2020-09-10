@@ -74,7 +74,7 @@ html, body, #root {
 }
 
 button {
-    flex: 1 1 auto;
+    flex: 1 1;
     background: rgb(103, 191, 221);
     border: unset;
     border-radius: 10px;
@@ -107,6 +107,10 @@ form {
 
 .report-unit-table td {
     width: 50%;
+}
+
+td input {
+    max-width: 120px;
 }
 
 .report-input {

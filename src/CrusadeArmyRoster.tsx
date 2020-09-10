@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Report from "./Report";
-import EditUnit from "./EditUnit";
+import Report from "./Report/Report";
 import { ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "./Constants";
 import UnitDisplay from "./UnitDisplay";
 

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { ICrusadeUnit, BattleHonourRank } from "./Constants";
+import { ICrusadeUnit, BattleHonourRank, IOutOfAction } from "./Constants";
+import { CalculateTotalExperience } from "./Helpers/CrusadeUnitHelper";
+import EditOutOfActions from "./CommonFields/EditOutOfActions";
 
 interface IEditUnitProps {
     goBack: () => void;
@@ -11,13 +13,16 @@ function EditUnit(props: IEditUnitProps) {
     const [isNewUnit] = useState<boolean>(props.unit.name === "")
     const [unit, setUnit] = useState<ICrusadeUnit>(props.unit);
 
+    function save(e: React.FormEvent | React.MouseEvent) {
+        e.preventDefault()
+        e.stopPropagation()
+        props.saveUnit(unit)
+    }
+
     function editUnit(func: (u: ICrusadeUnit) => void) {
-        const newUnit: ICrusadeUnit = { ...unit, battleHonours: [...unit.battleHonours] };
+        const newUnit: ICrusadeUnit = { ...unit, battleHonours: [...unit.battleHonours], outOfAction: [...unit.outOfAction] };
         func(newUnit)
-        const newTotalExperience = newUnit.battleParticipation + 1
-            + newUnit.markedForGreatness * 3
-            + newUnit.agendaXp
-            + Math.floor(newUnit.kills / 3);
+        const newTotalExperience = CalculateTotalExperience(newUnit);
 
         if (newUnit.battleHonours.findIndex(bh => bh.rank === BattleHonourRank.Blooded) < 0 && newTotalExperience >= 6) {
             newUnit.battleHonours.push({ crusadePoints: newUnit.powerLevel >= 11 ? 2 : 1, effect: "", rank: BattleHonourRank.Blooded })
@@ -35,10 +40,7 @@ function EditUnit(props: IEditUnitProps) {
         setUnit(newUnit)
     }
 
-    const totalExperience = unit.battleParticipation
-        + unit.markedForGreatness * 3
-        + unit.agendaXp
-        + Math.floor(unit.kills / 3);
+    const totalExperience = CalculateTotalExperience(unit);
 
     const [initialExperience] = useState(totalExperience);
 
@@ -76,12 +78,6 @@ function EditUnit(props: IEditUnitProps) {
             </tr>
         )
     });
-
-    function save(e: React.FormEvent | React.MouseEvent) {
-        props.saveUnit(unit)
-        e.preventDefault()
-        e.stopPropagation()
-    }
 
     return (
         <form onSubmit={save} id="edit-unit">
@@ -163,13 +159,17 @@ function EditUnit(props: IEditUnitProps) {
                         </td>
                     </tr>
                     {battleHonours}
+                    <EditOutOfActions
+                        unit={unit}
+                        editUnit={editUnit}
+                    />
                 </table>
             </div>
             <div className="button-container">
                 <button onClick={props.goBack} type="button">
                     Back
                 </button>
-                <button onClick={save} type="submit">
+                <button className="primary" onClick={save} type="submit">
                     Save
                 </button>
             </div>

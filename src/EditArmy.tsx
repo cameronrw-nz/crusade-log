@@ -41,7 +41,7 @@ function EditArmy(props: IEditArmyProps) {
                     <button onClick={props.goBack} type="button">
                         Back
                     </button>
-                    <button onClick={() => props.saveArmy(army)} type="submit">
+                    <button className="primary" onClick={() => props.saveArmy(army)} type="submit">
                         Save
                     </button>
                 </div>

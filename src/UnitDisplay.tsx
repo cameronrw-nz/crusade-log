@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ICrusadeUnit } from "./Constants";
 import EditUnit from "./EditUnit";
+import { CalculateTotalExperience } from "./Helpers/CrusadeUnitHelper";
 
 interface IUnitDisplayProps {
     goBack: () => void;
@@ -10,22 +11,6 @@ interface IUnitDisplayProps {
 
 function UnitDisplay(props: IUnitDisplayProps) {
     const [isEdittingUnit, setIsEdittingUnit] = useState<boolean>(false);
-
-    const totalExperience = props.unit.battleParticipation
-        + props.unit.markedForGreatness * 3
-        + props.unit.agendaXp
-        + Math.floor(props.unit.kills / 3);
-
-    let crusadePoints = 0;
-    let battleHonours = props.unit.battleHonours.map(battleHonour => {
-        crusadePoints += battleHonour.crusadePoints;
-        return (
-            <tr>
-                <td>{battleHonour.rank}</td>
-                <td>{battleHonour.effect}</td>
-            </tr>
-        )
-    });
 
     function completeEdit(unit: ICrusadeUnit) {
         props.saveUnit(unit)
@@ -40,6 +25,36 @@ function UnitDisplay(props: IUnitDisplayProps) {
                 saveUnit={completeEdit}
             />
         )
+    }
+
+    const totalExperience = CalculateTotalExperience(props.unit);
+
+    let crusadePoints = 0;
+    const battleHonourDisplay = props.unit.battleHonours.map(battleHonour => {
+        crusadePoints += battleHonour.crusadePoints;
+        return (
+            <tr>
+                <td>{battleHonour.rank}</td>
+                <td>{battleHonour.effect}</td>
+            </tr>
+        )
+    });
+
+    const outOfActionDisplay: JSX.Element[] = []
+    if (props.unit.outOfAction && props.unit.outOfAction.length > 0) {
+        outOfActionDisplay.push(<tr><td>Out Of Action</td><td /></tr>)
+        props.unit.outOfAction.forEach(outOfAction => {
+            if (!outOfAction.isActive) {
+                return;
+            }
+            const display = outOfAction.effect ? "Battle Scar" : "Experience Loss";
+            outOfActionDisplay.push(
+                <tr>
+                    <td>{display}</td>
+                    <td>{outOfAction.effect || "-" + outOfAction.xp}</td>
+                </tr>
+            )
+        })
     }
 
     return (
@@ -81,14 +96,15 @@ function UnitDisplay(props: IUnitDisplayProps) {
                             {totalExperience}
                         </td>
                     </tr>
-                    {battleHonours}
+                    {battleHonourDisplay}
+                    {outOfActionDisplay}
                 </table>
             </div>
             <div className="button-container">
                 <button onClick={props.goBack} type="button">
                     Back
                 </button>
-                <button onClick={() => setIsEdittingUnit(true)} type="submit">
+                <button className="primary" onClick={() => setIsEdittingUnit(true)} type="submit">
                     Edit
                 </button>
             </div>

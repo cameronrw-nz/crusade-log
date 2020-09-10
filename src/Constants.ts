@@ -28,9 +28,10 @@ export enum BattleHonourRank {
     Legendary = "Legendary"
 }
 
-interface IOutOfAction {
+export interface IOutOfAction {
     effect?: string;
     xp?: number;
+    isActive: boolean;
 }
 
 export interface ICrusadeArmy {

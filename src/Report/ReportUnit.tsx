@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { ICrusadeUnit, BattleHonourRank } from "./Constants";
+import { ICrusadeUnit, BattleHonourRank } from "../Constants";
+import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
+import EditOutOfActions from "../CommonFields/EditOutOfActions";
 
 interface IReportUnitProps {
     unit: ICrusadeUnit;
@@ -7,11 +9,7 @@ interface IReportUnitProps {
 }
 
 function ReportUnit(props: IReportUnitProps) {
-    const totalExperience = props.unit.battleParticipation + 1
-        + props.unit.markedForGreatness * 3
-        + props.unit.agendaXp
-        + Math.floor(props.unit.kills / 3);
-
+    const totalExperience = CalculateTotalExperience(props.unit) + 1;
     const [initialExperience] = useState(totalExperience - 1);
 
     let crusadePoints = 0;
@@ -49,8 +47,6 @@ function ReportUnit(props: IReportUnitProps) {
             </tr>
         )
     });
-
-
 
     return (
         <div>
@@ -121,6 +117,18 @@ function ReportUnit(props: IReportUnitProps) {
                         </td>
                     </tr>
                     {battleHonours}
+                    <EditOutOfActions
+                        unit={props.unit}
+                        editUnit={(edit) => {
+                            const u: ICrusadeUnit = {
+                                ...props.unit,
+                                outOfAction: [...props.unit.outOfAction]
+                            };
+                            edit(u)
+                            props.updateUnit(u);
+                        }
+                        }
+                    />
                 </tbody>
             </table>
         </div>

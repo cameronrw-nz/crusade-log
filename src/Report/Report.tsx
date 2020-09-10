@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReportUnits from "./ReportUnits";
-import { ICrusadeArmy } from "./Constants";
+import { ICrusadeArmy } from "../Constants";
 
 interface IReportProps {
     crusadeArmy: ICrusadeArmy;
@@ -75,7 +75,7 @@ function Report(props: IReportProps) {
                 <button onClick={props.goBack}>
                     Back
                 </button>
-                <button onClick={() => setIsContinuing(true)}>
+                <button className="primary" onClick={() => setIsContinuing(true)}>
                     Continue
                 </button>
             </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReportUnit from "./ReportUnit";
-import { CRUSADE_ARMIES_STORAGE_KEY, ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "./Constants";
+import { ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "../Constants";
+import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
 
 interface IReportUnitsProps {
     crusadeArmy: ICrusadeArmy;
@@ -16,10 +17,7 @@ function ReportUnits(props: IReportUnitsProps) {
     const unitsDisplay = units.map((unit, index) => {
         function updateUnit(u: ICrusadeUnit, i: number) {
             const newUnits = [...units]
-            const totalExperience = u.battleParticipation + 1
-                + u.markedForGreatness * 3
-                + u.agendaXp
-                + Math.floor(u.kills / 3);
+            const totalExperience = CalculateTotalExperience(u) + 1;
 
             if (u.battleHonours.findIndex(bh => bh.rank === BattleHonourRank.Blooded) < 0 && totalExperience >= 6) {
                 u.battleHonours.push({ crusadePoints: u.powerLevel >= 11 ? 2 : 1, effect: "", rank: BattleHonourRank.Blooded })
@@ -73,7 +71,7 @@ function ReportUnits(props: IReportUnitsProps) {
                 <button onClick={props.goBack}>
                     Back
                 </button>
-                <button onClick={done}>
+                <button className="primary" onClick={done}>
                     Save
                 </button>
             </div>
