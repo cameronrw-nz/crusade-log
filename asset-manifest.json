@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/crusade-log/static/css/main.bed373fe.chunk.css",
-    "main.js": "/crusade-log/static/js/main.57ee3054.chunk.js",
-    "main.js.map": "/crusade-log/static/js/main.57ee3054.chunk.js.map",
+    "main.css": "/crusade-log/static/css/main.844bf3b8.chunk.css",
+    "main.js": "/crusade-log/static/js/main.8aaceedd.chunk.js",
+    "main.js.map": "/crusade-log/static/js/main.8aaceedd.chunk.js.map",
     "runtime-main.js": "/crusade-log/static/js/runtime-main.8aa0809d.js",
     "runtime-main.js.map": "/crusade-log/static/js/runtime-main.8aa0809d.js.map",
     "static/js/2.9439dc77.chunk.js": "/crusade-log/static/js/2.9439dc77.chunk.js",
     "static/js/2.9439dc77.chunk.js.map": "/crusade-log/static/js/2.9439dc77.chunk.js.map",
     "index.html": "/crusade-log/index.html",
-    "precache-manifest.33accc2daeab97b928c28becc9a52e5b.js": "/crusade-log/precache-manifest.33accc2daeab97b928c28becc9a52e5b.js",
+    "precache-manifest.8eb7637b9c25896c41a72c1825150278.js": "/crusade-log/precache-manifest.8eb7637b9c25896c41a72c1825150278.js",
     "service-worker.js": "/crusade-log/service-worker.js",
-    "static/css/main.bed373fe.chunk.css.map": "/crusade-log/static/css/main.bed373fe.chunk.css.map",
+    "static/css/main.844bf3b8.chunk.css.map": "/crusade-log/static/css/main.844bf3b8.chunk.css.map",
     "static/js/2.9439dc77.chunk.js.LICENSE.txt": "/crusade-log/static/js/2.9439dc77.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.8aa0809d.js",
     "static/js/2.9439dc77.chunk.js",
-    "static/css/main.bed373fe.chunk.css",
-    "static/js/main.57ee3054.chunk.js"
+    "static/css/main.844bf3b8.chunk.css",
+    "static/js/main.8aaceedd.chunk.js"
   ]
 }
