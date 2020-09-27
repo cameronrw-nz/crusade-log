@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { ICrusadeArmy } from "./Constants";
+import { CopyToClipboard } from "./Helpers/Clipboard";
+import CopyIcon from "./Resources/Icons/CopyIcon.svg";
 
 interface IEditArmyProps {
     goBack: () => void;
@@ -24,7 +26,7 @@ function EditArmy(props: IEditArmyProps) {
                     {(isNewArmy ? "Add Army: " : "Edit Army: ") + army.name}
                 </h2>
                 <div className="expand">
-                    <table>
+                    <table className="edittable-table">
                         <tr>
                             <td>Name:</td>
                             <td>
@@ -32,6 +34,32 @@ function EditArmy(props: IEditArmyProps) {
                                     onChange={e => editArmy((a) => a.name = e.target.value)}
                                     type="textbox"
                                     value={army.name}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Copy from Clipboard:
+                            </td>
+                            <td>
+                                <img
+                                    className="icon"
+                                    src={CopyIcon}
+                                    alt="Edit Links"
+                                    onClick={() => CopyToClipboard(props.crusadeArmy)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <textarea
+                                    style={{ width: "calc(100% - 8px)" }}
+                                    onChange={e => {
+                                        const newArmy = JSON.parse(e.target.value)
+                                        newArmy.id = army.id;
+                                        setArmy(newArmy)
+                                    }}
+                                    value={JSON.stringify(army)}
                                 />
                             </td>
                         </tr>

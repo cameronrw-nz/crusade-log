@@ -20,7 +20,7 @@ function EditUnit(props: IEditUnitProps) {
     }
 
     function editUnit(func: (u: ICrusadeUnit) => void) {
-        const newUnit: ICrusadeUnit = { ...unit, battleHonours: [...unit.battleHonours], outOfAction: [...unit.outOfAction] };
+        const newUnit: ICrusadeUnit = { ...unit, battleHonours: [...unit.battleHonours], outOfAction: [...(unit.outOfAction || [])] };
         func(newUnit)
         const newTotalExperience = CalculateTotalExperience(newUnit);
 
@@ -85,7 +85,7 @@ function EditUnit(props: IEditUnitProps) {
                 {(isNewUnit ? "Add Unit: " : "Edit Unit: ") + unit.name}
             </h2>
             <div className="expand">
-                <table className="report-unit-table">
+                <table className="edittable-table">
                     <tr>
                         <td>Name:</td>
                         <td>

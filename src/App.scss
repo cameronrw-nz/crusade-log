@@ -22,24 +22,30 @@ html, body, #root {
     overflow: none;
 }
 
-.army-roster-header {
+.header {
     display: flex;
     flex-direction: row;
+
+    > h1 {
+        flex-grow: 1;
+        
+        .icon {
+            margin-bottom: 10px;
+        }
+    }
+
+    > div {
+        margin-block-start: 10px;
+        margin-right: 8px;
+        flex: 0 0 auto;
+    }
 }
 
-.army-roster-header > h1 {
-    flex-shrink: 0;
-    flex-grow: 1;
-}
 
-.army-roster-header > div {
-    margin-block-start: 10px;
-    margin-right: 8px;
-    flex: 0 0 auto;
-}
-
-.armies-list-display > * {
-    padding-left: 8px;
+.armies-list-display {
+    > * {
+        padding-left: 8px;
+    }
 }
 
 .army-roster-content {
@@ -52,16 +58,18 @@ html, body, #root {
     border: 1px solid rgb(80, 185, 219);
     border-spacing: unset;
     width: 100%;
+
+    > * {
+        margin: 4px;
+    }
 }
 
-.army-roster-units > * {
-    margin: 4px;
-}
-
-.army-roster-units-item > * {
-    font-size: 1.2em;
-    word-break: keep-all;
-    padding: 5px;
+.read-only-display-item  {
+    > * {
+        font-size: 1.2em;
+        word-break: keep-all;
+        padding: 5px;
+    }
 }
 
 .selected {
@@ -81,11 +89,11 @@ button {
     font-weight: normal;
     margin: 5px;
     padding: 10px 0px;
-    font-size: 1.2em
-}
+    font-size: 1.2em;
 
-button.primary {
-    background: rgb(83, 175, 206);
+    &.primary {
+        background: rgb(83, 175, 206);
+    }
 }
 
 form {
@@ -101,26 +109,30 @@ form {
     box-sizing: border-box;
 }
 
-.report-unit-table {
+.edittable-table {
     width: 100%;
+
+    td {
+        width: 50%;
+    }
+
+    input[type=number] {
+        width: 50px;
+    }
 }
 
-.report-unit-table td {
-    width: 50%;
+td {
+    input {
+        max-width: 120px;
+    }
 }
 
-td input {
-    max-width: 120px;
+.army-roster-sub-header {
+    b {
+        font-size: 1.5em;
+    }
 }
 
-.report-input {
-    max-width: 50px;
-}
-
-.army-roster-pl b {
-    font-size: 1.5em;
-}
-
-.army-roster-cp b {
-    font-size: 1.5em;
+.icon {
+    height: 18px;
 }

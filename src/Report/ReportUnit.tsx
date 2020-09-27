@@ -23,7 +23,6 @@ function ReportUnit(props: IReportUnitProps) {
             || battleHonour.rank === BattleHonourRank.Legendary && initialExperience < 51) {
             effectField = (
                 <input
-                    className="report-input"
                     type="text"
                     value={battleHonour.effect}
                     onChange={event => {
@@ -50,7 +49,7 @@ function ReportUnit(props: IReportUnitProps) {
 
     return (
         <div>
-            <table className="report-unit-table">
+            <table className="edittable-table">
                 <tbody>
                     <tr>
                         <td>
@@ -66,7 +65,6 @@ function ReportUnit(props: IReportUnitProps) {
                         <td>Marked For Greatness:</td>
                         <td>
                             <input
-                                className="report-input"
                                 type="number"
                                 onChange={event => {
                                     var u = { ...props.unit };
@@ -81,7 +79,6 @@ function ReportUnit(props: IReportUnitProps) {
                         <td>Agenda:</td>
                         <td>
                             <input
-                                className="report-input"
                                 type="number"
                                 onChange={event => {
                                     var u = { ...props.unit };
@@ -96,7 +93,6 @@ function ReportUnit(props: IReportUnitProps) {
                         <td>Kills:</td>
                         <td>
                             <input
-                                className="report-input"
                                 type="number"
                                 onChange={event => {
                                     var u = { ...props.unit };
@@ -122,7 +118,7 @@ function ReportUnit(props: IReportUnitProps) {
                         editUnit={(edit) => {
                             const u: ICrusadeUnit = {
                                 ...props.unit,
-                                outOfAction: [...props.unit.outOfAction]
+                                outOfAction: [...(props.unit.outOfAction || [])]
                             };
                             edit(u)
                             props.updateUnit(u);

@@ -25,7 +25,7 @@ function Report(props: IReportProps) {
 
     const display = props.crusadeArmy.units.map((unit, key) => {
         return (
-            <div className="army-roster-units-item" onClick={() => selectUnit(key)}>
+            <div className="read-only-display-item" onClick={() => selectUnit(key)}>
                 <input
                     type="checkbox"
                     onChange={() => { }}

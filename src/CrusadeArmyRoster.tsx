@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Report from "./Report/Report";
 import { ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "./Constants";
 import UnitDisplay from "./UnitDisplay";
+import EditIcon from "./Resources/Icons/EditIcon.svg";
+import EditArmy from "./EditArmy";
+
 
 interface ICrusadeArmyRoster {
     crusadeArmy: ICrusadeArmy;
@@ -11,6 +14,7 @@ interface ICrusadeArmyRoster {
 
 function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     const [edittingUnit, setEdittingUnit] = useState<ICrusadeUnit>()
+    const [isEditting, setIsEditting] = useState<boolean>()
     const [isReporting, setIsReporting] = useState<boolean>()
     const [selectedUnitId, setSelectedUnitId] = useState<number>()
     const [unitsDisplay, setUnitsDisplay] = useState<JSX.Element[]>()
@@ -29,7 +33,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
 
             return (
                 <tr
-                    className={`army-roster-units-item${isSelected ? " selected" : ""}`}
+                    className={`read-only-display-item${isSelected ? " selected" : ""}`}
                     onClick={() => setEdittingUnit(unit)}
                 >
                     <td>
@@ -83,6 +87,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     function saveArmy(army: ICrusadeArmy) {
         props.updateArmy(army);
         setIsReporting(false);
+        setIsEditting(false);
     }
 
     let crusadePoints = 0;
@@ -94,7 +99,16 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         powerLevel += unit.powerLevel;
     });
 
-    if (isReporting) {
+    if (isEditting) {
+        return (
+            <EditArmy
+                goBack={() => setIsEditting(false)}
+                crusadeArmy={props.crusadeArmy}
+                saveArmy={saveArmy}
+            />
+        )
+    }
+    else if (isReporting) {
         return (
             <Report
                 crusadeArmy={props.crusadeArmy}
@@ -103,8 +117,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
             />
         )
     }
-
-    if (edittingUnit) {
+    else if (edittingUnit) {
         return (
             <UnitDisplay
                 goBack={() => setEdittingUnit(undefined)}
@@ -132,13 +145,19 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
 
     return (
         <>
-            <div className="army-roster-header">
+            <div className="header">
                 <h1>
                     {props.crusadeArmy.name}
+                    <img
+                        className="icon"
+                        src={EditIcon}
+                        alt="Edit Links"
+                        onClick={() => setIsEditting(true)}
+                    />
                 </h1>
                 <div>
-                    <div className="army-roster-pl"><b>{powerLevel + " "}</b>PL</div>
-                    <div className="army-roster-cp"><b>{crusadePoints + " "}</b>CP</div>
+                    <div className="heading-sub-header"><b>{powerLevel + " "}</b>PL</div>
+                    <div className="heading-sub-header"><b>{crusadePoints + " "}</b>CP</div>
                 </div>
             </div>
             <div className="army-roster-content">

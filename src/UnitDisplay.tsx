@@ -59,19 +59,17 @@ function UnitDisplay(props: IUnitDisplayProps) {
 
     return (
         <>
-            <h2>
-                {props.unit.name}
-            </h2>
+            <div className="header">
+                <h1>
+                    {props.unit.name}
+                </h1>
+                <div>
+                    <div className="heading-sub-header"><b>{props.unit.powerLevel + " "}</b>PL</div>
+                    <div className="heading-sub-header"><b>{crusadePoints + " "}</b>CP</div>
+                </div>
+            </div>
             <div className="expand">
-                <table className="report-unit-table">
-                    <tr>
-                        <td>Power Level</td>
-                        <td>{props.unit.powerLevel}</td>
-                    </tr>
-                    <tr>
-                        <td>Crusade Points</td>
-                        <td>{crusadePoints}</td>
-                    </tr>
+                <table className="edittable-table">
                     <tr>
                         <td>Battle Participation:</td>
                         <td>{props.unit.battleParticipation}</td>

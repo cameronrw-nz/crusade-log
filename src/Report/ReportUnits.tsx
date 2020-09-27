@@ -56,17 +56,25 @@ function ReportUnits(props: IReportUnitsProps) {
             <h1>
                 Fill Post Game Stats
             </h1>
-            <div className="expand">
-                <div>
-                    Requisition Points:
-                <input
-                        type="number"
-                        onChange={event => setRequisitionPoints(Number.parseInt(event.target.value))}
-                        value={requisitionPoints}
-                    />
-                </div>
-                {unitsDisplay}
-            </div>
+            <table className="edittable-table">
+                <tbody>
+                    <tr>
+                        <td>
+
+                            Requisition Points:
+                        </td>
+                        <td>
+
+                            <input
+                                type="number"
+                                onChange={event => setRequisitionPoints(Number.parseInt(event.target.value))}
+                                value={requisitionPoints}
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            {unitsDisplay}
             <div className="button-container">
                 <button onClick={props.goBack}>
                     Back

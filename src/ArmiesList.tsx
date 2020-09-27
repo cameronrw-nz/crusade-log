@@ -89,7 +89,7 @@ function ArmiesList() {
         <>
             <h1>
                 Crusade Armies
-        </h1>
+            </h1>
             <div className="expand">
                 {crusadeArmiesDisplay}
             </div>
