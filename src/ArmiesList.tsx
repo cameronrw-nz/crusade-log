@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CrusadeArmyRoster from "./CrusadeArmyRoster";
 import { ICrusadeArmy, CRUSADE_ARMIES_STORAGE_KEY } from "./Constants";
 import EditArmy from "./EditArmy";
+import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
 
 function ArmiesList() {
     const [edittingArmy, setEdittingArmy] = useState<ICrusadeArmy>()
@@ -23,9 +24,7 @@ function ArmiesList() {
             let crusadePoints = 0;
             let powerLevel = 0;
             crusadeArmy.units.forEach(unit => {
-                unit.battleHonours.forEach(bh => {
-                    crusadePoints += bh.crusadePoints
-                })
+                crusadePoints += CalculateCrusadePoints(unit);
                 powerLevel += unit.powerLevel;
             })
 

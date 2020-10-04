@@ -4,6 +4,7 @@ import { ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "./Constants";
 import UnitDisplay from "./UnitDisplay";
 import EditIcon from "./Resources/Icons/EditIcon.svg";
 import EditArmy from "./EditArmy";
+import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
 
 
 interface ICrusadeArmyRoster {
@@ -16,24 +17,16 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     const [edittingUnit, setEdittingUnit] = useState<ICrusadeUnit>()
     const [isEditting, setIsEditting] = useState<boolean>()
     const [isReporting, setIsReporting] = useState<boolean>()
-    const [selectedUnitId, setSelectedUnitId] = useState<number>()
     const [unitsDisplay, setUnitsDisplay] = useState<JSX.Element[]>()
 
     useEffect(() => {
         const display = props.crusadeArmy.units.map(unit => {
             const highestRank = unit.battleHonours[unit.battleHonours.length - 1]?.rank ?? BattleHonourRank.BattleReady;
-            const isSelected = unit.id === selectedUnitId;
-            const crusadePoints = unit.battleHonours && unit.battleHonours.length > 0 ?
-                unit.battleHonours
-                    ?.map(bh => bh.crusadePoints)
-                    ?.reduce((total, newvalue) => {
-                        return (total ?? 0) + newvalue;
-                    })
-                : 0;
+            const crusadePoints = CalculateCrusadePoints(unit)
 
             return (
                 <tr
-                    className={`read-only-display-item${isSelected ? " selected" : ""}`}
+                    className="read-only-display-item"
                     onClick={() => setEdittingUnit(unit)}
                 >
                     <td>
@@ -50,7 +43,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         })
 
         setUnitsDisplay(display);
-    }, [selectedUnitId, props.crusadeArmy, edittingUnit, isReporting])
+    }, [props.crusadeArmy, edittingUnit, isReporting])
 
     function addUnit() {
         const newUnit: ICrusadeUnit = {
@@ -93,9 +86,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     let crusadePoints = 0;
     let powerLevel = 0;
     props.crusadeArmy.units.forEach(unit => {
-        unit.battleHonours.forEach(bh => {
-            crusadePoints += bh.crusadePoints
-        })
+        crusadePoints += CalculateCrusadePoints(unit);
         powerLevel += unit.powerLevel;
     });
 

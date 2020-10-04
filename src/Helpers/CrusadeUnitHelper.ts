@@ -17,3 +17,22 @@ export function CalculateTotalExperience(unit: ICrusadeUnit) {
     return totalExperience > 0 ? totalExperience : 0;
 }
 
+
+export function CalculateCrusadePoints(unit: ICrusadeUnit) {
+    const battleHonourCrusadePoints = unit.battleHonours && unit.battleHonours.length > 0 ?
+        unit.battleHonours
+            ?.map(bh => bh.crusadePoints)
+            ?.reduce((total, newvalue) => {
+                return (total ?? 0) + newvalue;
+            })
+        : 0;
+
+    let outOfActionCrusadePoints = 0;
+    unit.outOfAction && unit.outOfAction.forEach(ooa => {
+        if (ooa.effect) {
+            outOfActionCrusadePoints--;
+        }
+    });
+
+    return battleHonourCrusadePoints + outOfActionCrusadePoints;
+}

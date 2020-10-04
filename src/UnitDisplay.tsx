@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ICrusadeUnit } from "./Constants";
 import EditUnit from "./EditUnit";
-import { CalculateTotalExperience } from "./Helpers/CrusadeUnitHelper";
+import { CalculateTotalExperience, CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
 
 interface IUnitDisplayProps {
     goBack: () => void;
@@ -29,9 +29,8 @@ function UnitDisplay(props: IUnitDisplayProps) {
 
     const totalExperience = CalculateTotalExperience(props.unit);
 
-    let crusadePoints = 0;
+    let crusadePoints = CalculateCrusadePoints(props.unit);
     const battleHonourDisplay = props.unit.battleHonours.map(battleHonour => {
-        crusadePoints += battleHonour.crusadePoints;
         return (
             <tr>
                 <td>{battleHonour.rank}</td>
