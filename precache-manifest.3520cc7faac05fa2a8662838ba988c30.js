@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c419423f04220af2bbb826d018bf3282",
+    "revision": "ec964c2f7fd660cf6d3b5314f0271798",
     "url": "/crusade-log/index.html"
   },
   {
-    "revision": "a0c5c978640af8a95b2d",
-    "url": "/crusade-log/static/css/main.cacf92f6.chunk.css"
+    "revision": "15a76383f989b71ea189",
+    "url": "/crusade-log/static/css/main.c395ad78.chunk.css"
   },
   {
     "revision": "dcd370d745203478f024",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/crusade-log/static/js/2.7eaa383a.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a0c5c978640af8a95b2d",
-    "url": "/crusade-log/static/js/main.5dbc9c71.chunk.js"
+    "revision": "15a76383f989b71ea189",
+    "url": "/crusade-log/static/js/main.4f609cd5.chunk.js"
   },
   {
     "revision": "ad56156e9493334dbb9e",
