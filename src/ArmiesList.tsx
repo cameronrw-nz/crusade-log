@@ -64,10 +64,23 @@ function ArmiesList() {
         setEdittingArmy(newArmy)
     }
 
+    function deleteArmy(deletingArmy: ICrusadeArmy) {
+        const storageCrusadeArmies: ICrusadeArmy[] = JSON.parse(window.localStorage.getItem(CRUSADE_ARMIES_STORAGE_KEY) || "[]");
+        const crusadeArmyIndex = storageCrusadeArmies.findIndex(army => army.id === deletingArmy.id)
+        if (crusadeArmyIndex >= 0) {
+            storageCrusadeArmies.splice(crusadeArmyIndex, 1)
+        }
+
+        window.localStorage.setItem(CRUSADE_ARMIES_STORAGE_KEY, JSON.stringify(storageCrusadeArmies));
+        setCrusadeArmies(storageCrusadeArmies)
+        setSelectedCrusadeArmy(undefined)
+    }
+
     if (edittingArmy) {
         return (
             <EditArmy
                 crusadeArmy={edittingArmy}
+                handleDeleteArmy={() => deleteArmy(edittingArmy)}
                 goBack={() => setEdittingArmy(undefined)}
                 saveArmy={updateArmy}
             />
@@ -77,6 +90,7 @@ function ArmiesList() {
     if (selectedCrusadeArmy) {
         return (
             <CrusadeArmyRoster
+                deleteArmy={deleteArmy}
                 crusadeArmy={selectedCrusadeArmy}
                 goBack={() => setSelectedCrusadeArmy(undefined)}
                 updateArmy={updateArmy}

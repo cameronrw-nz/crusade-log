@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { ICrusadeArmy } from "./Constants";
 import { CopyToClipboard } from "./Helpers/Clipboard";
 import CopyIcon from "./Resources/Icons/CopyIcon.svg";
+import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
+
 
 interface IEditArmyProps {
-    goBack: () => void;
-    saveArmy: (unit: ICrusadeArmy) => void;
     crusadeArmy: ICrusadeArmy;
+    goBack: () => void;
+    handleDeleteArmy: () => void;
+    saveArmy: (unit: ICrusadeArmy) => void;
 }
 
 function EditArmy(props: IEditArmyProps) {
@@ -19,12 +22,26 @@ function EditArmy(props: IEditArmyProps) {
         setArmy(newArmy)
     }
 
+    function handleDelete(): void {
+        if (window.confirm("Are you sure you wish to delete this army?")) {
+            props.handleDeleteArmy();
+        }
+    }
+
     return (
         <>
             <form onSubmit={() => props.saveArmy(army)} id="edit-army">
-                <h2>
-                    {(isNewArmy ? "Add Army: " : "Edit Army: ") + army.name}
-                </h2>
+                <div className="header">
+                    <h1>
+                        {(isNewArmy ? "Add Army: " : "Edit Army: ") + army.name}
+                        <img
+                            className="icon"
+                            src={DeleteIcon}
+                            alt="Edit Links"
+                            onClick={handleDelete}
+                        />
+                    </h1>
+                </div>
                 <div className="expand">
                     <table className="edittable-table">
                         <tr>

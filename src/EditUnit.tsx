@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { ICrusadeUnit, BattleHonourRank, IOutOfAction } from "./Constants";
+import { ICrusadeUnit, BattleHonourRank } from "./Constants";
 import { CalculateTotalExperience } from "./Helpers/CrusadeUnitHelper";
 import EditOutOfActions from "./CommonFields/EditOutOfActions";
+import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
 
 interface IEditUnitProps {
+    deleteUnit: (unit: ICrusadeUnit) => void;
     goBack: () => void;
     saveUnit: (unit: ICrusadeUnit) => void;
     unit: ICrusadeUnit;
@@ -40,32 +42,30 @@ function EditUnit(props: IEditUnitProps) {
         setUnit(newUnit)
     }
 
-    const totalExperience = CalculateTotalExperience(unit);
+    function handleDeleteUnit(): void {
+        if (window.confirm("Are you sure you wish to delete this unit?")) {
+            props.deleteUnit(props.unit);
+        }
+    }
 
-    const [initialExperience] = useState(totalExperience);
+    const totalExperience = CalculateTotalExperience(unit);
 
     let crusadePoints = 0;
     let battleHonours = unit.battleHonours.map(battleHonour => {
         crusadePoints += battleHonour.crusadePoints;
 
-        let effectField: React.ReactNode = battleHonour.effect;
-        if (battleHonour.rank === BattleHonourRank.Blooded && initialExperience < 6
-            || battleHonour.rank === BattleHonourRank.BattleHardened && initialExperience < 16
-            || battleHonour.rank === BattleHonourRank.Heroic && initialExperience < 31
-            || battleHonour.rank === BattleHonourRank.Legendary && initialExperience < 51) {
-            effectField = (
-                <input
-                    type="text"
-                    value={battleHonour.effect}
-                    onChange={event => {
-                        editUnit((u) => {
-                            let bh = u.battleHonours.find(b => b.rank === battleHonour.rank)
-                            bh!.effect = event.target.value;
-                        })
-                    }}
-                />
-            )
-        }
+        let effectField: React.ReactNode = (
+            <input
+                type="text"
+                value={battleHonour.effect}
+                onChange={event => {
+                    editUnit((u) => {
+                        let bh = u.battleHonours.find(b => b.rank === battleHonour.rank)
+                        bh!.effect = event.target.value;
+                    })
+                }}
+            />
+        )
 
         return (
             <tr>
@@ -81,9 +81,17 @@ function EditUnit(props: IEditUnitProps) {
 
     return (
         <form onSubmit={save} id="edit-unit">
-            <h2>
-                {(isNewUnit ? "Add Unit: " : "Edit Unit: ") + unit.name}
-            </h2>
+            <div className="header">
+                <h1>
+                    {(isNewUnit ? "Add Unit: " : "Edit Unit: ") + unit.name}
+                    <img
+                        className="icon"
+                        src={DeleteIcon}
+                        alt="Edit Links"
+                        onClick={handleDeleteUnit}
+                    />
+                </h1>
+            </div>
             <div className="expand">
                 <table className="edittable-table">
                     <tr>

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { ICrusadeUnit } from "./Constants";
 import EditUnit from "./EditUnit";
 import { CalculateTotalExperience, CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
+import Header from "./CommonFields/Header";
 
 interface IUnitDisplayProps {
+    deleteUnit: (unit: ICrusadeUnit) => void;
     goBack: () => void;
     saveUnit: (unit: ICrusadeUnit) => void;
     unit: ICrusadeUnit;
@@ -20,6 +22,7 @@ function UnitDisplay(props: IUnitDisplayProps) {
     if (isEdittingUnit) {
         return (
             <EditUnit
+                deleteUnit={props.deleteUnit}
                 goBack={() => setIsEdittingUnit(false)}
                 unit={props.unit}
                 saveUnit={completeEdit}
@@ -58,15 +61,12 @@ function UnitDisplay(props: IUnitDisplayProps) {
 
     return (
         <>
-            <div className="header">
-                <h1>
-                    {props.unit.name}
-                </h1>
-                <div>
-                    <div className="heading-sub-header"><b>{props.unit.powerLevel + " "}</b>PL</div>
-                    <div className="heading-sub-header"><b>{crusadePoints + " "}</b>CP</div>
-                </div>
-            </div>
+            <Header
+                crusadePoints={crusadePoints}
+                headerText={props.unit.name}
+                powerLevel={props.unit.powerLevel}
+                onEdit={() => setIsEdittingUnit(true)}
+            />
             <div className="expand">
                 <table className="edittable-table">
                     <tr>
@@ -100,9 +100,6 @@ function UnitDisplay(props: IUnitDisplayProps) {
             <div className="button-container">
                 <button onClick={props.goBack} type="button">
                     Back
-                </button>
-                <button className="primary" onClick={() => setIsEdittingUnit(true)} type="submit">
-                    Edit
                 </button>
             </div>
         </>

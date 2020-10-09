@@ -60,7 +60,7 @@ function EditOutOfActions(props: IEditOutOfActionsProps): JSX.Element {
         <>
             <tr>
                 <td>Out Of Action</td>
-                <td><button onClick={addOutOfAction} style={{ padding: "10px" }}>Add</button></td>
+                <td><button onClick={addOutOfAction} type="button" style={{ padding: "10px" }}>Add</button></td>
             </tr>
             <tr>
                 <td>Battle Scar</td>

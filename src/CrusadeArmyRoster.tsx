@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import Report from "./Report/Report";
 import { ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "./Constants";
 import UnitDisplay from "./UnitDisplay";
-import EditIcon from "./Resources/Icons/EditIcon.svg";
 import EditArmy from "./EditArmy";
 import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
+import Header from "./CommonFields/Header";
 
 
 interface ICrusadeArmyRoster {
     crusadeArmy: ICrusadeArmy;
+    deleteArmy: (crusadeArmy: ICrusadeArmy) => void;
     goBack: () => void;
     updateArmy: (crusadeArmy: ICrusadeArmy) => void;
 }
@@ -77,6 +78,17 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         setEdittingUnit(unit);
     }
 
+    function deleteUnit(unit: ICrusadeUnit): void {
+        const crusadeArmy = { ...props.crusadeArmy }
+        var existingIndex = crusadeArmy.units.findIndex(u => u.id === unit.id);
+        if (existingIndex >= 0) {
+            crusadeArmy.units.splice(existingIndex, 1);
+        }
+
+        props.updateArmy(crusadeArmy)
+        setEdittingUnit(undefined);
+    }
+
     function saveArmy(army: ICrusadeArmy) {
         props.updateArmy(army);
         setIsReporting(false);
@@ -93,8 +105,9 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     if (isEditting) {
         return (
             <EditArmy
-                goBack={() => setIsEditting(false)}
                 crusadeArmy={props.crusadeArmy}
+                goBack={() => setIsEditting(false)}
+                handleDeleteArmy={() => props.deleteArmy(props.crusadeArmy)}
                 saveArmy={saveArmy}
             />
         )
@@ -111,6 +124,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     else if (edittingUnit) {
         return (
             <UnitDisplay
+                deleteUnit={deleteUnit}
                 goBack={() => setEdittingUnit(undefined)}
                 saveUnit={saveUnit}
                 unit={edittingUnit}
@@ -136,21 +150,12 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
 
     return (
         <>
-            <div className="header">
-                <h1>
-                    {props.crusadeArmy.name}
-                    <img
-                        className="icon"
-                        src={EditIcon}
-                        alt="Edit Links"
-                        onClick={() => setIsEditting(true)}
-                    />
-                </h1>
-                <div>
-                    <div className="heading-sub-header"><b>{powerLevel + " "}</b>PL</div>
-                    <div className="heading-sub-header"><b>{crusadePoints + " "}</b>CP</div>
-                </div>
-            </div>
+            <Header
+                crusadePoints={crusadePoints}
+                headerText={props.crusadeArmy.name}
+                powerLevel={powerLevel}
+                onEdit={() => setIsEditting(true)}
+            />
             <div className="army-roster-content">
                 {unitsTableDisplay}
             </div>
