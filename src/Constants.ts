@@ -12,6 +12,7 @@ export interface ICrusadeUnit {
     notes: string;
     battleHonours: IBattleHonour[];
     outOfAction: IOutOfAction[];
+    warlordTrait?: INameEffect;
 }
 
 interface IBattleHonour {
@@ -29,9 +30,14 @@ export enum BattleHonourRank {
 }
 
 export interface IOutOfAction {
-    effect?: string;
+    battleScar?: INameEffect;
     xp?: number;
     isActive: boolean;
+}
+
+export interface INameEffect {
+    name?: string;
+    effect?: string;
 }
 
 export interface ICrusadeArmy {

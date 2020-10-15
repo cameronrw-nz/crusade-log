@@ -29,7 +29,7 @@ export function CalculateCrusadePoints(unit: ICrusadeUnit) {
 
     let outOfActionCrusadePoints = 0;
     unit.outOfAction && unit.outOfAction.forEach(ooa => {
-        if (ooa.effect) {
+        if (ooa.battleScar) {
             outOfActionCrusadePoints--;
         }
     });

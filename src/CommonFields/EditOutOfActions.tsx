@@ -39,8 +39,8 @@ function EditOutOfActions(props: IEditOutOfActionsProps): JSX.Element {
                 <tr>
                     <td>
                         <input
-                            value={outOfAction.effect}
-                            onChange={e => editOutOfAction((o) => o.effect = e.target.value, index)}
+                            value={outOfAction.battleScar?.effect}
+                            onChange={e => editOutOfAction((o) => o.battleScar!.effect = e.target.value, index)}
                             type="textbox"
                         />
                     </td>

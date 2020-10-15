@@ -20,7 +20,7 @@ function ArmiesList() {
             return;
         }
 
-        const display = crusadeArmies.map(crusadeArmy => {
+        const display = crusadeArmies.map((crusadeArmy, index) => {
             let crusadePoints = 0;
             let powerLevel = 0;
             crusadeArmy.units.forEach(unit => {
@@ -29,7 +29,7 @@ function ArmiesList() {
             })
 
             return (
-                <div className="armies-list-display" onClick={() => setSelectedCrusadeArmy(crusadeArmy)}>
+                <div className="armies-list-display" key={index} onClick={() => setSelectedCrusadeArmy(crusadeArmy)}>
                     <h2>
                         {crusadeArmy.name}
                     </h2>

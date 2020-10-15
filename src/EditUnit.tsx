@@ -51,7 +51,7 @@ function EditUnit(props: IEditUnitProps) {
     const totalExperience = CalculateTotalExperience(unit);
 
     let crusadePoints = 0;
-    let battleHonours = unit.battleHonours.map(battleHonour => {
+    let battleHonours = unit.battleHonours.map((battleHonour, index) => {
         crusadePoints += battleHonour.crusadePoints;
 
         let effectField: React.ReactNode = (
@@ -68,7 +68,7 @@ function EditUnit(props: IEditUnitProps) {
         )
 
         return (
-            <tr>
+            <tr key={index}>
                 <td>
                     {battleHonour.rank}
                 </td>
@@ -94,83 +94,112 @@ function EditUnit(props: IEditUnitProps) {
             </div>
             <div className="expand">
                 <table className="edittable-table">
-                    <tr>
-                        <td>Name:</td>
-                        <td>
-                            <input
-                                onChange={e => editUnit((u) => u.name = e.target.value)}
-                                type="textbox"
-                                value={unit.name}
-                            />
+                    <tbody>
+                        <tr>
+                            <td>Name:</td>
+                            <td>
+                                <input
+                                    onChange={e => editUnit((u) => u.name = e.target.value)}
+                                    type="textbox"
+                                    value={unit.name}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Power Level</td>
+                            <td>
+                                <input
+                                    onChange={e => editUnit((u) => u.powerLevel = Number.parseInt(e.target.value))}
+                                    type="number"
+                                    value={unit.powerLevel}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Crusade Points</td>
+                            <td>{crusadePoints}</td>
+                        </tr>
+                        <tr>
+                            <td>Battle Participation:</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    onChange={event => editUnit((u) => u.battleParticipation = Number.parseInt(event.target.value))}
+                                    value={unit.battleParticipation}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Marked For Greatness:</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    onChange={event => editUnit((u) => u.markedForGreatness = Number.parseInt(event.target.value))}
+                                    value={unit.markedForGreatness}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Agenda:</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    onChange={event => editUnit((u) => u.agendaXp = Number.parseInt(event.target.value))}
+                                    value={unit.agendaXp}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Kills:</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    onChange={event => editUnit((u) => u.kills = Number.parseInt(event.target.value))}
+                                    value={unit.kills}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Total Experience:
                         </td>
-                    </tr>
-                    <tr>
-                        <td>Power Level</td>
-                        <td>
-                            <input
-                                onChange={e => editUnit((u) => u.powerLevel = Number.parseInt(e.target.value))}
-                                type="number"
-                                value={unit.powerLevel}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Crusade Points</td>
-                        <td>{crusadePoints}</td>
-                    </tr>
-                    <tr>
-                        <td>Battle Participation:</td>
-                        <td>
-                            <input
-                                type="number"
-                                onChange={event => editUnit((u) => u.battleParticipation = Number.parseInt(event.target.value))}
-                                value={unit.battleParticipation}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Marked For Greatness:</td>
-                        <td>
-                            <input
-                                type="number"
-                                onChange={event => editUnit((u) => u.markedForGreatness = Number.parseInt(event.target.value))}
-                                value={unit.markedForGreatness}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Agenda:</td>
-                        <td>
-                            <input
-                                type="number"
-                                onChange={event => editUnit((u) => u.agendaXp = Number.parseInt(event.target.value))}
-                                value={unit.agendaXp}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Kills:</td>
-                        <td>
-                            <input
-                                type="number"
-                                onChange={event => editUnit((u) => u.kills = Number.parseInt(event.target.value))}
-                                value={unit.kills}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Total Experience:
-                        </td>
-                        <td>
-                            {totalExperience}
-                        </td>
-                    </tr>
-                    {battleHonours}
-                    <EditOutOfActions
-                        unit={unit}
-                        editUnit={editUnit}
-                    />
+                            <td>
+                                {totalExperience}
+                            </td>
+                        </tr>
+                        {battleHonours}
+                        <EditOutOfActions
+                            unit={unit}
+                            editUnit={editUnit}
+                        />
+                        <tr><td>Warlord Trait</td></tr>
+                        <tr>
+                            <td>
+                                <input
+                                    type="textbox"
+                                    onChange={event => editUnit((u) => {
+                                        if (!u.warlordTrait) {
+                                            u.warlordTrait = {}
+                                        }
+                                        u.warlordTrait.name = event.target.value
+                                    })}
+                                    value={unit.warlordTrait?.name || ""}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="textbox"
+                                    onChange={event => editUnit((u) => {
+                                        if (!u.warlordTrait) {
+                                            u.warlordTrait = {}
+                                        }
+                                        u.warlordTrait.effect = event.target.value
+                                    })}
+                                    value={unit.warlordTrait?.effect || ""}
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div className="button-container">

@@ -13,6 +13,11 @@ interface IUnitDisplayProps {
 
 function UnitDisplay(props: IUnitDisplayProps) {
     const [isEdittingUnit, setIsEdittingUnit] = useState<boolean>(false);
+    const [isShowingExperience, setIsShowingExperience] = useState<boolean>(false);
+
+    function toggleShowExperience(): void {
+        setIsShowingExperience(!isShowingExperience);
+    }
 
     function completeEdit(unit: ICrusadeUnit) {
         props.saveUnit(unit)
@@ -33,30 +38,72 @@ function UnitDisplay(props: IUnitDisplayProps) {
     const totalExperience = CalculateTotalExperience(props.unit);
 
     let crusadePoints = CalculateCrusadePoints(props.unit);
-    const battleHonourDisplay = props.unit.battleHonours.map(battleHonour => {
-        return (
-            <tr>
-                <td>{battleHonour.rank}</td>
-                <td>{battleHonour.effect}</td>
-            </tr>
-        )
-    });
 
-    const outOfActionDisplay: JSX.Element[] = []
+    let warlordTraitDisplay = null
+    if (props.unit.warlordTrait) {
+        warlordTraitDisplay = (
+            <>
+                <tr><td><b>Warlord Trait</b></td></tr>
+                <tr>
+                    <td>{props.unit.warlordTrait.name}</td>
+                    <td>{props.unit.warlordTrait.effect}</td>
+                </tr>
+            </>
+        )
+    }
+
+    const battleHonourDisplay = []
+    if (props.unit.battleHonours && props.unit.battleHonours.length > 0) {
+        battleHonourDisplay.push(<tr><td><b>Battle Honours</b></td></tr>)
+        props.unit.battleHonours.forEach(battleHonour => {
+            battleHonourDisplay.push(
+                <tr>
+                    <td>{battleHonour.rank}</td>
+                    <td>{battleHonour.effect}</td>
+                </tr>
+            )
+        });
+    }
+
+
+    const battleScarsDisplay: JSX.Element[] = []
     if (props.unit.outOfAction && props.unit.outOfAction.length > 0) {
-        outOfActionDisplay.push(<tr><td>Out Of Action</td><td /></tr>)
+        battleScarsDisplay.push(<tr><td><b>Battle Scars</b></td><td /></tr>)
         props.unit.outOfAction.forEach(outOfAction => {
-            if (!outOfAction.isActive) {
+            if (!outOfAction.isActive || !outOfAction.battleScar) {
                 return;
             }
-            const display = outOfAction.effect ? "Battle Scar" : "Experience Loss";
-            outOfActionDisplay.push(
+            battleScarsDisplay.push(
                 <tr>
-                    <td>{display}</td>
-                    <td>{outOfAction.effect || "-" + outOfAction.xp}</td>
+                    <td>{outOfAction.battleScar.name}</td>
+                    <td>{outOfAction.battleScar.effect}</td>
                 </tr>
             )
         })
+    }
+
+    let experienceDetails = null;
+    if (isShowingExperience) {
+        experienceDetails = (
+            <>
+                <tr>
+                    <td>Battle Participation:</td>
+                    <td>{props.unit.battleParticipation}</td>
+                </tr>
+                <tr>
+                    <td>Marked For Greatness:</td>
+                    <td>{props.unit.markedForGreatness}</td>
+                </tr>
+                <tr>
+                    <td>Agenda:</td>
+                    <td>{props.unit.agendaXp}</td>
+                </tr>
+                <tr>
+                    <td>Kills:</td>
+                    <td>{props.unit.kills}</td>
+                </tr>
+            </>
+        )
     }
 
     return (
@@ -69,32 +116,20 @@ function UnitDisplay(props: IUnitDisplayProps) {
             />
             <div className="expand">
                 <table className="edittable-table">
-                    <tr>
-                        <td>Battle Participation:</td>
-                        <td>{props.unit.battleParticipation}</td>
-                    </tr>
-                    <tr>
-                        <td>Marked For Greatness:</td>
-                        <td>{props.unit.markedForGreatness}</td>
-                    </tr>
-                    <tr>
-                        <td>Agenda:</td>
-                        <td>{props.unit.agendaXp}</td>
-                    </tr>
-                    <tr>
-                        <td>Kills:</td>
-                        <td>{props.unit.kills}</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Total Experience:
+                    <tbody>
+                        {warlordTraitDisplay}
+                        {battleHonourDisplay}
+                        {battleScarsDisplay}
+                        <tr onClick={toggleShowExperience}>
+                            <td>
+                                Total Experience:
                         </td>
-                        <td>
-                            {totalExperience}
-                        </td>
-                    </tr>
-                    {battleHonourDisplay}
-                    {outOfActionDisplay}
+                            <td>
+                                {totalExperience}
+                            </td>
+                        </tr>
+                        {experienceDetails}
+                    </tbody>
                 </table>
             </div>
             <div className="button-container">

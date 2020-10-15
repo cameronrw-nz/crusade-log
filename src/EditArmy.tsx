@@ -4,7 +4,6 @@ import { CopyToClipboard } from "./Helpers/Clipboard";
 import CopyIcon from "./Resources/Icons/CopyIcon.svg";
 import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
 
-
 interface IEditArmyProps {
     crusadeArmy: ICrusadeArmy;
     goBack: () => void;

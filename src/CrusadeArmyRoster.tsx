@@ -27,6 +27,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
 
             return (
                 <tr
+                    key={unit.id}
                     className="read-only-display-item"
                     onClick={() => setEdittingUnit(unit)}
                 >
@@ -47,8 +48,14 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     }, [props.crusadeArmy, edittingUnit, isReporting])
 
     function addUnit() {
+        let highestId = 0
+        props.crusadeArmy.units.forEach(unit => {
+            if (unit.id > highestId) {
+                highestId = unit.id
+            }
+        })
         const newUnit: ICrusadeUnit = {
-            id: props.crusadeArmy.units.length,
+            id: highestId + 1,
             agendaXp: 0,
             battleHonours: [],
             battleParticipation: 0,
@@ -143,7 +150,9 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                         <th>CP</th>
                     </tr>
                 </thead>
-                {unitsDisplay}
+                <tbody>
+                    {unitsDisplay}
+                </tbody>
             </table>
         )
     }
