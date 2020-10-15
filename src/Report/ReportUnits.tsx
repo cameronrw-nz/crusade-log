@@ -20,16 +20,16 @@ function ReportUnits(props: IReportUnitsProps) {
             const totalExperience = CalculateTotalExperience(u) + 1;
 
             if (u.battleHonours.findIndex(bh => bh.rank === BattleHonourRank.Blooded) < 0 && totalExperience >= 6) {
-                u.battleHonours.push({ crusadePoints: u.powerLevel >= 11 ? 2 : 1, effect: "", rank: BattleHonourRank.Blooded })
+                u.battleHonours.push({ crusadePoints: u.powerLevel >= 11 ? 2 : 1, battleTrait: { effect: "" }, rank: BattleHonourRank.Blooded })
             }
             else if (u.battleHonours.findIndex(bh => bh.rank === BattleHonourRank.BattleHardened) < 0 && totalExperience >= 16) {
-                u.battleHonours.push({ crusadePoints: u.powerLevel >= 11 ? 2 : 1, effect: "", rank: BattleHonourRank.BattleHardened })
+                u.battleHonours.push({ crusadePoints: u.powerLevel >= 11 ? 2 : 1, battleTrait: { effect: "" }, rank: BattleHonourRank.BattleHardened })
             }
             else if (u.battleHonours.findIndex(bh => bh.rank === BattleHonourRank.Heroic) < 0 && totalExperience >= 31) {
-                u.battleHonours.push({ crusadePoints: u.powerLevel >= 11 ? 2 : 1, effect: "", rank: BattleHonourRank.Heroic })
+                u.battleHonours.push({ crusadePoints: u.powerLevel >= 11 ? 2 : 1, battleTrait: { effect: "" }, rank: BattleHonourRank.Heroic })
             }
             else if (u.battleHonours.findIndex(bh => bh.rank === BattleHonourRank.Legendary) < 0 && totalExperience >= 51) {
-                u.battleHonours.push({ crusadePoints: u.powerLevel >= 11 ? 2 : 1, effect: "", rank: BattleHonourRank.Legendary })
+                u.battleHonours.push({ crusadePoints: u.powerLevel >= 11 ? 2 : 1, battleTrait: { effect: "" }, rank: BattleHonourRank.Legendary })
             }
 
             newUnits.splice(i, 1, u)

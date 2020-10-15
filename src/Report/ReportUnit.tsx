@@ -16,7 +16,7 @@ function ReportUnit(props: IReportUnitProps) {
     let battleHonours = props.unit.battleHonours.map(battleHonour => {
         crusadePoints += battleHonour.crusadePoints;
 
-        let effectField: React.ReactNode = battleHonour.effect;
+        let effectField: React.ReactNode = battleHonour.battleTrait?.effect || "";
         if (battleHonour.rank === BattleHonourRank.Blooded && initialExperience < 6
             || battleHonour.rank === BattleHonourRank.BattleHardened && initialExperience < 16
             || battleHonour.rank === BattleHonourRank.Heroic && initialExperience < 31
@@ -24,11 +24,14 @@ function ReportUnit(props: IReportUnitProps) {
             effectField = (
                 <input
                     type="text"
-                    value={battleHonour.effect}
+                    value={battleHonour.battleTrait?.effect || ""}
                     onChange={event => {
                         var u = { ...props.unit };
                         let bh = u.battleHonours.find(b => b.rank === battleHonour.rank)
-                        bh!.effect = event.target.value;
+                        if (!bh?.battleTrait) {
+                            bh!.battleTrait = {}
+                        }
+                        bh!.battleTrait.effect = event.target.value;
                         props.updateUnit(u)
                     }}
                 />

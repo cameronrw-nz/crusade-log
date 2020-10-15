@@ -27,16 +27,16 @@ function EditUnit(props: IEditUnitProps) {
         const newTotalExperience = CalculateTotalExperience(newUnit);
 
         if (newUnit.battleHonours.findIndex(bh => bh.rank === BattleHonourRank.Blooded) < 0 && newTotalExperience >= 6) {
-            newUnit.battleHonours.push({ crusadePoints: newUnit.powerLevel >= 11 ? 2 : 1, effect: "", rank: BattleHonourRank.Blooded })
+            newUnit.battleHonours.push({ crusadePoints: newUnit.powerLevel >= 11 ? 2 : 1, battleTrait: { effect: "" }, rank: BattleHonourRank.Blooded })
         }
         else if (newUnit.battleHonours.findIndex(bh => bh.rank === BattleHonourRank.BattleHardened) < 0 && newTotalExperience >= 16) {
-            newUnit.battleHonours.push({ crusadePoints: newUnit.powerLevel >= 11 ? 2 : 1, effect: "", rank: BattleHonourRank.BattleHardened })
+            newUnit.battleHonours.push({ crusadePoints: newUnit.powerLevel >= 11 ? 2 : 1, battleTrait: { effect: "" }, rank: BattleHonourRank.BattleHardened })
         }
         else if (newUnit.battleHonours.findIndex(bh => bh.rank === BattleHonourRank.Heroic) < 0 && newTotalExperience >= 31) {
-            newUnit.battleHonours.push({ crusadePoints: newUnit.powerLevel >= 11 ? 2 : 1, effect: "", rank: BattleHonourRank.Heroic })
+            newUnit.battleHonours.push({ crusadePoints: newUnit.powerLevel >= 11 ? 2 : 1, battleTrait: { effect: "" }, rank: BattleHonourRank.Heroic })
         }
         else if (newUnit.battleHonours.findIndex(bh => bh.rank === BattleHonourRank.Legendary) < 0 && newTotalExperience >= 51) {
-            newUnit.battleHonours.push({ crusadePoints: newUnit.powerLevel >= 11 ? 2 : 1, effect: "", rank: BattleHonourRank.Legendary })
+            newUnit.battleHonours.push({ crusadePoints: newUnit.powerLevel >= 11 ? 2 : 1, battleTrait: { effect: "" }, rank: BattleHonourRank.Legendary })
         }
 
         setUnit(newUnit)
@@ -57,11 +57,14 @@ function EditUnit(props: IEditUnitProps) {
         let effectField: React.ReactNode = (
             <input
                 type="text"
-                value={battleHonour.effect}
+                value={battleHonour.battleTrait?.effect}
                 onChange={event => {
                     editUnit((u) => {
                         let bh = u.battleHonours.find(b => b.rank === battleHonour.rank)
-                        bh!.effect = event.target.value;
+                        if (!bh?.battleTrait) {
+                            bh!.battleTrait = {}
+                        }
+                        bh!.battleTrait.effect = event.target.value;
                     })
                 }}
             />

@@ -17,7 +17,7 @@ export interface ICrusadeUnit {
 
 interface IBattleHonour {
     crusadePoints: number;
-    effect: string;
+    battleTrait?: INameEffect;
     rank: BattleHonourRank;
 }
 

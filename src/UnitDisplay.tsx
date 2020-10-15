@@ -58,8 +58,8 @@ function UnitDisplay(props: IUnitDisplayProps) {
         props.unit.battleHonours.forEach(battleHonour => {
             battleHonourDisplay.push(
                 <tr>
-                    <td>{battleHonour.rank}</td>
-                    <td>{battleHonour.effect}</td>
+                    <td>{battleHonour.battleTrait?.name}</td>
+                    <td>{battleHonour.battleTrait?.effect}</td>
                 </tr>
             )
         });
