@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ReportUnits from "./ReportUnits";
 import { ICrusadeArmy } from "../Constants";
+import ReportSummary from "./ReportSummary";
 
 interface IReportProps {
     crusadeArmy: ICrusadeArmy;
@@ -9,27 +9,37 @@ interface IReportProps {
 }
 
 function Report(props: IReportProps) {
-    const [selectedUnitIndexes, setSelectedUnitIndexes] = useState<number[]>([])
-    const [isContinuing, setIsContinuing] = useState<boolean>();
+    const [selectedUnitIds, setSelectedUnitIds] = useState<number[]>([])
 
-    function selectUnit(key: number) {
+    function Continue() {
+        const crusadeArmy = { ...props.crusadeArmy }
+        crusadeArmy.battleRosterUnitIds = selectedUnitIds;
+        props.updateArmy(crusadeArmy)
+    }
+
+    function RemoveSelection() {
+        const crusadeArmy = { ...props.crusadeArmy }
+        crusadeArmy.battleRosterUnitIds = undefined;
+        props.updateArmy(crusadeArmy)
+    }
+
+    function selectUnit(unitId: number) {
         let newKeys = [];
-        if (selectedUnitIndexes.includes(key)) {
-            newKeys = selectedUnitIndexes.filter(i => i !== key);
+        if (selectedUnitIds.includes(unitId)) {
+            newKeys = selectedUnitIds.filter(i => i !== unitId);
         }
         else {
-            newKeys = [...selectedUnitIndexes, key]
+            newKeys = [...selectedUnitIds, unitId]
         }
-        setSelectedUnitIndexes(newKeys);
+        setSelectedUnitIds(newKeys);
     }
 
     const display = props.crusadeArmy.units.map((unit, key) => {
         return (
-            <div className="read-only-display-item" onClick={() => selectUnit(key)}>
+            <div className="read-only-display-item" onClick={() => selectUnit(unit.id)}>
                 <input
                     type="checkbox"
-                    onChange={() => { }}
-                    checked={selectedUnitIndexes.includes(key)}
+                    checked={selectedUnitIds.includes(key)}
                 />
                 <span>
                     {unit.name}
@@ -44,17 +54,16 @@ function Report(props: IReportProps) {
     let selectedPowerLevel = 0;
 
     props.crusadeArmy.units.map((unit, index) => {
-        if (selectedUnitIndexes.includes(index)) {
+        if (selectedUnitIds.includes(index)) {
             selectedPowerLevel += unit.powerLevel
         }
     })
 
-    if (isContinuing) {
+    if (props.crusadeArmy.battleRosterUnitIds) {
         return (
-            <ReportUnits
+            <ReportSummary
                 crusadeArmy={props.crusadeArmy}
-                selectedUnitIndexes={selectedUnitIndexes}
-                goBack={() => setIsContinuing(false)}
+                goBack={RemoveSelection}
                 updateArmy={props.updateArmy}
             />
         )
@@ -75,7 +84,7 @@ function Report(props: IReportProps) {
                 <button onClick={props.goBack}>
                     Back
                 </button>
-                <button className="primary" onClick={() => setIsContinuing(true)}>
+                <button className="primary" onClick={Continue}>
                     Continue
                 </button>
             </div>

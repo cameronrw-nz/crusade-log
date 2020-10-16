@@ -44,5 +44,6 @@ export interface ICrusadeArmy {
     id: number;
     name: string;
     units: ICrusadeUnit[]
+    battleRosterUnitIds?: number[]
 }
 

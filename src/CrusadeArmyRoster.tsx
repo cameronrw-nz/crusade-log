@@ -119,7 +119,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
             />
         )
     }
-    else if (isReporting) {
+    else if (isReporting || props.crusadeArmy.battleRosterUnitIds) {
         return (
             <Report
                 crusadeArmy={props.crusadeArmy}

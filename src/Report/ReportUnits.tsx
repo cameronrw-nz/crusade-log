@@ -5,7 +5,6 @@ import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
 
 interface IReportUnitsProps {
     crusadeArmy: ICrusadeArmy;
-    selectedUnitIndexes: number[];
     goBack: () => void;
     updateArmy: (crusadeArmy: ICrusadeArmy) => void;
 }
@@ -36,7 +35,7 @@ function ReportUnits(props: IReportUnitsProps) {
 
             setUnits(newUnits);
         }
-        if (props.selectedUnitIndexes.includes(index)) {
+        if (props.crusadeArmy.battleRosterUnitIds?.includes(index)) {
             return (
                 <ReportUnit unit={unit} updateUnit={(u) => updateUnit(u, index)} />
             );
@@ -47,7 +46,7 @@ function ReportUnits(props: IReportUnitsProps) {
         const crusadeArmy = { ...props.crusadeArmy }
         crusadeArmy.units = units;
         units.forEach(u => u.battleParticipation++);
-
+        crusadeArmy.battleRosterUnitIds = undefined;
         props.updateArmy(crusadeArmy)
     }
 
@@ -56,25 +55,26 @@ function ReportUnits(props: IReportUnitsProps) {
             <h1>
                 Fill Post Game Stats
             </h1>
-            <table className="edittable-table">
-                <tbody>
-                    <tr>
-                        <td>
+            <div className="expand">
+                <table className="edittable-table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Requisition Points:
+                            </td>
+                            <td>
 
-                            Requisition Points:
-                        </td>
-                        <td>
-
-                            <input
-                                type="number"
-                                onChange={event => setRequisitionPoints(Number.parseInt(event.target.value))}
-                                value={requisitionPoints}
-                            />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            {unitsDisplay}
+                                <input
+                                    type="number"
+                                    onChange={event => setRequisitionPoints(Number.parseInt(event.target.value))}
+                                    value={requisitionPoints}
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                {unitsDisplay}
+            </div>
             <div className="button-container">
                 <button onClick={props.goBack}>
                     Back
