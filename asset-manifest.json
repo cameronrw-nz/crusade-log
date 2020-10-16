@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/crusade-log/static/css/main.b59fe46a.chunk.css",
-    "main.js": "/crusade-log/static/js/main.f4aa54a5.chunk.js",
-    "main.js.map": "/crusade-log/static/js/main.f4aa54a5.chunk.js.map",
+    "main.js": "/crusade-log/static/js/main.b92cc5c8.chunk.js",
+    "main.js.map": "/crusade-log/static/js/main.b92cc5c8.chunk.js.map",
     "runtime-main.js": "/crusade-log/static/js/runtime-main.8aa0809d.js",
     "runtime-main.js.map": "/crusade-log/static/js/runtime-main.8aa0809d.js.map",
     "static/js/2.6cb19b08.chunk.js": "/crusade-log/static/js/2.6cb19b08.chunk.js",
     "static/js/2.6cb19b08.chunk.js.map": "/crusade-log/static/js/2.6cb19b08.chunk.js.map",
     "index.html": "/crusade-log/index.html",
-    "precache-manifest.d718e3e1a480d45220c8438108564993.js": "/crusade-log/precache-manifest.d718e3e1a480d45220c8438108564993.js",
+    "precache-manifest.447c9a4285ee84f79efdd85e9652c39c.js": "/crusade-log/precache-manifest.447c9a4285ee84f79efdd85e9652c39c.js",
     "service-worker.js": "/crusade-log/service-worker.js",
     "static/css/main.b59fe46a.chunk.css.map": "/crusade-log/static/css/main.b59fe46a.chunk.css.map",
     "static/js/2.6cb19b08.chunk.js.LICENSE.txt": "/crusade-log/static/js/2.6cb19b08.chunk.js.LICENSE.txt",
@@ -20,6 +20,6 @@
     "static/js/runtime-main.8aa0809d.js",
     "static/js/2.6cb19b08.chunk.js",
     "static/css/main.b59fe46a.chunk.css",
-    "static/js/main.f4aa54a5.chunk.js"
+    "static/js/main.b92cc5c8.chunk.js"
   ]
 }
