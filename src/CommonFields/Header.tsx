@@ -1,26 +1,33 @@
 import React from "react";
 
 import EditIcon from "../Resources/Icons/EditIcon.svg";
+import { Row } from "react-bootstrap";
 
 interface IHeaderProps {
     crusadePoints: number;
     headerText: string;
-    onEdit: () => void;
+    onEdit?: () => void;
     powerLevel: number;
 }
 
 function Header(props: IHeaderProps): JSX.Element | null {
+    let editIcon = undefined;
+    if (props.onEdit) {
+        editIcon = (
+            <img
+                className="icon"
+                src={EditIcon}
+                alt="Edit Links"
+                onClick={props.onEdit}
+            />
+        )
+    }
     return (
-        <div className="header">
-            <h1>
+        <Row className="my-2 mx-1 header">
+            <h2>
                 {props.headerText}
-                <img
-                    className="icon"
-                    src={EditIcon}
-                    alt="Edit Links"
-                    onClick={props.onEdit}
-                />
-            </h1>
+                {editIcon}
+            </h2>
             <div>
                 <div className="heading-sub-header">
                     <b>{props.powerLevel + " "}</b>PL
@@ -29,7 +36,7 @@ function Header(props: IHeaderProps): JSX.Element | null {
                     <b>{props.crusadePoints + " "}</b>CP
                 </div>
             </div>
-        </div>
+        </Row>
     )
 }
 

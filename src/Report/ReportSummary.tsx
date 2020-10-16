@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ICrusadeArmy } from "../Constants";
 import UnitSummaryRows from "../CommonFields/UnitSummary";
 import ReportUnits from "./ReportUnits";
+import { Row, Col, Button } from "react-bootstrap";
 
 interface IReportSummaryProps {
     crusadeArmy: ICrusadeArmy;
@@ -16,7 +17,7 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
     props.crusadeArmy.battleRosterUnitIds?.forEach(id => {
         const unit = props.crusadeArmy.units.find(u => u.id === id);
         if (unit) {
-            unitSummaries.push(<tr><td><h3>{unit.name}</h3></td></tr>)
+            unitSummaries.push(<h3 className="border-top border-primary mt-3">{unit.name}</h3>)
             unitSummaries.push(
                 <UnitSummaryRows
                     unit={unit}
@@ -38,24 +39,24 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
 
     return (
         <>
-            <h1>
-                Battle Roster
-            </h1>
-            <div className="expand">
-                <table className="edittable-table">
-                    <tbody>
-                        {unitSummaries}
-                    </tbody>
-                </table>
-            </div>
-            <div className="button-container">
-                <button onClick={props.goBack}>
-                    Back
-                </button>
-                <button className="primary" onClick={() => setIsContinuing(true)} >
-                    Continue
-                </button>
-            </div>
+            <Row className="my-2 mx-1 header">
+                <h2>
+                    Battle Roster
+                </h2>
+            </Row>
+            {unitSummaries}
+            <Row className="mb-2">
+                <Col>
+                    <Button block size="lg" className="mr-2" variant="outline-primary" onClick={props.goBack}>
+                        Back
+                    </Button>
+                </Col>
+                <Col>
+                    <Button block size="lg" variant="primary" onClick={() => setIsContinuing(true)}>
+                        Continue
+                    </Button>
+                </Col>
+            </Row>
         </>
     )
 }

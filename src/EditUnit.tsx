@@ -3,6 +3,8 @@ import { ICrusadeUnit, BattleHonourRank } from "./Constants";
 import { CalculateTotalExperience } from "./Helpers/CrusadeUnitHelper";
 import EditOutOfActions from "./CommonFields/EditOutOfActions";
 import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
+import { Form, Button, Row, Col } from "react-bootstrap";
+import FormInput from "./CommonFields/FormInput";
 
 interface IEditUnitProps {
     deleteUnit: (unit: ICrusadeUnit) => void;
@@ -54,10 +56,11 @@ function EditUnit(props: IEditUnitProps) {
     let battleHonours = unit.battleHonours.map((battleHonour, index) => {
         crusadePoints += battleHonour.crusadePoints;
 
-        let effectField: React.ReactNode = (
-            <input
-                type="text"
-                value={battleHonour.battleTrait?.effect}
+        return (
+            <FormInput
+                key={index}
+                formName={battleHonour.rank}
+                inputType="textbox"
                 onChange={event => {
                     editUnit((u) => {
                         let bh = u.battleHonours.find(b => b.rank === battleHonour.rank)
@@ -67,153 +70,133 @@ function EditUnit(props: IEditUnitProps) {
                         bh!.battleTrait.effect = event.target.value;
                     })
                 }}
+                value={battleHonour.battleTrait?.effect}
             />
-        )
-
-        return (
-            <tr key={index}>
-                <td>
-                    {battleHonour.rank}
-                </td>
-                <td>
-                    {effectField}
-                </td>
-            </tr>
         )
     });
 
     return (
-        <form onSubmit={save} id="edit-unit">
-            <div className="header">
-                <h1>
-                    {(isNewUnit ? "Add Unit: " : "Edit Unit: ") + unit.name}
+        <Form onSubmit={save} id="edit-unit">
+            <Row className="my-2 mx-1 header">
+                <h2>
+                    {isNewUnit ? "Adding Unit " : "Editting Unit "}
                     <img
                         className="icon"
                         src={DeleteIcon}
                         alt="Edit Links"
                         onClick={handleDeleteUnit}
                     />
-                </h1>
-            </div>
-            <div className="expand">
-                <table className="edittable-table">
-                    <tbody>
-                        <tr>
-                            <td>Name:</td>
-                            <td>
-                                <input
-                                    onChange={e => editUnit((u) => u.name = e.target.value)}
-                                    type="textbox"
-                                    value={unit.name}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Power Level</td>
-                            <td>
-                                <input
-                                    onChange={e => editUnit((u) => u.powerLevel = Number.parseInt(e.target.value))}
-                                    type="number"
-                                    value={unit.powerLevel}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Crusade Points</td>
-                            <td>{crusadePoints}</td>
-                        </tr>
-                        <tr>
-                            <td>Battle Participation:</td>
-                            <td>
-                                <input
-                                    type="number"
-                                    onChange={event => editUnit((u) => u.battleParticipation = Number.parseInt(event.target.value))}
-                                    value={unit.battleParticipation}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Marked For Greatness:</td>
-                            <td>
-                                <input
-                                    type="number"
-                                    onChange={event => editUnit((u) => u.markedForGreatness = Number.parseInt(event.target.value))}
-                                    value={unit.markedForGreatness}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Agenda:</td>
-                            <td>
-                                <input
-                                    type="number"
-                                    onChange={event => editUnit((u) => u.agendaXp = Number.parseInt(event.target.value))}
-                                    value={unit.agendaXp}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Kills:</td>
-                            <td>
-                                <input
-                                    type="number"
-                                    onChange={event => editUnit((u) => u.kills = Number.parseInt(event.target.value))}
-                                    value={unit.kills}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Total Experience:
-                        </td>
-                            <td>
-                                {totalExperience}
-                            </td>
-                        </tr>
-                        {battleHonours}
-                        <EditOutOfActions
-                            unit={unit}
-                            editUnit={editUnit}
-                        />
-                        <tr><td>Warlord Trait</td></tr>
-                        <tr>
-                            <td>
-                                <input
-                                    type="textbox"
-                                    onChange={event => editUnit((u) => {
-                                        if (!u.warlordTrait) {
-                                            u.warlordTrait = {}
-                                        }
-                                        u.warlordTrait.name = event.target.value
-                                    })}
-                                    value={unit.warlordTrait?.name || ""}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="textbox"
-                                    onChange={event => editUnit((u) => {
-                                        if (!u.warlordTrait) {
-                                            u.warlordTrait = {}
-                                        }
-                                        u.warlordTrait.effect = event.target.value
-                                    })}
-                                    value={unit.warlordTrait?.effect || ""}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div className="button-container">
-                <button onClick={props.goBack} type="button">
-                    Back
-                </button>
-                <button className="primary" onClick={save} type="submit">
-                    Save
-                </button>
-            </div>
-        </form>
+                </h2>
+            </Row>
+            <FormInput
+                formName="Name"
+                inputType="textbox"
+                onChange={e => editUnit((u) => u.name = e.target.value)}
+                value={unit.name}
+            />
+            <FormInput
+                formName="Power Level"
+                inputType="number"
+                onChange={e => editUnit((u) => u.powerLevel = Number.parseInt(e.target.value))}
+                value={unit.powerLevel}
+            />
+            <FormInput
+                formName="Participation"
+                inputType="number"
+                onChange={e => editUnit((u) => u.battleParticipation = Number.parseInt(e.target.value))}
+                value={unit.battleParticipation}
+            />
+            <FormInput
+                formName="Greatness"
+                inputType="number"
+                onChange={e => editUnit((u) => u.markedForGreatness = Number.parseInt(e.target.value))}
+                value={unit.markedForGreatness}
+            />
+            <FormInput
+                formName="Agenda"
+                inputType="number"
+                onChange={e => editUnit((u) => u.agendaXp = Number.parseInt(e.target.value))}
+                value={unit.agendaXp}
+            />
+            <FormInput
+                formName="Kills"
+                inputType="number"
+                onChange={e => editUnit((u) => u.kills = Number.parseInt(e.target.value))}
+                value={unit.kills}
+            />
+            <Row className="mb-2">
+                <Col>
+                    <Form.Label>Total Experience</Form.Label>
+                </Col>
+                <Col>
+                    {totalExperience}
+                </Col>
+            </Row>
+            {battleHonours}
+            <EditOutOfActions
+                unit={unit}
+                editUnit={editUnit}
+            />
+            <Form.Group as={Row} className="mb-2" controlId="formWarlordTrait">
+                <Col>
+                    <Row>
+                        <Col>
+                            <Form.Label>
+                                Warlord Trait
+                                </Form.Label>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="pr-1">
+                            <Form.Control
+                                type="textbox"
+                                onChange={event => editUnit((u) => {
+                                    if (!u.warlordTrait) {
+                                        u.warlordTrait = {}
+                                    }
+                                    u.warlordTrait.name = event.target.value
+                                })}
+                                value={unit.warlordTrait?.name || ""}
+                                placeholder="Name"
+                            />
+                        </Col>
+                        <Col className="pl-1">
+                            <Form.Control
+                                type="textbox"
+                                onChange={event => editUnit((u) => {
+                                    if (!u.warlordTrait) {
+                                        u.warlordTrait = {}
+                                    }
+                                    u.warlordTrait.effect = event.target.value
+                                })}
+                                value={unit.warlordTrait?.effect || ""}
+                                placeholder="Effect"
+                            />
+                        </Col>
+                    </Row>
+                </Col>
+            </Form.Group>
+            <Row className="mb-2">
+                <Col>
+                    <Form.Label>Crusade Points</Form.Label>
+                </Col>
+                <Col>
+                    {crusadePoints}
+                </Col>
+            </Row>
+            <Row className="mb-2">
+                <Col>
+                    <Button block size="lg" variant="outline-primary" onClick={props.goBack} type="button">
+                        Back
+                    </Button>
+                </Col>
+                <Col>
+                    <Button block size="lg" variant="primary" onClick={save} type="submit">
+                        Save
+                    </Button>
+                </Col>
+            </Row>
+        </Form>
     )
 }
 

@@ -1,11 +1,11 @@
 html, body, #root {
     height:100%;
     width: 100%;
-    background-color: lightblue;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     display: flex;
+    font-size: unset;
 }
 
 /* Armies List */
@@ -26,7 +26,7 @@ html, body, #root {
     display: flex;
     flex-direction: row;
 
-    > h1 {
+    > h2 {
         flex-grow: 1;
         
         .icon {
@@ -36,7 +36,6 @@ html, body, #root {
     }
 
     > div {
-        margin-block-start: 1.33em;
         margin-right: 8px;
         flex: 0 0 auto;
     }
@@ -80,21 +79,6 @@ html, body, #root {
 .button-container {
     display: flex;
     flex-direction: row;
-}
-
-button {
-    flex: 1 1;
-    background: rgb(103, 191, 221);
-    border: unset;
-    border-radius: 10px;
-    font-weight: normal;
-    margin: 5px;
-    padding: 10px 0px;
-    font-size: 1.2em;
-
-    &.primary {
-        background: rgb(83, 175, 206);
-    }
 }
 
 form {

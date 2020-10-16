@@ -3,6 +3,8 @@ import CrusadeArmyRoster from "./CrusadeArmyRoster";
 import { ICrusadeArmy, CRUSADE_ARMIES_STORAGE_KEY } from "./Constants";
 import EditArmy from "./EditArmy";
 import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
+import { ListGroup, ListGroupItem, Button, Row, Col, Card } from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ArmiesList() {
     const [edittingArmy, setEdittingArmy] = useState<ICrusadeArmy>()
@@ -29,13 +31,17 @@ function ArmiesList() {
             })
 
             return (
-                <div className="armies-list-display" key={index} onClick={() => setSelectedCrusadeArmy(crusadeArmy)}>
-                    <h2>
-                        {crusadeArmy.name}
-                    </h2>
-                    <span>{powerLevel + " PL"}</span>
-                    <span>{crusadePoints + " CP"}</span>
-                </div>
+                <Card className="mb-3 border-primary" key={index} onClick={() => setSelectedCrusadeArmy(crusadeArmy)}>
+                    <Card.Body>
+                        <Card.Title as="h2">
+                            {crusadeArmy.name}
+                        </Card.Title>
+                        <Card.Text>
+                            {powerLevel + " PL "}
+                            {crusadePoints + " CP"}
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
             )
         });
 
@@ -100,17 +106,28 @@ function ArmiesList() {
 
     return (
         <>
-            <h1>
-                Crusade Armies
-            </h1>
-            <div className="expand">
-                {crusadeArmiesDisplay}
-            </div>
-            <div className="button-container">
-                <button onClick={addArmy} className="primary">
-                    Add
-            </button>
-            </div>
+            <Row className="my-2 mx-1 header">
+                <h2>
+                    Crusade Armies
+                </h2>
+            </Row>
+            <Row className="flex-grow-1" style={{ overflow: "auto" }}>
+                <Col >
+                    {crusadeArmiesDisplay}
+                </Col>
+            </Row>
+            <Row md="2">
+                <Col xs={4}>
+                    <Button
+                        block
+                        size="lg"
+                        variant="primary"
+                        onClick={addArmy}
+                    >
+                        Add
+                    </Button>
+                </Col>
+            </Row>
         </>
     )
 }

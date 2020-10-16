@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
-import { ICrusadeUnit } from "../Constants";
+import { ICrusadeUnit, INameEffect } from "../Constants";
+import { Row, Col } from "react-bootstrap";
+import UnitSummaryCard from "./UnitSummaryCard";
 
 interface IUnitSummaryRowsProps {
     unit: ICrusadeUnit;
@@ -18,66 +20,67 @@ function UnitSummaryRows(props: IUnitSummaryRowsProps): JSX.Element | null {
     let warlordTraitDisplay = null
     if (props.unit.warlordTrait) {
         warlordTraitDisplay = (
-            <>
-                <tr><td><b>Warlord Trait</b></td></tr>
-                <tr>
-                    <td>{props.unit.warlordTrait.name}</td>
-                    <td>{props.unit.warlordTrait.effect}</td>
-                </tr>
-            </>
+            <UnitSummaryCard
+                header="Warlord Trait"
+                nameEffects={[props.unit.warlordTrait]}
+            />
         )
     }
 
-    const battleHonourDisplay = []
+    let battleHonourDisplay = undefined
     if (props.unit.battleHonours && props.unit.battleHonours.length > 0) {
-        battleHonourDisplay.push(<tr><td><b>Battle Honours</b></td></tr>)
+        const battleHonours: INameEffect[] = []
         props.unit.battleHonours.forEach(battleHonour => {
-            battleHonourDisplay.push(
-                <tr>
-                    <td>{battleHonour.battleTrait?.name}</td>
-                    <td>{battleHonour.battleTrait?.effect}</td>
-                </tr>
-            )
+            battleHonour.battleTrait && battleHonours.push(battleHonour.battleTrait)
         });
+
+        battleHonourDisplay = (
+            <UnitSummaryCard
+                header="Battle Honours"
+                nameEffects={battleHonours}
+            />
+        )
     }
 
 
-    const battleScarsDisplay: JSX.Element[] = []
+    let battleScarsDisplay: JSX.Element | undefined = undefined
     if (props.unit.outOfAction && props.unit.outOfAction.length > 0) {
-        battleScarsDisplay.push(<tr><td><b>Battle Scars</b></td><td /></tr>)
+        const battleScars: INameEffect[] = []
         props.unit.outOfAction.forEach(outOfAction => {
             if (!outOfAction.isActive || !outOfAction.battleScar) {
                 return;
             }
-            battleScarsDisplay.push(
-                <tr>
-                    <td>{outOfAction.battleScar.name}</td>
-                    <td>{outOfAction.battleScar.effect}</td>
-                </tr>
-            )
+            battleScars.push(outOfAction.battleScar)
         })
+
+        battleScarsDisplay = (
+            <UnitSummaryCard
+                header="Battle Scars"
+                nameEffects={battleScars}
+            />
+        )
     }
 
     let experienceDetails = null;
     if (isShowingExperience) {
         experienceDetails = (
             <>
-                <tr>
-                    <td>Battle Participation:</td>
-                    <td>{props.unit.battleParticipation}</td>
-                </tr>
-                <tr>
-                    <td>Marked For Greatness:</td>
-                    <td>{props.unit.markedForGreatness}</td>
-                </tr>
-                <tr>
-                    <td>Agenda:</td>
-                    <td>{props.unit.agendaXp}</td>
-                </tr>
-                <tr>
-                    <td>Kills:</td>
-                    <td>{props.unit.kills}</td>
-                </tr>
+                <Row className="mb-2">
+                    <Col>Battle Participation<Col>
+                    </Col>{props.unit.battleParticipation}</Col>
+                </Row>
+                <Row className="mb-2">
+                    <Col>Marked For Greatness<Col>
+                    </Col>{props.unit.markedForGreatness}</Col>
+                </Row>
+                <Row className="mb-2">
+                    <Col>Agenda<Col>
+                    </Col>{props.unit.agendaXp}</Col>
+                </Row>
+                <Row className="mb-2">
+                    <Col>Kills<Col>
+                    </Col>{props.unit.kills}</Col>
+                </Row>
             </>
         )
     }
@@ -87,14 +90,14 @@ function UnitSummaryRows(props: IUnitSummaryRowsProps): JSX.Element | null {
             {warlordTraitDisplay}
             {battleHonourDisplay}
             {battleScarsDisplay}
-            <tr onClick={toggleShowExperience}>
-                <td>
-                    Total Experience:
-                        </td>
-                <td>
+            <Row className="mb-2" onClick={toggleShowExperience}>
+                <Col>
+                    Total Experience
+                </Col>
+                <Col>
                     {totalExperience}
-                </td>
-            </tr>
+                </Col>
+            </Row>
             {experienceDetails}
         </>
     )

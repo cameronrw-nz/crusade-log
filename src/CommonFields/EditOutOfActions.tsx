@@ -1,5 +1,6 @@
 import React from "react";
 import { ICrusadeUnit, IOutOfAction } from "../Constants";
+import { Form, Row, Col, Button } from "react-bootstrap";
 
 interface IEditOutOfActionsProps {
     unit: ICrusadeUnit;
@@ -31,43 +32,61 @@ function EditOutOfActions(props: IEditOutOfActionsProps): JSX.Element {
 
     const outOfActionDisplay: JSX.Element[] = []
     if (props.unit.outOfAction && props.unit.outOfAction.length > 0) {
+        outOfActionDisplay.push(
+            <Row className="mb-2">
+                <Col>
+                    Battle Scar
+                </Col>
+                <Col>
+                    Out Of Action
+                </Col>
+            </Row>
+        )
         props.unit.outOfAction.forEach((outOfAction, index) => {
             if (!outOfAction.isActive) {
                 return;
             }
             outOfActionDisplay.push(
-                <tr>
-                    <td>
-                        <input
-                            value={outOfAction.battleScar?.effect}
-                            onChange={e => editOutOfAction((o) => o.battleScar!.effect = e.target.value, index)}
+                <Row className="mb-2">
+                    <Col className="pr-1">
+                        <Form.Control
                             type="textbox"
+                            onChange={e => editOutOfAction((o) => o.battleScar!.effect = e.target.value, index)}
+                            value={outOfAction.battleScar?.effect}
+                            placeholder="Name"
                         />
-                    </td>
-                    <td>
-                        <input
-                            value={outOfAction.xp}
+                    </Col>
+                    <Col className="pl-1">
+                        <Form.Control
+                            type="textbox"
                             onChange={e => editOutOfAction((o) => o.xp = Number.parseInt(e.target.value), index)}
-                            type="number"
+                            value={outOfAction.xp}
+                            placeholder="Effect"
                         />
-                    </td>
-                </tr>
+                    </Col>
+                </Row>
             )
         })
     }
 
     return (
-        <>
-            <tr>
-                <td>Out Of Action</td>
-                <td><button onClick={addOutOfAction} type="button" style={{ padding: "10px" }}>Add</button></td>
-            </tr>
-            <tr>
-                <td>Battle Scar</td>
-                <td>Experience Loss</td>
-            </tr>
-            {outOfActionDisplay}
-        </>
+        <Form.Group as={Row} className="mb-2" controlId={`formWarlordTrait`}>
+            <Col>
+                <Row className="mb-2">
+                    <Col>
+                        <Form.Label>
+                            Out Of Action
+                        </Form.Label>
+                    </Col>
+                    <Col>
+                        <Button variant="outline-primary" onClick={addOutOfAction} type="button" block>
+                            Add
+                        </Button>
+                    </Col>
+                </Row>
+                {outOfActionDisplay}
+            </Col>
+        </Form.Group>
     )
 }
 

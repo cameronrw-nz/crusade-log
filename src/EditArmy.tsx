@@ -3,6 +3,8 @@ import { ICrusadeArmy } from "./Constants";
 import { CopyToClipboard } from "./Helpers/Clipboard";
 import CopyIcon from "./Resources/Icons/CopyIcon.svg";
 import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import FormInput from "./CommonFields/FormInput";
 
 interface IEditArmyProps {
     crusadeArmy: ICrusadeArmy;
@@ -29,67 +31,66 @@ function EditArmy(props: IEditArmyProps) {
 
     return (
         <>
-            <form onSubmit={() => props.saveArmy(army)} id="edit-army">
-                <div className="header">
-                    <h1>
-                        {(isNewArmy ? "Add Army: " : "Edit Army: ") + army.name}
+            <Form onSubmit={() => props.saveArmy(army)} >
+                <Row className="my-2 mx-1 header">
+                    <h2>
+                        {isNewArmy ? "Add Army" : "Edit Army"}
                         <img
                             className="icon"
                             src={DeleteIcon}
                             alt="Edit Links"
                             onClick={handleDelete}
                         />
-                    </h1>
-                </div>
-                <div className="expand">
-                    <table className="edittable-table">
-                        <tr>
-                            <td>Name:</td>
-                            <td>
-                                <input
-                                    onChange={e => editArmy((a) => a.name = e.target.value)}
-                                    type="textbox"
-                                    value={army.name}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Copy from Clipboard:
-                            </td>
-                            <td>
-                                <img
-                                    className="icon"
-                                    src={CopyIcon}
-                                    alt="Edit Links"
-                                    onClick={() => CopyToClipboard(props.crusadeArmy)}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={2}>
-                                <textarea
-                                    style={{ width: "calc(100% - 8px)" }}
-                                    onChange={e => {
-                                        const newArmy = JSON.parse(e.target.value)
-                                        newArmy.id = army.id;
-                                        setArmy(newArmy)
-                                    }}
-                                    value={JSON.stringify(army)}
-                                />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div className="button-container">
-                    <button onClick={props.goBack} type="button">
-                        Back
-                    </button>
-                    <button className="primary" onClick={() => props.saveArmy(army)} type="submit">
-                        Save
-                    </button>
-                </div>
-            </form>
+                    </h2>
+                </Row>
+                <FormInput
+                    formName="Name"
+                    onChange={e => editArmy((a) => a.name = e.target.value)}
+                    inputType="textbox"
+                    value={army.name}
+                />
+                <Row className="mb-2">
+                    <Col>
+                        <Form.Label>
+                            Copy from Clipboard
+                        </Form.Label>
+                    </Col>
+                    <Col>
+                        <img
+                            className="icon"
+                            src={CopyIcon}
+                            alt="Edit Links"
+                            onClick={() => CopyToClipboard(props.crusadeArmy)}
+                        />
+                    </Col>
+                </Row>
+                <Row className="mb-2">
+                    <Col>
+                        <Form.Control
+                            as="textarea"
+                            rows={5}
+                            onChange={e => {
+                                const newArmy = JSON.parse(e.target.value)
+                                newArmy.id = army.id;
+                                setArmy(newArmy)
+                            }}
+                            value={JSON.stringify(army)}
+                        />
+                    </Col>
+                </Row>
+                <Row className="mb-2">
+                    <Col>
+                        <Button block size="lg" variant="outline-primary" onClick={props.goBack} type="button">
+                            Back
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button block size="lg" variant="primary" onClick={() => props.saveArmy(army)} type="submit">
+                            Save
+                        </Button>
+                    </Col>
+                </Row>
+            </Form>
         </>
     )
 }

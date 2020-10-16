@@ -5,6 +5,8 @@ import UnitDisplay from "./UnitDisplay";
 import EditArmy from "./EditArmy";
 import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
 import Header from "./CommonFields/Header";
+import { Button, ButtonGroup, Row, Col } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 
 interface ICrusadeArmyRoster {
@@ -142,7 +144,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     let unitsTableDisplay = null;
     if (unitsDisplay?.length !== 0) {
         unitsTableDisplay = (
-            <table className="army-roster-units">
+            <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -153,7 +155,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                 <tbody>
                     {unitsDisplay}
                 </tbody>
-            </table>
+            </Table>
         )
     }
 
@@ -165,20 +167,28 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                 powerLevel={powerLevel}
                 onEdit={() => setIsEditting(true)}
             />
-            <div className="army-roster-content">
-                {unitsTableDisplay}
-            </div>
-            <div className="button-container">
-                <button onClick={props.goBack}>
-                    Back
-                </button>
-                <button onClick={addUnit}>
-                    Add
-                </button>
-                <button className="primary" onClick={() => setIsReporting(true)}>
-                    Log
-                </button>
-            </div>
+            <Row>
+                <Col>
+                    {unitsTableDisplay}
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Button block size="lg" className="mr-2" variant="outline-primary" onClick={props.goBack}>
+                        Back
+                    </Button>
+                </Col>
+                <Col>
+                    <Button block size="lg" variant="outline-primary" onClick={addUnit}>
+                        Add
+                    </Button>
+                </Col>
+                <Col>
+                    <Button block size="lg" variant="primary" onClick={() => setIsReporting(true)}>
+                        Log
+                    </Button>
+                </Col>
+            </Row>
         </>
     )
 }

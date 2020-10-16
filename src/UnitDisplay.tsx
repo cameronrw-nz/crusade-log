@@ -4,6 +4,7 @@ import EditUnit from "./EditUnit";
 import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
 import Header from "./CommonFields/Header";
 import UnitSummaryRows from "./CommonFields/UnitSummary";
+import { Button, Row, Col } from "react-bootstrap";
 
 interface IUnitDisplayProps {
     deleteUnit: (unit: ICrusadeUnit) => void;
@@ -39,20 +40,20 @@ function UnitDisplay(props: IUnitDisplayProps) {
                 crusadePoints={crusadePoints}
                 headerText={props.unit.name}
                 powerLevel={props.unit.powerLevel}
-                onEdit={() => setIsEdittingUnit(true)}
             />
-            <div className="expand">
-                <table className="edittable-table">
-                    <tbody>
-                        <UnitSummaryRows unit={props.unit} />
-                    </tbody>
-                </table>
-            </div>
-            <div className="button-container">
-                <button onClick={props.goBack} type="button">
-                    Back
-                </button>
-            </div>
+            <UnitSummaryRows unit={props.unit} />
+            <Row>
+                <Col>
+                    <Button block size="lg" variant="outline-primary" onClick={props.goBack} type="button">
+                        Back
+                    </Button>
+                </Col>
+                <Col>
+                    <Button block size="lg" variant="primary" onClick={() => setIsEdittingUnit(true)} type="button">
+                        Edit
+                    </Button>
+                </Col>
+            </Row>
         </>
     )
 }

@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { ICrusadeUnit, BattleHonourRank } from "../Constants";
 import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
 import EditOutOfActions from "../CommonFields/EditOutOfActions";
+import FormInput from "../CommonFields/FormInput";
+import { Row } from "react-bootstrap";
+import { Col } from "react-bootstrap";
+import ReadOnlyRow from "../CommonFields/ReadonlyRow";
 
 interface IReportUnitProps {
     unit: ICrusadeUnit;
@@ -16,15 +20,14 @@ function ReportUnit(props: IReportUnitProps) {
     let battleHonours = props.unit.battleHonours.map(battleHonour => {
         crusadePoints += battleHonour.crusadePoints;
 
-        let effectField: React.ReactNode = battleHonour.battleTrait?.effect || "";
         if (battleHonour.rank === BattleHonourRank.Blooded && initialExperience < 6
             || battleHonour.rank === BattleHonourRank.BattleHardened && initialExperience < 16
             || battleHonour.rank === BattleHonourRank.Heroic && initialExperience < 31
             || battleHonour.rank === BattleHonourRank.Legendary && initialExperience < 51) {
-            effectField = (
-                <input
-                    type="text"
-                    value={battleHonour.battleTrait?.effect || ""}
+            return (
+                <FormInput
+                    resetFirstColSpan
+                    inputType="textbox"
                     onChange={event => {
                         var u = { ...props.unit };
                         let bh = u.battleHonours.find(b => b.rank === battleHonour.rank)
@@ -34,103 +37,89 @@ function ReportUnit(props: IReportUnitProps) {
                         bh!.battleTrait.effect = event.target.value;
                         props.updateUnit(u)
                     }}
+                    formName={battleHonour.rank}
+                    value={battleHonour.battleTrait?.effect || ""}
                 />
             )
         }
 
         return (
-            <tr>
-                <td>
-                    {battleHonour.rank}
-                </td>
-                <td>
-                    {effectField}
-                </td>
-            </tr>
+            <ReadOnlyRow
+                firstColumn={battleHonour.rank}
+                label
+                secondColumn={battleHonour.battleTrait?.effect || ""}
+            />
         )
     });
 
     return (
-        <div>
-            <table className="edittable-table">
-                <tbody>
-                    <tr>
-                        <td>
-                            <b>{props.unit.name}</b>
-                        </td>
-                        <td>Crusade Points: {" " + crusadePoints}</td>
-                    </tr>
-                    <tr>
-                        <td>Battle Participation:</td>
-                        <td>{`${props.unit.battleParticipation} + 1`}</td>
-                    </tr>
-                    <tr>
-                        <td>Marked For Greatness:</td>
-                        <td>
-                            <input
-                                type="number"
-                                onChange={event => {
-                                    var u = { ...props.unit };
-                                    u.markedForGreatness = Number.parseInt(event.target.value)
-                                    props.updateUnit(u)
-                                }}
-                                value={props.unit.markedForGreatness}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Agenda:</td>
-                        <td>
-                            <input
-                                type="number"
-                                onChange={event => {
-                                    var u = { ...props.unit };
-                                    u.agendaXp = Number.parseInt(event.target.value)
-                                    props.updateUnit(u)
-                                }}
-                                value={props.unit.agendaXp}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Kills:</td>
-                        <td>
-                            <input
-                                type="number"
-                                onChange={event => {
-                                    var u = { ...props.unit };
-                                    u.kills = Number.parseInt(event.target.value)
-                                    props.updateUnit(u)
-
-                                }}
-                                value={props.unit.kills}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Total Experience:
-                        </td>
-                        <td>
-                            {totalExperience}
-                        </td>
-                    </tr>
-                    {battleHonours}
-                    <EditOutOfActions
-                        unit={props.unit}
-                        editUnit={(edit) => {
-                            const u: ICrusadeUnit = {
-                                ...props.unit,
-                                outOfAction: [...(props.unit.outOfAction || [])]
-                            };
-                            edit(u)
-                            props.updateUnit(u);
-                        }
-                        }
-                    />
-                </tbody>
-            </table>
-        </div>
+        <Row>
+            <Col>
+                <h3 className="border-top border-primary mt-3">
+                    {props.unit.name}
+                </h3>
+                <ReadOnlyRow
+                    firstColumn="Crusade Points"
+                    label
+                    secondColumn={crusadePoints}
+                />
+                <ReadOnlyRow
+                    firstColumn="Battle Participation"
+                    label
+                    secondColumn={`${props.unit.battleParticipation} + 1`}
+                />
+                <FormInput
+                    resetFirstColSpan
+                    inputType="number"
+                    onChange={event => {
+                        var u = { ...props.unit };
+                        u.markedForGreatness = Number.parseInt(event.target.value)
+                        props.updateUnit(u)
+                    }}
+                    formName="Greatness"
+                    value={props.unit.markedForGreatness}
+                />
+                <FormInput
+                    resetFirstColSpan
+                    inputType="number"
+                    onChange={event => {
+                        var u = { ...props.unit };
+                        u.agendaXp = Number.parseInt(event.target.value)
+                        props.updateUnit(u)
+                    }}
+                    formName="Agenda"
+                    value={props.unit.agendaXp}
+                />
+                <FormInput
+                    resetFirstColSpan
+                    inputType="number"
+                    onChange={event => {
+                        var u = { ...props.unit };
+                        u.kills = Number.parseInt(event.target.value)
+                        props.updateUnit(u)
+                    }}
+                    formName="Kills"
+                    value={props.unit.kills}
+                />
+                <ReadOnlyRow
+                    firstColumn="Total Experience"
+                    label
+                    secondColumn={totalExperience}
+                />
+                {battleHonours}
+                <EditOutOfActions
+                    unit={props.unit}
+                    editUnit={(edit) => {
+                        const u: ICrusadeUnit = {
+                            ...props.unit,
+                            outOfAction: [...(props.unit.outOfAction || [])]
+                        };
+                        edit(u)
+                        props.updateUnit(u);
+                    }}
+                />
+            </Col>
+        </Row>
     )
 }
 

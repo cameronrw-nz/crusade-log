@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import ReportUnit from "./ReportUnit";
 import { ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "../Constants";
 import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
+import { Row, Button } from "react-bootstrap";
+import FormInput from "../CommonFields/FormInput";
+import { Form } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 
 interface IReportUnitsProps {
     crusadeArmy: ICrusadeArmy;
@@ -52,37 +56,33 @@ function ReportUnits(props: IReportUnitsProps) {
 
     return (
         <>
-            <h1>
-                Fill Post Game Stats
-            </h1>
-            <div className="expand">
-                <table className="edittable-table">
-                    <tbody>
-                        <tr>
-                            <td>
-                                Requisition Points:
-                            </td>
-                            <td>
-
-                                <input
-                                    type="number"
-                                    onChange={event => setRequisitionPoints(Number.parseInt(event.target.value))}
-                                    value={requisitionPoints}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <Row className="my-2 mx-1 header">
+                <h2>
+                    Fill Unit Stats
+                </h2>
+            </Row>
+            <Form>
+                <FormInput
+                    resetFirstColSpan
+                    formName="RP"
+                    inputType="number"
+                    onChange={event => setRequisitionPoints(Number.parseInt(event.target.value))}
+                    value={requisitionPoints}
+                />
                 {unitsDisplay}
-            </div>
-            <div className="button-container">
-                <button onClick={props.goBack}>
-                    Back
-                </button>
-                <button className="primary" onClick={done}>
-                    Save
-                </button>
-            </div>
+                <Row className="mb-2">
+                    <Col>
+                        <Button block size="lg" className="mr-2" variant="outline-primary" onClick={props.goBack}>
+                            Back
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button block size="lg" variant="primary" onClick={done}>
+                            Save
+                        </Button>
+                    </Col>
+                </Row>
+            </Form>
         </>
     )
 }

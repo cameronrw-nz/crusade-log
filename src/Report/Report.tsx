@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ICrusadeArmy } from "../Constants";
 import ReportSummary from "./ReportSummary";
+import { Form, Row, Col, Button } from "react-bootstrap";
 
 interface IReportProps {
     crusadeArmy: ICrusadeArmy;
@@ -34,27 +35,21 @@ function Report(props: IReportProps) {
         setSelectedUnitIds(newKeys);
     }
 
-    const display = props.crusadeArmy.units.map((unit, key) => {
+    const display = props.crusadeArmy.units.map((unit) => {
         return (
-            <div className="read-only-display-item" onClick={() => selectUnit(unit.id)}>
-                <input
-                    type="checkbox"
-                    checked={selectedUnitIds.includes(key)}
-                />
-                <span>
-                    {unit.name}
-                </span>
-                <span>
-                    {unit.powerLevel + " "}PL
-                </span>
-            </div >
+            <Form.Group onClick={() => selectUnit(unit.id)}>
+                <Form.Check type="checkbox">
+                    <Form.Check.Input checked={selectedUnitIds.includes(unit.id)} className="mr-1" style={{ position: "relative" }} />
+                    <Form.Check.Label children={`${unit.name} ${unit.powerLevel} PL`} style={{ fontWeight: "unset" }} />
+                </Form.Check>
+            </Form.Group>
         )
     })
 
     let selectedPowerLevel = 0;
 
     props.crusadeArmy.units.map((unit, index) => {
-        if (selectedUnitIds.includes(index)) {
+        if (selectedUnitIds.includes(unit.id)) {
             selectedPowerLevel += unit.powerLevel
         }
     })
@@ -71,23 +66,29 @@ function Report(props: IReportProps) {
 
     return (
         <>
-            <h1>
-                Select Battle Roster
-            </h1>
+            <Row className="my-2 mx-1 header">
+                <h2>
+                    Select Battle Roster
+                </h2>
+            </Row>
             <p>
                 Selected Power Level:{" " + selectedPowerLevel}
             </p>
-            <div className="report-units expand">
+            <Form>
                 {display}
-            </div>
-            <div className="button-container">
-                <button onClick={props.goBack}>
-                    Back
-                </button>
-                <button className="primary" onClick={Continue}>
-                    Continue
-                </button>
-            </div>
+            </Form>
+            <Row className="mb-2">
+                <Col>
+                    <Button block size="lg" className="mr-2" variant="outline-primary" onClick={props.goBack}>
+                        Back
+                    </Button>
+                </Col>
+                <Col>
+                    <Button block size="lg" variant="primary" onClick={Continue} type="submit">
+                        Continue
+                    </Button>
+                </Col>
+            </Row>
         </>
     )
 }
