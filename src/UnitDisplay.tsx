@@ -29,7 +29,7 @@ function UnitDisplay(props: IUnitDisplayProps) {
         return (
             <EditUnit
                 deleteUnit={props.deleteUnit}
-                goBack={() => setIsEdittingUnit(false)}
+                goBack={() => isNewUnit ? props.goBack() : setIsEdittingUnit(false)}
                 unit={props.unit}
                 saveUnit={completeEdit}
             />
