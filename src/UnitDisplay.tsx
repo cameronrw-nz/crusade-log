@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { ICrusadeUnit } from "./Constants";
 import EditUnit from "./EditUnit";
 import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
@@ -15,13 +15,17 @@ interface IUnitDisplayProps {
 
 function UnitDisplay(props: IUnitDisplayProps) {
     const [isEdittingUnit, setIsEdittingUnit] = useState<boolean>(false);
+    const isNewUnit = useMemo<boolean>(() => { return props.unit.name === "" }, [])
 
     function completeEdit(unit: ICrusadeUnit) {
         props.saveUnit(unit)
         setIsEdittingUnit(false)
+        if (isNewUnit) {
+            props.goBack();
+        }
     }
 
-    if (isEdittingUnit) {
+    if (isEdittingUnit || isNewUnit) {
         return (
             <EditUnit
                 deleteUnit={props.deleteUnit}

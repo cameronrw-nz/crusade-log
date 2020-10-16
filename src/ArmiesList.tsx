@@ -3,7 +3,7 @@ import CrusadeArmyRoster from "./CrusadeArmyRoster";
 import { ICrusadeArmy, CRUSADE_ARMIES_STORAGE_KEY } from "./Constants";
 import EditArmy from "./EditArmy";
 import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
-import { ListGroup, ListGroupItem, Button, Row, Col, Card } from "react-bootstrap";
+import { Button, Row, Col, Card } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ArmiesList() {
