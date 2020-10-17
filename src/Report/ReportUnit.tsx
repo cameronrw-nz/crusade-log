@@ -6,6 +6,7 @@ import FormInput from "../CommonFields/FormInput";
 import { Row } from "react-bootstrap";
 import { Col } from "react-bootstrap";
 import ReadOnlyRow from "../CommonFields/ReadonlyRow";
+import { ThemeContext } from "../App";
 
 interface IReportUnitProps {
     unit: ICrusadeUnit;
@@ -53,73 +54,77 @@ function ReportUnit(props: IReportUnitProps) {
     });
 
     return (
-        <Row>
-            <Col>
-                <h3 className="border-top border-primary mt-3">
-                    {props.unit.name}
-                </h3>
-                <ReadOnlyRow
-                    firstColumn="Crusade Points"
-                    label
-                    secondColumn={crusadePoints}
-                />
-                <ReadOnlyRow
-                    firstColumn="Battle Participation"
-                    label
-                    secondColumn={`${props.unit.battleParticipation} + 1`}
-                />
-                <FormInput
-                    resetFirstColSpan
-                    inputType="number"
-                    onChange={event => {
-                        var u = { ...props.unit };
-                        u.markedForGreatness = Number.parseInt(event.target.value)
-                        props.updateUnit(u)
-                    }}
-                    formName="Greatness"
-                    value={props.unit.markedForGreatness}
-                />
-                <FormInput
-                    resetFirstColSpan
-                    inputType="number"
-                    onChange={event => {
-                        var u = { ...props.unit };
-                        u.agendaXp = Number.parseInt(event.target.value)
-                        props.updateUnit(u)
-                    }}
-                    formName="Agenda"
-                    value={props.unit.agendaXp}
-                />
-                <FormInput
-                    resetFirstColSpan
-                    inputType="number"
-                    onChange={event => {
-                        var u = { ...props.unit };
-                        u.kills = Number.parseInt(event.target.value)
-                        props.updateUnit(u)
-                    }}
-                    formName="Kills"
-                    value={props.unit.kills}
-                />
-                <ReadOnlyRow
-                    firstColumn="Total Experience"
-                    label
-                    secondColumn={totalExperience}
-                />
-                {battleHonours}
-                <EditOutOfActions
-                    unit={props.unit}
-                    editUnit={(edit) => {
-                        const u: ICrusadeUnit = {
-                            ...props.unit,
-                            outOfAction: [...(props.unit.outOfAction || [])]
-                        };
-                        edit(u)
-                        props.updateUnit(u);
-                    }}
-                />
-            </Col>
-        </Row>
+        <ThemeContext.Consumer>
+            {value =>
+                <Row>
+                    <Col>
+                        <h3 className="mt-3" style={{ borderTop: `1px solid ${value}` }}>
+                            {props.unit.name}
+                        </h3>
+                        <ReadOnlyRow
+                            firstColumn="Crusade Points"
+                            label
+                            secondColumn={crusadePoints}
+                        />
+                        <ReadOnlyRow
+                            firstColumn="Battle Participation"
+                            label
+                            secondColumn={`${props.unit.battleParticipation} + 1`}
+                        />
+                        <FormInput
+                            resetFirstColSpan
+                            inputType="number"
+                            onChange={event => {
+                                var u = { ...props.unit };
+                                u.markedForGreatness = Number.parseInt(event.target.value)
+                                props.updateUnit(u)
+                            }}
+                            formName="Greatness"
+                            value={props.unit.markedForGreatness}
+                        />
+                        <FormInput
+                            resetFirstColSpan
+                            inputType="number"
+                            onChange={event => {
+                                var u = { ...props.unit };
+                                u.agendaXp = Number.parseInt(event.target.value)
+                                props.updateUnit(u)
+                            }}
+                            formName="Agenda"
+                            value={props.unit.agendaXp}
+                        />
+                        <FormInput
+                            resetFirstColSpan
+                            inputType="number"
+                            onChange={event => {
+                                var u = { ...props.unit };
+                                u.kills = Number.parseInt(event.target.value)
+                                props.updateUnit(u)
+                            }}
+                            formName="Kills"
+                            value={props.unit.kills}
+                        />
+                        <ReadOnlyRow
+                            firstColumn="Total Experience"
+                            label
+                            secondColumn={totalExperience}
+                        />
+                        {battleHonours}
+                        <EditOutOfActions
+                            unit={props.unit}
+                            editUnit={(edit) => {
+                                const u: ICrusadeUnit = {
+                                    ...props.unit,
+                                    outOfAction: [...(props.unit.outOfAction || [])]
+                                };
+                                edit(u)
+                                props.updateUnit(u);
+                            }}
+                        />
+                    </Col>
+                </Row>
+            }
+        </ThemeContext.Consumer>
     )
 }
 

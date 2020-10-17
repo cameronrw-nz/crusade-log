@@ -6,6 +6,7 @@ import { Row, Button } from "react-bootstrap";
 import FormInput from "../CommonFields/FormInput";
 import { Form } from "react-bootstrap";
 import { Col } from "react-bootstrap";
+import FormButtons from "../CommonFields/FormButtons";
 
 interface IReportUnitsProps {
     crusadeArmy: ICrusadeArmy;
@@ -70,18 +71,12 @@ function ReportUnits(props: IReportUnitsProps) {
                     value={requisitionPoints}
                 />
                 {unitsDisplay}
-                <Row className="mb-2">
-                    <Col>
-                        <Button block size="lg" className="mr-2" variant="outline-primary" onClick={props.goBack}>
-                            Back
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button block size="lg" variant="primary" onClick={done}>
-                            Save
-                        </Button>
-                    </Col>
-                </Row>
+                <FormButtons
+                    primaryButtonName="Save"
+                    primaryButtonOnClick={done}
+                    secondaryButtonName="Back"
+                    secondaryButtonOnClick={props.goBack}
+                />
             </Form>
         </>
     )

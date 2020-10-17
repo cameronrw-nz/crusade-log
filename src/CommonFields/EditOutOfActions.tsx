@@ -1,6 +1,7 @@
 import React from "react";
 import { ICrusadeUnit, IOutOfAction } from "../Constants";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import { ThemeContext } from "../App";
 
 interface IEditOutOfActionsProps {
     unit: ICrusadeUnit;
@@ -70,23 +71,33 @@ function EditOutOfActions(props: IEditOutOfActionsProps): JSX.Element {
     }
 
     return (
-        <Form.Group as={Row} className="mb-2" controlId={`formWarlordTrait`}>
-            <Col>
-                <Row className="mb-2">
+        <ThemeContext.Consumer>
+            {value =>
+                <Form.Group as={Row} className="mb-2" controlId={`formWarlordTrait`}>
                     <Col>
-                        <Form.Label>
-                            Out Of Action
-                        </Form.Label>
+                        <Row className="mb-2">
+                            <Col>
+                                <Form.Label>
+                                    Out Of Action
+                                </Form.Label>
+                            </Col>
+                            <Col>
+                                <Button
+                                    variant="outline-primary"
+                                    onClick={addOutOfAction}
+                                    type="button"
+                                    block
+                                    style={{ borderColor: value, color: value }}
+                                >
+                                    Add
+                                </Button>
+                            </Col>
+                        </Row>
+                        {outOfActionDisplay}
                     </Col>
-                    <Col>
-                        <Button variant="outline-primary" onClick={addOutOfAction} type="button" block>
-                            Add
-                        </Button>
-                    </Col>
-                </Row>
-                {outOfActionDisplay}
-            </Col>
-        </Form.Group>
+                </Form.Group>
+            }
+        </ThemeContext.Consumer>
     )
 }
 

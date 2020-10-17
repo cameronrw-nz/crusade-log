@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
 import { ICrusadeUnit, INameEffect } from "../Constants";
 import { Row, Col } from "react-bootstrap";
-import UnitSummaryCard from "./UnitSummaryCard";
+import NameEffectsCard from "./UnitSummaryCard";
 
 interface IUnitSummaryRowsProps {
     unit: ICrusadeUnit;
@@ -20,7 +20,7 @@ function UnitSummaryRows(props: IUnitSummaryRowsProps): JSX.Element | null {
     let warlordTraitDisplay = null
     if (props.unit.warlordTrait) {
         warlordTraitDisplay = (
-            <UnitSummaryCard
+            <NameEffectsCard
                 header="Warlord Trait"
                 nameEffects={[props.unit.warlordTrait]}
             />
@@ -35,7 +35,7 @@ function UnitSummaryRows(props: IUnitSummaryRowsProps): JSX.Element | null {
         });
 
         battleHonourDisplay = (
-            <UnitSummaryCard
+            <NameEffectsCard
                 header="Battle Honours"
                 nameEffects={battleHonours}
             />
@@ -54,7 +54,7 @@ function UnitSummaryRows(props: IUnitSummaryRowsProps): JSX.Element | null {
         })
 
         battleScarsDisplay = (
-            <UnitSummaryCard
+            <NameEffectsCard
                 header="Battle Scars"
                 nameEffects={battleScars}
             />
@@ -66,20 +66,36 @@ function UnitSummaryRows(props: IUnitSummaryRowsProps): JSX.Element | null {
         experienceDetails = (
             <>
                 <Row className="mb-2">
-                    <Col>Battle Participation<Col>
-                    </Col>{props.unit.battleParticipation}</Col>
+                    <Col>
+                        Battle Participation
+                    </Col>
+                    <Col>
+                        {props.unit.battleParticipation}
+                    </Col>
                 </Row>
                 <Row className="mb-2">
-                    <Col>Marked For Greatness<Col>
-                    </Col>{props.unit.markedForGreatness}</Col>
+                    <Col>
+                        Marked For Greatness
+                    </Col>
+                    <Col>
+                        {props.unit.markedForGreatness}
+                    </Col>
                 </Row>
                 <Row className="mb-2">
-                    <Col>Agenda<Col>
-                    </Col>{props.unit.agendaXp}</Col>
+                    <Col>
+                        Agenda
+                    </Col>
+                    <Col>
+                        {props.unit.agendaXp}
+                    </Col>
                 </Row>
                 <Row className="mb-2">
-                    <Col>Kills<Col>
-                    </Col>{props.unit.kills}</Col>
+                    <Col>
+                        Kills
+                    </Col>
+                    <Col>
+                        {props.unit.kills}
+                    </Col>
                 </Row>
             </>
         )

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { ICrusadeArmy } from "../Constants";
 import ReportSummary from "./ReportSummary";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import FormButtons from "../CommonFields/FormButtons";
+import { ThemeContext } from "../App";
 
 interface IReportProps {
     crusadeArmy: ICrusadeArmy;
@@ -37,12 +39,16 @@ function Report(props: IReportProps) {
 
     const display = props.crusadeArmy.units.map((unit) => {
         return (
-            <Form.Group onClick={() => selectUnit(unit.id)}>
-                <Form.Check type="checkbox">
-                    <Form.Check.Input checked={selectedUnitIds.includes(unit.id)} className="mr-1" style={{ position: "relative" }} />
-                    <Form.Check.Label children={`${unit.name} ${unit.powerLevel} PL`} style={{ fontWeight: "unset" }} />
-                </Form.Check>
-            </Form.Group>
+            <ThemeContext.Consumer>
+                {value =>
+                    <Form.Group onClick={() => selectUnit(unit.id)} className="mb-1">
+                        <Form.Check type="checkbox" className="custom-control" color={value}>
+                            <Form.Check.Input className="custom-control-input mr-1" color={value} checked={selectedUnitIds.includes(unit.id)} style={{ position: "relative" }} />
+                            <Form.Check.Label className="custom-control-label" children={`${unit.name} ${unit.powerLevel} PL`} style={{ fontWeight: "unset" }} />
+                        </Form.Check>
+                    </Form.Group>
+                }
+            </ThemeContext.Consumer>
         )
     })
 
@@ -77,18 +83,12 @@ function Report(props: IReportProps) {
             <Form>
                 {display}
             </Form>
-            <Row className="mb-2">
-                <Col>
-                    <Button block size="lg" className="mr-2" variant="outline-primary" onClick={props.goBack}>
-                        Back
-                    </Button>
-                </Col>
-                <Col>
-                    <Button block size="lg" variant="primary" onClick={Continue} type="submit">
-                        Continue
-                    </Button>
-                </Col>
-            </Row>
+            <FormButtons
+                primaryButtonName="Continue"
+                primaryButtonOnClick={Continue}
+                secondaryButtonName="Back"
+                secondaryButtonOnClick={props.goBack}
+            />
         </>
     )
 }

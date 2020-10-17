@@ -5,6 +5,7 @@ import EditArmy from "./EditArmy";
 import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
 import { Button, Row, Col, Card } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ThemeContext } from "./App";
 
 function ArmiesList() {
     const [edittingArmy, setEdittingArmy] = useState<ICrusadeArmy>()
@@ -31,7 +32,11 @@ function ArmiesList() {
             })
 
             return (
-                <Card className="mb-3 border-primary" key={index} onClick={() => setSelectedCrusadeArmy(crusadeArmy)}>
+                <Card
+                    className="mb-3"
+                    key={index}
+                    onClick={() => setSelectedCrusadeArmy(crusadeArmy)}
+                    style={{ border: `1px solid ${crusadeArmy.traitColor || "rgb(0, 123, 255)"}` }} >
                     <Card.Body>
                         <Card.Title as="h2">
                             {crusadeArmy.name}
@@ -95,12 +100,14 @@ function ArmiesList() {
 
     if (selectedCrusadeArmy) {
         return (
-            <CrusadeArmyRoster
-                deleteArmy={deleteArmy}
-                crusadeArmy={selectedCrusadeArmy}
-                goBack={() => setSelectedCrusadeArmy(undefined)}
-                updateArmy={updateArmy}
-            />
+            <ThemeContext.Provider value={selectedCrusadeArmy.traitColor || "blue"}>
+                <CrusadeArmyRoster
+                    deleteArmy={deleteArmy}
+                    crusadeArmy={selectedCrusadeArmy}
+                    goBack={() => setSelectedCrusadeArmy(undefined)}
+                    updateArmy={updateArmy}
+                />
+            </ThemeContext.Provider>
         )
     }
 

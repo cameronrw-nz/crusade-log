@@ -5,6 +5,9 @@ import CopyIcon from "./Resources/Icons/CopyIcon.svg";
 import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import FormInput from "./CommonFields/FormInput";
+import FormNameEffectInputs from "./CommonFields/FormNameEffectInputs";
+import { TwitterPicker, GithubPicker, CirclePicker } from "react-color";
+import FormButtons from "./CommonFields/FormButtons";
 
 interface IEditArmyProps {
     crusadeArmy: ICrusadeArmy;
@@ -49,6 +52,32 @@ function EditArmy(props: IEditArmyProps) {
                     inputType="textbox"
                     value={army.name}
                 />
+                <FormNameEffectInputs
+                    formName="Trait"
+                    onNameChange={e => editArmy((a) => {
+                        if (!a.detachmentTrait) {
+                            a.detachmentTrait = {}
+                        }
+                        a.detachmentTrait.name = e.target.value
+                    })}
+                    nameEffect={army.detachmentTrait}
+                    onEffectChange={e => editArmy((a) => {
+                        if (!a.detachmentTrait) {
+                            a.detachmentTrait = {}
+                        }
+                        a.detachmentTrait.effect = e.target.value
+                    })}
+                />
+                <Row className="mb-2">
+                    <Col>
+                        <CirclePicker
+                            width="90vw"
+                            onChange={c => editArmy((a) => a.traitColor = c.hex)}
+                            color={army.traitColor || "blue"}
+                            colors={["#FF0000", "#0000FF", "#ebdb00", "#6b6b6b", "#00a00d"]}
+                        />
+                    </Col>
+                </Row>
                 <Row className="mb-2">
                     <Col>
                         <Form.Label>
@@ -78,18 +107,13 @@ function EditArmy(props: IEditArmyProps) {
                         />
                     </Col>
                 </Row>
-                <Row className="mb-2">
-                    <Col>
-                        <Button block size="lg" variant="outline-primary" onClick={props.goBack} type="button">
-                            Back
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button block size="lg" variant="primary" onClick={() => props.saveArmy(army)} type="submit">
-                            Save
-                        </Button>
-                    </Col>
-                </Row>
+                <FormButtons
+                    primaryButtonName="Save"
+                    primaryButtonOnClick={() => props.saveArmy(army)}
+                    secondaryButtonName="Back"
+                    secondaryButtonOnClick={props.goBack}
+                    color={army.traitColor}
+                />
             </Form>
         </>
     )

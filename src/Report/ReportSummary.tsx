@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { ICrusadeArmy } from "../Constants";
 import UnitSummaryRows from "../CommonFields/UnitSummary";
 import ReportUnits from "./ReportUnits";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row } from "react-bootstrap";
+import FormButtons from "../CommonFields/FormButtons";
+import { ThemeContext } from "../App";
 
 interface IReportSummaryProps {
     crusadeArmy: ICrusadeArmy;
@@ -17,7 +19,13 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
     props.crusadeArmy.battleRosterUnitIds?.forEach(id => {
         const unit = props.crusadeArmy.units.find(u => u.id === id);
         if (unit) {
-            unitSummaries.push(<h3 className="border-top border-primary mt-3">{unit.name}</h3>)
+            unitSummaries.push(
+                <ThemeContext.Consumer>
+                    {value =>
+                        <h3 className="mt-3" style={{ borderTop: `1px solid ${value}` }}>{unit.name}</h3>
+                    }
+                </ThemeContext.Consumer>
+            )
             unitSummaries.push(
                 <UnitSummaryRows
                     unit={unit}
@@ -45,18 +53,12 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
                 </h2>
             </Row>
             {unitSummaries}
-            <Row className="mb-2">
-                <Col>
-                    <Button block size="lg" className="mr-2" variant="outline-primary" onClick={props.goBack}>
-                        Back
-                    </Button>
-                </Col>
-                <Col>
-                    <Button block size="lg" variant="primary" onClick={() => setIsContinuing(true)}>
-                        Continue
-                    </Button>
-                </Col>
-            </Row>
+            <FormButtons
+                primaryButtonName="Continue"
+                primaryButtonOnClick={() => setIsContinuing(true)}
+                secondaryButtonName="Back"
+                secondaryButtonOnClick={props.goBack}
+            />
         </>
     )
 }

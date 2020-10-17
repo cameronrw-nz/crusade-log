@@ -7,6 +7,9 @@ import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
 import Header from "./CommonFields/Header";
 import { Button, ButtonGroup, Row, Col } from "react-bootstrap";
 import { Table } from "react-bootstrap";
+import { ThemeContext } from "./App";
+import FormButtons from "./CommonFields/FormButtons";
+import NameEffectsCard from "./CommonFields/UnitSummaryCard";
 
 
 interface ICrusadeArmyRoster {
@@ -159,6 +162,15 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         )
     }
 
+    let detachmentTraitCard = undefined
+    if (props.crusadeArmy.detachmentTrait) {
+        detachmentTraitCard = (
+            <NameEffectsCard
+                header="Detachment Trait"
+                nameEffects={[props.crusadeArmy.detachmentTrait]}
+            />
+        )
+    }
     return (
         <>
             <Header
@@ -167,28 +179,20 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                 powerLevel={powerLevel}
                 onEdit={() => setIsEditting(true)}
             />
+            {detachmentTraitCard}
             <Row>
                 <Col>
                     {unitsTableDisplay}
                 </Col>
             </Row>
-            <Row>
-                <Col>
-                    <Button block size="lg" className="mr-2" variant="outline-primary" onClick={props.goBack}>
-                        Back
-                    </Button>
-                </Col>
-                <Col>
-                    <Button block size="lg" variant="outline-primary" onClick={addUnit}>
-                        Add
-                    </Button>
-                </Col>
-                <Col>
-                    <Button block size="lg" variant="primary" onClick={() => setIsReporting(true)}>
-                        Log
-                    </Button>
-                </Col>
-            </Row>
+            <FormButtons
+                primaryButtonName="Log"
+                primaryButtonOnClick={() => setIsReporting(true)}
+                secondaryButtonName="Add"
+                secondaryButtonOnClick={addUnit}
+                tertiaryButtonName="Back"
+                tertiaryButtonOnClick={props.goBack}
+            />
         </>
     )
 }

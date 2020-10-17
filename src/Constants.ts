@@ -43,6 +43,8 @@ export interface INameEffect {
 export interface ICrusadeArmy {
     id: number;
     name: string;
+    detachmentTrait?: INameEffect;
+    traitColor?: string;
     units: ICrusadeUnit[]
     battleRosterUnitIds?: number[]
 }

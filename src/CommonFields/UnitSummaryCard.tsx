@@ -2,12 +2,12 @@ import React from "react";
 import { INameEffect } from "../Constants";
 import { Card, Row, Col } from "react-bootstrap";
 
-interface IUnitSummaryCardProps {
+interface INameEffectCardProps {
     header: string;
     nameEffects: INameEffect[];
 }
 
-function UnitSummaryCard(props: IUnitSummaryCardProps): JSX.Element | null {
+function NameEffectsCard(props: INameEffectCardProps): JSX.Element | null {
     const cardContent: JSX.Element[] = [];
 
     props.nameEffects.forEach(nameEffect => {
@@ -33,4 +33,4 @@ function UnitSummaryCard(props: IUnitSummaryCardProps): JSX.Element | null {
     )
 }
 
-export default UnitSummaryCard
+export default NameEffectsCard

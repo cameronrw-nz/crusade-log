@@ -4,7 +4,7 @@ import EditUnit from "./EditUnit";
 import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
 import Header from "./CommonFields/Header";
 import UnitSummaryRows from "./CommonFields/UnitSummary";
-import { Button, Row, Col } from "react-bootstrap";
+import FormButtons from "./CommonFields/FormButtons";
 
 interface IUnitDisplayProps {
     deleteUnit: (unit: ICrusadeUnit) => void;
@@ -46,18 +46,12 @@ function UnitDisplay(props: IUnitDisplayProps) {
                 powerLevel={props.unit.powerLevel}
             />
             <UnitSummaryRows unit={props.unit} />
-            <Row>
-                <Col>
-                    <Button block size="lg" variant="outline-primary" onClick={props.goBack} type="button">
-                        Back
-                    </Button>
-                </Col>
-                <Col>
-                    <Button block size="lg" variant="primary" onClick={() => setIsEdittingUnit(true)} type="button">
-                        Edit
-                    </Button>
-                </Col>
-            </Row>
+            <FormButtons
+                primaryButtonName="Edit"
+                primaryButtonOnClick={() => setIsEdittingUnit(true)}
+                secondaryButtonName="Back"
+                secondaryButtonOnClick={props.goBack}
+            />
         </>
     )
 }

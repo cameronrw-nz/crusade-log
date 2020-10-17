@@ -5,6 +5,9 @@ import EditOutOfActions from "./CommonFields/EditOutOfActions";
 import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormInput from "./CommonFields/FormInput";
+import FormButtons from "./CommonFields/FormButtons";
+import ReadOnlyRow from "./CommonFields/ReadonlyRow";
+import FormNameEffectInputs from "./CommonFields/FormNameEffectInputs";
 
 interface IEditUnitProps {
     deleteUnit: (unit: ICrusadeUnit) => void;
@@ -124,78 +127,43 @@ function EditUnit(props: IEditUnitProps) {
                 onChange={e => editUnit((u) => u.kills = Number.parseInt(e.target.value))}
                 value={unit.kills}
             />
-            <Row className="mb-2">
-                <Col>
-                    <Form.Label>Total Experience</Form.Label>
-                </Col>
-                <Col>
-                    {totalExperience}
-                </Col>
-            </Row>
+            <ReadOnlyRow
+                label
+                firstColumn="Total Experience"
+                secondColumn={totalExperience}
+            />
             {battleHonours}
             <EditOutOfActions
                 unit={unit}
                 editUnit={editUnit}
             />
-            <Form.Group as={Row} className="mb-2" controlId="formWarlordTrait">
-                <Col>
-                    <Row>
-                        <Col>
-                            <Form.Label>
-                                Warlord Trait
-                                </Form.Label>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="pr-1">
-                            <Form.Control
-                                type="textbox"
-                                onChange={event => editUnit((u) => {
-                                    if (!u.warlordTrait) {
-                                        u.warlordTrait = {}
-                                    }
-                                    u.warlordTrait.name = event.target.value
-                                })}
-                                value={unit.warlordTrait?.name || ""}
-                                placeholder="Name"
-                            />
-                        </Col>
-                        <Col className="pl-1">
-                            <Form.Control
-                                type="textbox"
-                                onChange={event => editUnit((u) => {
-                                    if (!u.warlordTrait) {
-                                        u.warlordTrait = {}
-                                    }
-                                    u.warlordTrait.effect = event.target.value
-                                })}
-                                value={unit.warlordTrait?.effect || ""}
-                                placeholder="Effect"
-                            />
-                        </Col>
-                    </Row>
-                </Col>
-            </Form.Group>
-            <Row className="mb-2">
-                <Col>
-                    <Form.Label>Crusade Points</Form.Label>
-                </Col>
-                <Col>
-                    {crusadePoints}
-                </Col>
-            </Row>
-            <Row className="mb-2">
-                <Col>
-                    <Button block size="lg" variant="outline-primary" onClick={props.goBack} type="button">
-                        Back
-                    </Button>
-                </Col>
-                <Col>
-                    <Button block size="lg" variant="primary" onClick={save} type="submit">
-                        Save
-                    </Button>
-                </Col>
-            </Row>
+            <FormNameEffectInputs
+                formName="Warlord Trait"
+                onNameChange={event => editUnit((u) => {
+                    if (!u.warlordTrait) {
+                        u.warlordTrait = {}
+                    }
+                    u.warlordTrait.name = event.target.value
+                })}
+                onEffectChange={event => editUnit((u) => {
+                    if (!u.warlordTrait) {
+                        u.warlordTrait = {}
+                    }
+                    u.warlordTrait.effect = event.target.value
+                })}
+                nameEffect={unit.warlordTrait}
+            />
+            <ReadOnlyRow
+                label
+                firstColumn="Crusade Points"
+                secondColumn={crusadePoints}
+            />
+            <FormButtons
+                primaryButtonName="Save"
+                primaryButtonOnClick={save}
+                secondaryButtonName="Back"
+                secondaryButtonOnClick={props.goBack}
+            />
         </Form>
     )
 }
