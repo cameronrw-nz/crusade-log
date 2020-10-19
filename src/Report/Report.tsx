@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { ICrusadeArmy } from "../Constants";
 import ReportSummary from "./ReportSummary";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Row } from "react-bootstrap";
 import FormButtons from "../CommonFields/FormButtons";
 import { ThemeContext } from "../App";
+import ReadOnlyRow from "../CommonFields/ReadOnlyRow";
+import { CalculateCrusadePoints } from "../Helpers/CrusadeUnitHelper";
 
 interface IReportProps {
     crusadeArmy: ICrusadeArmy;
@@ -53,12 +55,13 @@ function Report(props: IReportProps) {
     })
 
     let selectedPowerLevel = 0;
-
-    props.crusadeArmy.units.map((unit, index) => {
+    let selectedCrusadePoints = 0;
+    props.crusadeArmy.units.map(unit => {
         if (selectedUnitIds.includes(unit.id)) {
             selectedPowerLevel += unit.powerLevel
+            selectedCrusadePoints += CalculateCrusadePoints(unit)
         }
-    })
+    });
 
     if (props.crusadeArmy.battleRosterUnitIds) {
         return (
@@ -77,6 +80,14 @@ function Report(props: IReportProps) {
                     Select Battle Roster
                 </h2>
             </Row>
+            <ReadOnlyRow
+                firstColumn="Selected Power Level"
+                secondColumn={selectedPowerLevel}
+            />
+            <ReadOnlyRow
+                firstColumn="Selected Crusade Points"
+                secondColumn={selectedCrusadePoints}
+            />
             <p>
                 Selected Power Level:{" " + selectedPowerLevel}
             </p>

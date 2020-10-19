@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import ReportUnit from "./ReportUnit";
 import { ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "../Constants";
 import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
-import { Row, Button } from "react-bootstrap";
+import { Row, Form } from "react-bootstrap";
 import FormInput from "../CommonFields/FormInput";
-import { Form } from "react-bootstrap";
-import { Col } from "react-bootstrap";
 import FormButtons from "../CommonFields/FormButtons";
 
 interface IReportUnitsProps {
@@ -16,9 +14,10 @@ interface IReportUnitsProps {
 
 function ReportUnits(props: IReportUnitsProps) {
     const [units, setUnits] = useState<ICrusadeUnit[]>(props.crusadeArmy.units);
-    const [requisitionPoints, setRequisitionPoints] = useState<number>(1)
+    const [requisitionPoints, setRequisitionPoints] = useState<number>(props.crusadeArmy.requisitionPoints ? props.crusadeArmy.requisitionPoints + 1 : 1)
 
-    const unitsDisplay = units.map((unit, index) => {
+    const unitsDisplay: JSX.Element[] = []
+    units.forEach(unit => {
         function updateUnit(u: ICrusadeUnit, i: number) {
             const newUnits = [...units]
             const totalExperience = CalculateTotalExperience(u) + 1;
@@ -40,9 +39,9 @@ function ReportUnits(props: IReportUnitsProps) {
 
             setUnits(newUnits);
         }
-        if (props.crusadeArmy.battleRosterUnitIds?.includes(index)) {
-            return (
-                <ReportUnit unit={unit} updateUnit={(u) => updateUnit(u, index)} />
+        if (props.crusadeArmy.battleRosterUnitIds?.includes(unit.id)) {
+            unitsDisplay.push(
+                <ReportUnit unit={unit} updateUnit={(u) => updateUnit(u, unit.id)} />
             );
         }
     })
@@ -52,6 +51,7 @@ function ReportUnits(props: IReportUnitsProps) {
         crusadeArmy.units = units;
         units.forEach(u => u.battleParticipation++);
         crusadeArmy.battleRosterUnitIds = undefined;
+        crusadeArmy.requisitionPoints = requisitionPoints
         props.updateArmy(crusadeArmy)
     }
 

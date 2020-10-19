@@ -3,10 +3,10 @@ import { ICrusadeUnit, BattleHonourRank } from "../Constants";
 import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
 import EditOutOfActions from "../CommonFields/EditOutOfActions";
 import FormInput from "../CommonFields/FormInput";
-import { Row } from "react-bootstrap";
-import { Col } from "react-bootstrap";
-import ReadOnlyRow from "../CommonFields/ReadonlyRow";
+import { Row, Col } from "react-bootstrap";
 import { ThemeContext } from "../App";
+import FormNameEffectInputs from "../CommonFields/FormNameEffectInputs";
+import ReadOnlyRow from "../CommonFields/ReadOnlyRow";
 
 interface IReportUnitProps {
     unit: ICrusadeUnit;
@@ -26,10 +26,9 @@ function ReportUnit(props: IReportUnitProps) {
             || battleHonour.rank === BattleHonourRank.Heroic && initialExperience < 31
             || battleHonour.rank === BattleHonourRank.Legendary && initialExperience < 51) {
             return (
-                <FormInput
-                    resetFirstColSpan
-                    inputType="textbox"
-                    onChange={event => {
+                <FormNameEffectInputs
+                    nameEffect={battleHonour.battleTrait}
+                    onEffectChange={event => {
                         var u = { ...props.unit };
                         let bh = u.battleHonours.find(b => b.rank === battleHonour.rank)
                         if (!bh?.battleTrait) {
@@ -38,8 +37,16 @@ function ReportUnit(props: IReportUnitProps) {
                         bh!.battleTrait.effect = event.target.value;
                         props.updateUnit(u)
                     }}
+                    onNameChange={event => {
+                        var u = { ...props.unit };
+                        let bh = u.battleHonours.find(b => b.rank === battleHonour.rank)
+                        if (!bh?.battleTrait) {
+                            bh!.battleTrait = {}
+                        }
+                        bh!.battleTrait.name = event.target.value;
+                        props.updateUnit(u)
+                    }}
                     formName={battleHonour.rank}
-                    value={battleHonour.battleTrait?.effect || ""}
                 />
             )
         }

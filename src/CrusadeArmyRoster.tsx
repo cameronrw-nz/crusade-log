@@ -5,12 +5,13 @@ import UnitDisplay from "./UnitDisplay";
 import EditArmy from "./EditArmy";
 import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
 import Header from "./CommonFields/Header";
-import { Button, ButtonGroup, Row, Col } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { Table } from "react-bootstrap";
-import { ThemeContext } from "./App";
 import FormButtons from "./CommonFields/FormButtons";
 import NameEffectsCard from "./CommonFields/UnitSummaryCard";
-
+import FormButton from "./CommonFields/FormButton";
+import RequisitionPointSpending from "./RequisitionPointSpending";
+import ReadOnlyRow from "./CommonFields/ReadOnlyRow";
 
 interface ICrusadeArmyRoster {
     crusadeArmy: ICrusadeArmy;
@@ -23,6 +24,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     const [edittingUnit, setEdittingUnit] = useState<ICrusadeUnit>()
     const [isEditting, setIsEditting] = useState<boolean>()
     const [isReporting, setIsReporting] = useState<boolean>()
+    const [isSpendingRequisition, setIsSpendingRequisition] = useState<boolean>()
     const [unitsDisplay, setUnitsDisplay] = useState<JSX.Element[]>()
 
     useEffect(() => {
@@ -43,7 +45,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                         {highestRank}
                     </td>
                     <td>
-                        {crusadePoints}
+                        {unit.powerLevel}
                     </td>
                 </tr>
             )
@@ -143,6 +145,15 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
             />
         )
     }
+    else if (isSpendingRequisition) {
+        return (
+            <RequisitionPointSpending
+                goBack={() => setIsSpendingRequisition(false)}
+                crusadeArmy={props.crusadeArmy}
+                updateArmy={saveArmy}
+            />
+        )
+    }
 
     let unitsTableDisplay = null;
     if (unitsDisplay?.length !== 0) {
@@ -152,7 +163,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                     <tr>
                         <th>Name</th>
                         <th>Rank</th>
-                        <th>CP</th>
+                        <th>PL</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -174,24 +185,57 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     return (
         <>
             <Header
-                crusadePoints={crusadePoints}
+                subHeaderInfo={[
+                    { name: "PL", value: powerLevel },
+                    { name: "CP", value: crusadePoints },
+                ]}
                 headerText={props.crusadeArmy.name}
-                powerLevel={powerLevel}
                 onEdit={() => setIsEditting(true)}
             />
+            <Row className="mb-2">
+                <Col>
+                    <Form.Label>
+                        Requisition Points:
+                    </Form.Label>
+                    {" " + props.crusadeArmy.requisitionPoints}
+                </Col>
+                <Col>
+                    <FormButton
+                        name="Spend"
+                        onClick={() => setIsSpendingRequisition(true)}
+                    />
+                </Col>
+            </Row>
             {detachmentTraitCard}
-            <Row>
+            <Row className="mb-2">
+                <Col>
+                    <Form.Label>
+                        <h3>
+                            Units
+                        </h3>
+                    </Form.Label>
+                </Col>
+                <Col>
+                    <FormButton
+                        name="Add"
+                        onClick={addUnit}
+                    />
+                </Col>
+            </Row>
+            <ReadOnlyRow
+                firstColumn="Power Level"
+                secondColumn={powerLevel + "/" + props.crusadeArmy.maximumPowerLevel}
+            />
+            <Row className="mb-2">
                 <Col>
                     {unitsTableDisplay}
                 </Col>
             </Row>
             <FormButtons
-                primaryButtonName="Log"
+                primaryButtonName="Battle!"
                 primaryButtonOnClick={() => setIsReporting(true)}
-                secondaryButtonName="Add"
-                secondaryButtonOnClick={addUnit}
-                tertiaryButtonName="Back"
-                tertiaryButtonOnClick={props.goBack}
+                secondaryButtonName="Back"
+                secondaryButtonOnClick={props.goBack}
             />
         </>
     )

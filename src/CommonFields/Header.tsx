@@ -1,13 +1,12 @@
 import React from "react";
 
 import EditIcon from "../Resources/Icons/EditIcon.svg";
-import { Row } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 interface IHeaderProps {
-    crusadePoints: number;
     headerText: string;
     onEdit?: () => void;
-    powerLevel: number;
+    subHeaderInfo?: { value?: number, name: string }[]
 }
 
 function Header(props: IHeaderProps): JSX.Element | null {
@@ -22,20 +21,25 @@ function Header(props: IHeaderProps): JSX.Element | null {
             />
         )
     }
+    const subHeaderInfos = props.subHeaderInfo?.map(subHeaderInfo => {
+        return (
+            <Row>
+                <b>{subHeaderInfo.value + " "}</b>{subHeaderInfo.name}
+            </Row>
+        )
+    })
+
     return (
         <Row className="my-2 mx-1 header">
             <h2>
                 {props.headerText}
                 {editIcon}
             </h2>
-            <div>
-                <div className="heading-sub-header">
-                    <b>{props.powerLevel + " "}</b>PL
-                </div>
-                <div className="heading-sub-header">
-                    <b>{props.crusadePoints + " "}</b>CP
-                </div>
-            </div>
+            <Row>
+                <Col>
+                    {subHeaderInfos}
+                </Col>
+            </Row>
         </Row>
     )
 }

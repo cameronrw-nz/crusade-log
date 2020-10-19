@@ -5,6 +5,9 @@ import ReportUnits from "./ReportUnits";
 import { Row } from "react-bootstrap";
 import FormButtons from "../CommonFields/FormButtons";
 import { ThemeContext } from "../App";
+import NameEffectsCard from "../CommonFields/UnitSummaryCard";
+import Header from "../CommonFields/Header";
+import { CalculateCrusadePoints } from "../Helpers/CrusadeUnitHelper";
 
 interface IReportSummaryProps {
     crusadeArmy: ICrusadeArmy;
@@ -45,13 +48,32 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
         )
     }
 
+    let selectedPowerLevel = 0;
+    let selectedCrusadePoints = 0;
+    props.crusadeArmy.units.map(unit => {
+        if (props.crusadeArmy.battleRosterUnitIds?.includes(unit.id)) {
+            selectedPowerLevel += unit.powerLevel
+            selectedCrusadePoints += CalculateCrusadePoints(unit)
+        }
+    })
+
     return (
         <>
-            <Row className="my-2 mx-1 header">
-                <h2>
-                    Battle Roster
-                </h2>
-            </Row>
+
+            <Header
+                subHeaderInfo={[
+                    { name: "PL", value: selectedPowerLevel },
+                    { name: "CP", value: selectedCrusadePoints },
+                    { name: "RP", value: props.crusadeArmy.requisitionPoints },
+                ]}
+                headerText="Battle Roster"
+            />
+            {props.crusadeArmy.detachmentTrait && (
+                <NameEffectsCard
+                    nameEffects={[props.crusadeArmy.detachmentTrait]}
+                    header="Detachment Trait"
+                />
+            )}
             {unitSummaries}
             <FormButtons
                 primaryButtonName="Continue"

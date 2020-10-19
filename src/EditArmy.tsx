@@ -52,6 +52,18 @@ function EditArmy(props: IEditArmyProps) {
                     inputType="textbox"
                     value={army.name}
                 />
+                <FormInput
+                    formName="Requisition Points"
+                    onChange={e => editArmy((a) => a.requisitionPoints = Number.parseInt(e.target.value))}
+                    inputType="number"
+                    value={army.requisitionPoints}
+                />
+                <FormInput
+                    formName="Max PL"
+                    onChange={e => editArmy((a) => a.maximumPowerLevel = Number.parseInt(e.target.value))}
+                    inputType="number"
+                    value={army.maximumPowerLevel}
+                />
                 <FormNameEffectInputs
                     formName="Trait"
                     onNameChange={e => editArmy((a) => {

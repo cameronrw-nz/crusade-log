@@ -43,7 +43,8 @@ function ArmiesList() {
                         </Card.Title>
                         <Card.Text>
                             {powerLevel + " PL "}
-                            {crusadePoints + " CP"}
+                            {crusadePoints + " CP "}
+                            {crusadeArmy.requisitionPoints + " RP"}
                         </Card.Text>
                     </Card.Body>
                 </Card>
@@ -71,7 +72,13 @@ function ArmiesList() {
     }
 
     function addArmy() {
-        const newArmy: ICrusadeArmy = { name: "", id: crusadeArmies?.length ?? 0, units: [] }
+        const newArmy: ICrusadeArmy = {
+            name: "",
+            id: crusadeArmies?.length ?? 0,
+            maximumPowerLevel: 50,
+            requisitionPoints: 5,
+            units: []
+        }
         setEdittingArmy(newArmy)
     }
 

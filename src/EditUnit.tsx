@@ -3,10 +3,10 @@ import { ICrusadeUnit, BattleHonourRank } from "./Constants";
 import { CalculateTotalExperience } from "./Helpers/CrusadeUnitHelper";
 import EditOutOfActions from "./CommonFields/EditOutOfActions";
 import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Row } from "react-bootstrap";
 import FormInput from "./CommonFields/FormInput";
 import FormButtons from "./CommonFields/FormButtons";
-import ReadOnlyRow from "./CommonFields/ReadonlyRow";
+import ReadOnlyRow from "./CommonFields/ReadOnlyRow";
 import FormNameEffectInputs from "./CommonFields/FormNameEffectInputs";
 
 interface IEditUnitProps {
@@ -60,11 +60,19 @@ function EditUnit(props: IEditUnitProps) {
         crusadePoints += battleHonour.crusadePoints;
 
         return (
-            <FormInput
+            <FormNameEffectInputs
                 key={index}
                 formName={battleHonour.rank}
-                inputType="textbox"
-                onChange={event => {
+                onNameChange={event => {
+                    editUnit((u) => {
+                        let bh = u.battleHonours.find(b => b.rank === battleHonour.rank)
+                        if (!bh?.battleTrait) {
+                            bh!.battleTrait = {}
+                        }
+                        bh!.battleTrait.name = event.target.value;
+                    })
+                }}
+                onEffectChange={event => {
                     editUnit((u) => {
                         let bh = u.battleHonours.find(b => b.rank === battleHonour.rank)
                         if (!bh?.battleTrait) {
@@ -73,7 +81,7 @@ function EditUnit(props: IEditUnitProps) {
                         bh!.battleTrait.effect = event.target.value;
                     })
                 }}
-                value={battleHonour.battleTrait?.effect}
+                nameEffect={battleHonour.battleTrait}
             />
         )
     });
@@ -137,22 +145,25 @@ function EditUnit(props: IEditUnitProps) {
                 unit={unit}
                 editUnit={editUnit}
             />
-            <FormNameEffectInputs
-                formName="Warlord Trait"
-                onNameChange={event => editUnit((u) => {
-                    if (!u.warlordTrait) {
-                        u.warlordTrait = {}
-                    }
-                    u.warlordTrait.name = event.target.value
-                })}
-                onEffectChange={event => editUnit((u) => {
-                    if (!u.warlordTrait) {
-                        u.warlordTrait = {}
-                    }
-                    u.warlordTrait.effect = event.target.value
-                })}
-                nameEffect={unit.warlordTrait}
-            />
+            {
+                unit.warlordTrait &&
+                <FormNameEffectInputs
+                    formName="Warlord Trait"
+                    onNameChange={event => editUnit((u) => {
+                        if (!u.warlordTrait) {
+                            u.warlordTrait = {}
+                        }
+                        u.warlordTrait.name = event.target.value
+                    })}
+                    onEffectChange={event => editUnit((u) => {
+                        if (!u.warlordTrait) {
+                            u.warlordTrait = {}
+                        }
+                        u.warlordTrait.effect = event.target.value
+                    })}
+                    nameEffect={unit.warlordTrait}
+                />
+            }
             <ReadOnlyRow
                 label
                 firstColumn="Crusade Points"
