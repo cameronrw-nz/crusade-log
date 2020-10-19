@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/crusade-log/static/css/main.a6ece728.chunk.css",
-    "main.js": "/crusade-log/static/js/main.35616073.chunk.js",
-    "main.js.map": "/crusade-log/static/js/main.35616073.chunk.js.map",
+    "main.css": "/crusade-log/static/css/main.ac189e21.chunk.css",
+    "main.js": "/crusade-log/static/js/main.9362c6dd.chunk.js",
+    "main.js.map": "/crusade-log/static/js/main.9362c6dd.chunk.js.map",
     "runtime-main.js": "/crusade-log/static/js/runtime-main.8aa0809d.js",
     "runtime-main.js.map": "/crusade-log/static/js/runtime-main.8aa0809d.js.map",
     "static/css/2.2a86faee.chunk.css": "/crusade-log/static/css/2.2a86faee.chunk.css",
-    "static/js/2.82ab6ab3.chunk.js": "/crusade-log/static/js/2.82ab6ab3.chunk.js",
-    "static/js/2.82ab6ab3.chunk.js.map": "/crusade-log/static/js/2.82ab6ab3.chunk.js.map",
+    "static/js/2.ef9b22cd.chunk.js": "/crusade-log/static/js/2.ef9b22cd.chunk.js",
+    "static/js/2.ef9b22cd.chunk.js.map": "/crusade-log/static/js/2.ef9b22cd.chunk.js.map",
     "index.html": "/crusade-log/index.html",
-    "precache-manifest.b2bfa1f220e78b0f06771fcb60324560.js": "/crusade-log/precache-manifest.b2bfa1f220e78b0f06771fcb60324560.js",
+    "precache-manifest.622c8726c3b027b86a6d14e7de8ed720.js": "/crusade-log/precache-manifest.622c8726c3b027b86a6d14e7de8ed720.js",
     "service-worker.js": "/crusade-log/service-worker.js",
     "static/css/2.2a86faee.chunk.css.map": "/crusade-log/static/css/2.2a86faee.chunk.css.map",
-    "static/css/main.a6ece728.chunk.css.map": "/crusade-log/static/css/main.a6ece728.chunk.css.map",
-    "static/js/2.82ab6ab3.chunk.js.LICENSE.txt": "/crusade-log/static/js/2.82ab6ab3.chunk.js.LICENSE.txt",
+    "static/css/main.ac189e21.chunk.css.map": "/crusade-log/static/css/main.ac189e21.chunk.css.map",
+    "static/js/2.ef9b22cd.chunk.js.LICENSE.txt": "/crusade-log/static/js/2.ef9b22cd.chunk.js.LICENSE.txt",
     "static/media/CopyIcon.svg": "/crusade-log/static/media/CopyIcon.49972eac.svg",
     "static/media/DeleteIcon.svg": "/crusade-log/static/media/DeleteIcon.0d10f8f1.svg",
     "static/media/EditIcon.svg": "/crusade-log/static/media/EditIcon.aa0b5ae2.svg"
@@ -21,8 +21,8 @@
   "entrypoints": [
     "static/js/runtime-main.8aa0809d.js",
     "static/css/2.2a86faee.chunk.css",
-    "static/js/2.82ab6ab3.chunk.js",
-    "static/css/main.a6ece728.chunk.css",
-    "static/js/main.35616073.chunk.js"
+    "static/js/2.ef9b22cd.chunk.js",
+    "static/css/main.ac189e21.chunk.css",
+    "static/js/main.9362c6dd.chunk.js"
   ]
 }
