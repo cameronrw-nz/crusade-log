@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/crusade-log/precache-manifest.622c8726c3b027b86a6d14e7de8ed720.js"
+  "/crusade-log/precache-manifest.8f29bb4e0b90eca359ca80d7aaa09525.js"
 );
 
 self.addEventListener('message', (event) => {
