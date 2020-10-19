@@ -17,6 +17,8 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
     const [requisitionPoints, setRequisitionPoints] = useState<number>(props.crusadeArmy.requisitionPoints ?? 0)
     const [maximumPowerLevel, setMaximumPowerLevel] = useState<number>(props.crusadeArmy.maximumPowerLevel ?? 0)
     const [warlordTraits, setWarlordTraits] = useState<{ id: number, nameEffect: INameEffect }[]>([])
+    const [relics, setRelics] = useState<{ id: number, nameEffect: INameEffect }[]>([])
+    const [removedBattleScars, setRemovedBattleScars] = useState<{ id: number, name?: string }[]>([])
 
     function IncreasePowerLevel() {
         setMaximumPowerLevel(maximumPowerLevel + 5)
@@ -34,12 +36,30 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
         setWarlordTraits(newWarlordTraits)
     }
 
+    function AddRelic() {
+        const newRelics = [...relics, { id: -1, nameEffect: {} }]
+        setRequisitionPoints(requisitionPoints - 1)
+        setRelics(newRelics)
+    }
+
+    function RemoveBattleScars() {
+        const newRemovedBattleScars = [...removedBattleScars, { id: -1 }]
+        setRequisitionPoints(requisitionPoints - 1)
+        setRemovedBattleScars(newRemovedBattleScars);
+    }
+
     const warlordTraitOptions: JSX.Element[] = [(<option value={-1}></option>)]
+    const relicOptions: JSX.Element[] = [(<option value={-1}></option>)]
+    const battleScarUnitOptions: JSX.Element[] = [(<option value={-1}></option>)]
     props.crusadeArmy.units.forEach(unit => {
         if (!unit.warlordTrait) {
-            warlordTraitOptions.push(
-                <option value={unit.id}>{unit.name}</option>
-            )
+            warlordTraitOptions.push(<option value={unit.id}>{unit.name}</option>)
+        }
+        if (!unit.relic) {
+            relicOptions.push(<option value={unit.id}>{unit.name}</option>)
+        }
+        if (unit.outOfAction.find(ooa => ooa.battleScar !== undefined)) {
+            battleScarUnitOptions.push(<option value={unit.id}>{unit.name}</option>)
         }
     })
 
@@ -50,7 +70,23 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
 
         warlordTraits.forEach(warlordTrait => {
             const unit = crusadeArmy.units.find(u => u.id === warlordTrait.id)
-            unit!.warlordTrait = warlordTrait.nameEffect;
+            if (unit) {
+                unit.warlordTrait = warlordTrait.nameEffect;
+            }
+        })
+
+        relics.forEach(relic => {
+            const unit = crusadeArmy.units.find(u => u.id === relic.id)
+            if (unit) {
+                unit.relic = relic.nameEffect;
+            }
+        })
+
+        removedBattleScars.forEach(removedBattleScar => {
+            const unit = crusadeArmy.units.find(u => u.id === removedBattleScar.id)
+            if (unit) {
+                unit.outOfAction = unit.outOfAction.filter(ooa => ooa.battleScar?.name === removedBattleScar.name)
+            }
         })
 
         props.updateArmy(crusadeArmy)
@@ -104,6 +140,115 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
         )
     })
 
+    const relicsDisplay: JSX.Element[] = []
+    relics?.forEach((relic, index) => {
+        function onIdChange(e: React.ChangeEvent<HTMLInputElement>) {
+            const newRelics = [...relics]
+            newRelics?.splice(index, 1, { ...relic, id: Number.parseInt(e.target.value) });
+            setRelics(newRelics)
+        }
+        relicsDisplay.push(
+            <>
+                <Row className="mb-2">
+                    <Col className="pr-0">
+                        <Form.Control onChange={onIdChange} value={relic.id} as="select">
+                            {relicOptions}
+                        </Form.Control>
+                    </Col>
+                    <Col>
+                        <FormButton
+                            name="Remove"
+                            small
+                            onClick={() => {
+                                const newRelics = [...relics]
+                                newRelics?.splice(index, 1);
+                                setRelics(newRelics)
+                                setRequisitionPoints(requisitionPoints + 1)
+                            }}
+                        />
+                    </Col>
+                </Row>
+                <FormNameEffectInputs
+                    onNameChange={e => {
+                        const newRelics = [...warlordTraits]
+                        relic.nameEffect.name = e.target.value
+                        newRelics?.splice(index, 1, relic);
+                        setRelics(newRelics)
+                    }}
+                    onEffectChange={e => {
+                        const newRelics = [...relics]
+                        relic.nameEffect.effect = e.target.value
+                        newRelics?.splice(index, 1, relic);
+                        setRelics(newRelics)
+                    }}
+                    nameEffect={relic.nameEffect}
+                />
+            </>
+        )
+    })
+
+
+    const battleScarsDisplay: JSX.Element[] = []
+    removedBattleScars?.forEach((battleScar, index) => {
+        function onIdChange(e: React.ChangeEvent<HTMLInputElement>) {
+            const newRemovedBattleScars = [...removedBattleScars]
+            newRemovedBattleScars?.splice(index, 1, { ...battleScar, id: Number.parseInt(e.target.value) });
+            setRemovedBattleScars(newRemovedBattleScars)
+        }
+
+        function onBattleScarChanged(e: React.ChangeEvent<HTMLInputElement>) {
+            const newRemovedBattleScars = [...removedBattleScars]
+            newRemovedBattleScars?.splice(index, 1, { ...battleScar, name: e.target.value });
+            setRemovedBattleScars(newRemovedBattleScars)
+        }
+
+        const battleScarSelector: JSX.Element[] = []
+        if (battleScar.id !== undefined && battleScar.id !== -1) {
+            const selectedUnit = props.crusadeArmy.units.find(u => u.id === battleScar.id)
+            const battleScarsOptions: JSX.Element[] = []
+            selectedUnit?.outOfAction.forEach(ooa => {
+                if (ooa.battleScar) {
+                    battleScarsOptions.push(<option value={ooa.battleScar.name}>{ooa.battleScar.name}</option>)
+                }
+            })
+
+            battleScarSelector.push(
+                <Row className="mb-2">
+                    <Col>
+                        <Form.Control onChange={onBattleScarChanged} value={battleScar.name} as="select">
+                            {battleScarsOptions}
+                        </Form.Control>
+                    </Col>
+                </Row>
+            )
+        }
+
+        battleScarsDisplay.push(
+            <>
+                <Row className="mb-2">
+                    <Col className="pr-0">
+                        <Form.Control onChange={onIdChange} value={battleScar.id} as="select">
+                            {battleScarUnitOptions}
+                        </Form.Control>
+                    </Col>
+                    <Col>
+                        <FormButton
+                            name="Remove"
+                            small
+                            onClick={() => {
+                                const newRemovedBattleScars = [...removedBattleScars]
+                                newRemovedBattleScars?.splice(index, 1);
+                                setRemovedBattleScars(newRemovedBattleScars)
+                                setRequisitionPoints(requisitionPoints + 1)
+                            }}
+                        />
+                    </Col>
+                </Row>
+                {battleScarSelector}
+            </>
+        )
+    })
+
     return (
         <>
             <Header
@@ -140,6 +285,24 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
                 </Col>
             </Row>
             {warlordTraitsDisplay}
+            <Row className="mb-2">
+                <Col>
+                    <FormButton
+                        onClick={AddRelic}
+                        name="Relic"
+                    />
+                </Col>
+            </Row>
+            {relicsDisplay}
+            <Row className="mb-2">
+                <Col>
+                    <FormButton
+                        name="Repair and Recuperate"
+                        onClick={RemoveBattleScars}
+                    />
+                </Col>
+            </Row>
+            {battleScarsDisplay}
             <FormButtons
                 secondaryButtonName="Back"
                 secondaryButtonOnClick={props.goBack}

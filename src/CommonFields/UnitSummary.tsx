@@ -27,6 +27,16 @@ function UnitSummaryRows(props: IUnitSummaryRowsProps): JSX.Element | null {
         )
     }
 
+    let relicDisplay = null
+    if (props.unit.relic) {
+        relicDisplay = (
+            <NameEffectsCard
+                header="Relic"
+                nameEffects={[props.unit.relic]}
+            />
+        )
+    }
+
     let battleHonourDisplay = undefined
     if (props.unit.battleHonours && props.unit.battleHonours.length > 0) {
         const battleHonours: INameEffect[] = []
@@ -104,6 +114,7 @@ function UnitSummaryRows(props: IUnitSummaryRowsProps): JSX.Element | null {
     return (
         <>
             {warlordTraitDisplay}
+            {relicDisplay}
             {battleHonourDisplay}
             {battleScarsDisplay}
             <Row className="mb-2" onClick={toggleShowExperience}>

@@ -12,6 +12,7 @@ export interface ICrusadeUnit {
     notes: string;
     battleHonours: IBattleHonour[];
     outOfAction: IOutOfAction[];
+    relic?: INameEffect;
     warlordTrait?: INameEffect;
 }
 

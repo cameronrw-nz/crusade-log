@@ -16,7 +16,6 @@ This Application includes some of these Major Features:
 ## Coming Soon
 
  - Enhancements to the Requisition Points spending
- - Removing Out of Actions no longer valid
  - Custom Battle Traits after a battle win
 
 ## Coming Later

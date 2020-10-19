@@ -20,6 +20,7 @@ export function CalculateTotalExperience(unit: ICrusadeUnit) {
 
 export function CalculateCrusadePoints(unit: ICrusadeUnit) {
     const warlordTraitCrusadePoints = unit.warlordTrait ? 1 : 0;
+    const relicCrusadePoints = unit.relic ? 1 : 0;
     const battleHonourCrusadePoints = unit.battleHonours && unit.battleHonours.length > 0 ?
         unit.battleHonours
             ?.map(bh => bh.crusadePoints)
@@ -35,5 +36,5 @@ export function CalculateCrusadePoints(unit: ICrusadeUnit) {
         }
     });
 
-    return warlordTraitCrusadePoints + battleHonourCrusadePoints + outOfActionCrusadePoints;
+    return warlordTraitCrusadePoints + relicCrusadePoints + battleHonourCrusadePoints + outOfActionCrusadePoints;
 }

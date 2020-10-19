@@ -42,8 +42,8 @@ function UnitDisplay(props: IUnitDisplayProps) {
         <>
             <Header
                 subHeaderInfo={[
-                    { name: "PL", value: crusadePoints },
-                    { name: "CP", value: props.unit.powerLevel },
+                    { name: "PL", value: props.unit.powerLevel },
+                    { name: "CP", value: crusadePoints },
                 ]}
                 headerText={props.unit.name}
             />
