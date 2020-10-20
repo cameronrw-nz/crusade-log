@@ -31,15 +31,14 @@ function Header(props: IHeaderProps): JSX.Element | null {
 
     return (
         <Row className="my-2 mx-1 header">
-            <h2>
+            <Col as="h2" className="p-0" xs={9}>
                 {props.headerText}
                 {editIcon}
-            </h2>
-            <Row>
-                <Col>
-                    {subHeaderInfos}
-                </Col>
-            </Row>
+
+            </Col>
+            <Col xs={2} className="pl-0">
+                {subHeaderInfos}
+            </Col>
         </Row>
     )
 }

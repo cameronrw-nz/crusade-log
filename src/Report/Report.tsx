@@ -46,7 +46,7 @@ function Report(props: IReportProps) {
                     <Form.Group onClick={() => selectUnit(unit.id)} className="mb-1">
                         <Form.Check type="checkbox" className="custom-control" color={value}>
                             <Form.Check.Input className="custom-control-input mr-1" color={value} checked={selectedUnitIds.includes(unit.id)} style={{ position: "relative" }} />
-                            <Form.Check.Label className="custom-control-label" children={`${unit.name} ${unit.powerLevel} PL`} style={{ fontWeight: "unset" }} />
+                            <Form.Check.Label className="custom-control-label" children={`${unit.name} ${unit.powerLevel}PL`} style={{ fontWeight: "unset" }} />
                         </Form.Check>
                     </Form.Group>
                 }
@@ -88,9 +88,6 @@ function Report(props: IReportProps) {
                 firstColumn="Selected Crusade Points"
                 secondColumn={selectedCrusadePoints}
             />
-            <p>
-                Selected Power Level:{" " + selectedPowerLevel}
-            </p>
             <Form>
                 {display}
             </Form>

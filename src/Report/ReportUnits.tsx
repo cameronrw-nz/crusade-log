@@ -17,7 +17,7 @@ function ReportUnits(props: IReportUnitsProps) {
     const [requisitionPoints, setRequisitionPoints] = useState<number>(props.crusadeArmy.requisitionPoints ? props.crusadeArmy.requisitionPoints + 1 : 1)
 
     const unitsDisplay: JSX.Element[] = []
-    units.forEach(unit => {
+    units.forEach((unit, index) => {
         function updateUnit(u: ICrusadeUnit, i: number) {
             const newUnits = [...units]
             const totalExperience = CalculateTotalExperience(u) + 1;
@@ -41,7 +41,7 @@ function ReportUnits(props: IReportUnitsProps) {
         }
         if (props.crusadeArmy.battleRosterUnitIds?.includes(unit.id)) {
             unitsDisplay.push(
-                <ReportUnit unit={unit} updateUnit={(u) => updateUnit(u, unit.id)} />
+                <ReportUnit unit={unit} updateUnit={(u) => updateUnit(u, index)} />
             );
         }
     })

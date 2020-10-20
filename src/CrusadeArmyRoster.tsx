@@ -42,7 +42,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                         {unit.name}
                     </td>
                     <td style={{ whiteSpace: "nowrap" }}>
-                        {highestRank}
+                        {crusadePoints}
                     </td>
                     <td>
                         {unit.powerLevel}
@@ -162,7 +162,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Rank</th>
+                        <th>CP</th>
                         <th>PL</th>
                     </tr>
                 </thead>

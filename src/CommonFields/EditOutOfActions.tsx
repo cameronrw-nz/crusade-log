@@ -2,6 +2,8 @@ import React from "react";
 import { ICrusadeUnit, IOutOfAction } from "../Constants";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { ThemeContext } from "../App";
+import FormNameEffectInputs from "./FormNameEffectInputs";
+import FormInput from "./FormInput";
 
 interface IEditOutOfActionsProps {
     unit: ICrusadeUnit;
@@ -33,39 +35,35 @@ function EditOutOfActions(props: IEditOutOfActionsProps): JSX.Element {
 
     const outOfActionDisplay: JSX.Element[] = []
     if (props.unit.outOfAction && props.unit.outOfAction.length > 0) {
-        outOfActionDisplay.push(
-            <Row className="mb-2">
-                <Col>
-                    Battle Scar
-                </Col>
-                <Col>
-                    Out Of Action
-                </Col>
-            </Row>
-        )
         props.unit.outOfAction.forEach((outOfAction, index) => {
             if (!outOfAction.isActive) {
                 return;
             }
             outOfActionDisplay.push(
-                <Row className="mb-2">
-                    <Col className="pr-1">
-                        <Form.Control
-                            type="textbox"
-                            onChange={e => editOutOfAction((o) => o.battleScar!.effect = e.target.value, index)}
-                            value={outOfAction.battleScar?.effect}
-                            placeholder="Name"
-                        />
-                    </Col>
-                    <Col className="pl-1">
-                        <Form.Control
-                            type="textbox"
-                            onChange={e => editOutOfAction((o) => o.xp = Number.parseInt(e.target.value), index)}
-                            value={outOfAction.xp}
-                            placeholder="Effect"
-                        />
-                    </Col>
-                </Row>
+                <>
+                    <FormNameEffectInputs
+                        onEffectChange={e => editOutOfAction(o => {
+                            if (!o.battleScar) {
+                                o.battleScar = {}
+                            }
+                            o.battleScar.effect = e.target.value
+                        }, index)}
+                        onNameChange={e => editOutOfAction(o => {
+                            if (!o.battleScar) {
+                                o.battleScar = {}
+                            }
+                            o.battleScar.name = e.target.value
+                        }, index)}
+                        nameEffect={outOfAction.battleScar}
+                        formName="Battle Scar"
+                    />
+                    <FormInput
+                        onChange={e => editOutOfAction((o) => o.xp = Number.parseInt(e.target.value), index)}
+                        value={outOfAction.xp}
+                        formName="Experience Loss"
+                        inputType="textbox"
+                    />
+                </>
             )
         })
     }
