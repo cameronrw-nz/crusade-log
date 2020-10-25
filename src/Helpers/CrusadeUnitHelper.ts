@@ -1,18 +1,11 @@
 import { ICrusadeUnit } from "../Constants";
 
 export function CalculateTotalExperience(unit: ICrusadeUnit) {
-    let experienceLossByOutOfAction = 0;
-    unit.outOfAction && unit.outOfAction.forEach(ooa => {
-        if (ooa.isActive && ooa.xp) {
-            experienceLossByOutOfAction += ooa.xp
-        }
-    })
-
     const totalExperience = unit.battleParticipation
         + unit.markedForGreatness * 3
         + unit.agendaXp
         + Math.floor(unit.kills / 3)
-        - experienceLossByOutOfAction;
+        - (unit.experienceLoss ?? 0);
 
     return totalExperience > 0 ? totalExperience : 0;
 }
@@ -29,12 +22,7 @@ export function CalculateCrusadePoints(unit: ICrusadeUnit) {
             })
         : 0;
 
-    let outOfActionCrusadePoints = 0;
-    unit.outOfAction && unit.outOfAction.forEach(ooa => {
-        if (ooa.battleScar) {
-            outOfActionCrusadePoints--;
-        }
-    });
+    let outOfActionCrusadePoints = 0 - (unit.battleScars?.length ?? 0);
 
     return warlordTraitCrusadePoints + relicCrusadePoints + battleHonourCrusadePoints + outOfActionCrusadePoints;
 }

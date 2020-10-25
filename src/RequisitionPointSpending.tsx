@@ -58,7 +58,7 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
         if (!unit.relic) {
             relicOptions.push(<option value={unit.id}>{unit.name}</option>)
         }
-        if (unit.outOfAction.find(ooa => ooa.battleScar !== undefined)) {
+        if (unit.battleScars.find(battleScar => battleScar !== undefined)) {
             battleScarUnitOptions.push(<option value={unit.id}>{unit.name}</option>)
         }
     })
@@ -85,7 +85,7 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
         removedBattleScars.forEach(removedBattleScar => {
             const unit = crusadeArmy.units.find(u => u.id === removedBattleScar.id)
             if (unit) {
-                unit.outOfAction = unit.outOfAction.filter(ooa => ooa.battleScar?.name === removedBattleScar.name)
+                unit.battleScars = unit.battleScars.filter(battleScar => battleScar?.name === removedBattleScar.name)
             }
         })
 
@@ -206,10 +206,8 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
         if (battleScar.id !== undefined && battleScar.id !== -1) {
             const selectedUnit = props.crusadeArmy.units.find(u => u.id === battleScar.id)
             const battleScarsOptions: JSX.Element[] = []
-            selectedUnit?.outOfAction.forEach(ooa => {
-                if (ooa.battleScar) {
-                    battleScarsOptions.push(<option value={ooa.battleScar.name}>{ooa.battleScar.name}</option>)
-                }
+            selectedUnit?.battleScars.forEach(battleScar => {
+                battleScarsOptions.push(<option value={battleScar.name}>{battleScar.name}</option>)
             })
 
             battleScarSelector.push(

@@ -1,18 +1,21 @@
 export const CRUSADE_ARMIES_STORAGE_KEY = "crusadeArmies";
 
 export interface ICrusadeUnit {
-    id: number,
-    name: string;
-    crusadePoints: number;
-    powerLevel: number;
-    markedForGreatness: number;
-    kills: number;
-    battleParticipation: number;
     agendaXp: number;
-    notes: string;
+    alternateName?: string;
     battleHonours: IBattleHonour[];
-    outOfAction: IOutOfAction[];
+    battleParticipation: number;
+    battleScars: INameEffect[];
+    crusadePoints: number;
+    experienceLoss?: number;
+    id: number,
+    kills: number;
+    markedForGreatness: number;
+    name: string;
+    notes: string;
+    powerLevel: number;
     relic?: INameEffect;
+    sequenceNumber?: number;
     warlordTrait?: INameEffect;
 }
 
@@ -25,6 +28,7 @@ interface IBattleHonour {
 export enum BattleHonourRank {
     BattleReady = "Battle-Ready",
     Blooded = "Blooded",
+    Custom = "Custom Battle Trait",
     BattleHardened = "Battle-Hardened",
     Heroic = "Heroic",
     Legendary = "Legendary"
@@ -46,6 +50,8 @@ export interface ICrusadeArmy {
     detachmentTrait?: INameEffect;
     id: number;
     name: string;
+    alternateName?: string;
+    isAlternateNameEnabled?: boolean;
     requisitionPoints?: number;
     traitColor?: string;
     units: ICrusadeUnit[];

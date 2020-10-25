@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { ICrusadeUnit, BattleHonourRank } from "./Constants";
 import { CalculateTotalExperience } from "./Helpers/CrusadeUnitHelper";
-import EditOutOfActions from "./CommonFields/EditOutOfActions";
+import EditBattleScars from "./CommonFields/EditBattleScars";
 import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
-import { Form, Row } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 import FormInput from "./CommonFields/FormInput";
 import FormButtons from "./CommonFields/FormButtons";
 import ReadOnlyRow from "./CommonFields/ReadOnlyRow";
 import FormNameEffectInputs from "./CommonFields/FormNameEffectInputs";
+import FormButton from "./CommonFields/FormButton";
 
 interface IEditUnitProps {
     deleteUnit: (unit: ICrusadeUnit) => void;
@@ -19,6 +20,7 @@ interface IEditUnitProps {
 function EditUnit(props: IEditUnitProps) {
     const [isNewUnit] = useState<boolean>(props.unit.name === "")
     const [unit, setUnit] = useState<ICrusadeUnit>(props.unit);
+    const [isShowingExperience, setIsShowingExperience] = useState<boolean>(false)
 
     function save(e: React.FormEvent | React.MouseEvent) {
         e.preventDefault()
@@ -27,7 +29,7 @@ function EditUnit(props: IEditUnitProps) {
     }
 
     function editUnit(func: (u: ICrusadeUnit) => void) {
-        const newUnit: ICrusadeUnit = { ...unit, battleHonours: [...unit.battleHonours], outOfAction: [...(unit.outOfAction || [])] };
+        const newUnit: ICrusadeUnit = { ...unit, battleHonours: [...unit.battleHonours], battleScars: [...(unit.battleScars || [])] };
         func(newUnit)
         const newTotalExperience = CalculateTotalExperience(newUnit);
 
@@ -86,6 +88,41 @@ function EditUnit(props: IEditUnitProps) {
         )
     });
 
+    let experienceFields = isShowingExperience && (
+        <>
+            <FormInput
+                formName="Participation"
+                inputType="number"
+                onChange={e => editUnit((u) => u.battleParticipation = Number.parseInt(e.target.value))}
+                value={unit.battleParticipation}
+            />
+            <FormInput
+                formName="Greatness"
+                inputType="number"
+                onChange={e => editUnit((u) => u.markedForGreatness = Number.parseInt(e.target.value))}
+                value={unit.markedForGreatness}
+            />
+            <FormInput
+                formName="Agenda"
+                inputType="number"
+                onChange={e => editUnit((u) => u.agendaXp = Number.parseInt(e.target.value))}
+                value={unit.agendaXp}
+            />
+            <FormInput
+                formName="Kills"
+                inputType="number"
+                onChange={e => editUnit((u) => u.kills = Number.parseInt(e.target.value))}
+                value={unit.kills}
+            />
+            <FormInput
+                formName="Loss"
+                inputType="number"
+                onChange={e => editUnit((u) => u.experienceLoss = Number.parseInt(e.target.value))}
+                value={unit.experienceLoss}
+            />
+        </>
+    )
+
     return (
         <Form onSubmit={save} id="edit-unit">
             <Row className="my-2 mx-1 header">
@@ -111,37 +148,36 @@ function EditUnit(props: IEditUnitProps) {
                 onChange={e => editUnit((u) => u.powerLevel = Number.parseInt(e.target.value))}
                 value={unit.powerLevel}
             />
-            <FormInput
-                formName="Participation"
-                inputType="number"
-                onChange={e => editUnit((u) => u.battleParticipation = Number.parseInt(e.target.value))}
-                value={unit.battleParticipation}
-            />
-            <FormInput
-                formName="Greatness"
-                inputType="number"
-                onChange={e => editUnit((u) => u.markedForGreatness = Number.parseInt(e.target.value))}
-                value={unit.markedForGreatness}
-            />
-            <FormInput
-                formName="Agenda"
-                inputType="number"
-                onChange={e => editUnit((u) => u.agendaXp = Number.parseInt(e.target.value))}
-                value={unit.agendaXp}
-            />
-            <FormInput
-                formName="Kills"
-                inputType="number"
-                onChange={e => editUnit((u) => u.kills = Number.parseInt(e.target.value))}
-                value={unit.kills}
-            />
             <ReadOnlyRow
                 label
                 firstColumn="Total Experience"
                 secondColumn={totalExperience}
+                onClick={() => setIsShowingExperience(!isShowingExperience)}
             />
+            {experienceFields}
+            <Row className="mb-2">
+                <Col>
+                    <Form.Label>
+                        Traits and Honours
+                    </Form.Label>
+                </Col>
+                <Col>
+                    <FormButton
+                        small
+                        name="Add"
+                        onClick={() => {
+                            editUnit((u) =>
+                                u.battleHonours.push({
+                                    rank: BattleHonourRank.Custom,
+                                    battleTrait: {},
+                                    crusadePoints: u.powerLevel >= 11 ? 2 : 1,
+                                }))
+                        }}
+                    />
+                </Col>
+            </Row>
             {battleHonours}
-            <EditOutOfActions
+            <EditBattleScars
                 unit={unit}
                 editUnit={editUnit}
             />

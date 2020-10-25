@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ICrusadeArmy } from "../Constants";
 import UnitSummaryRows from "../CommonFields/UnitSummary";
 import ReportUnits from "./ReportUnits";
-import { Row } from "react-bootstrap";
 import FormButtons from "../CommonFields/FormButtons";
 import { ThemeContext } from "../App";
 import NameEffectsCard from "../CommonFields/UnitSummaryCard";
@@ -19,11 +18,12 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
     const [isContinuing, setIsContinuing] = useState<boolean>();
 
     const unitSummaries: JSX.Element[] = [];
-    props.crusadeArmy.battleRosterUnitIds?.forEach(id => {
-        const unit = props.crusadeArmy.units.find(u => u.id === id);
-        if (unit) {
+    props.crusadeArmy.units.forEach(unit => {
+        if (props.crusadeArmy.battleRosterUnitIds
+            && props.crusadeArmy.battleRosterUnitIds.includes(unit.id)
+        ) {
             unitSummaries.push(
-                <ThemeContext.Consumer>
+                <ThemeContext.Consumer key={unit.id + " Header"}>
                     {value =>
                         <h3 className="mt-3" style={{ borderTop: `1px solid ${value}` }}>{unit.name}</h3>
                     }
@@ -32,7 +32,7 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
             unitSummaries.push(
                 <UnitSummaryRows
                     unit={unit}
-                    key={id}
+                    key={unit.id}
                 />
             )
         }
@@ -50,7 +50,7 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
 
     let selectedPowerLevel = 0;
     let selectedCrusadePoints = 0;
-    props.crusadeArmy.units.map(unit => {
+    props.crusadeArmy.units.forEach(unit => {
         if (props.crusadeArmy.battleRosterUnitIds?.includes(unit.id)) {
             selectedPowerLevel += unit.powerLevel
             selectedCrusadePoints += CalculateCrusadePoints(unit)

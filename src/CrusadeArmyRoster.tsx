@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Report from "./Report/Report";
-import { ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "./Constants";
+import { ICrusadeArmy, ICrusadeUnit } from "./Constants";
 import UnitDisplay from "./UnitDisplay";
 import EditArmy from "./EditArmy";
 import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
 import Header from "./CommonFields/Header";
 import { Row, Col, Form } from "react-bootstrap";
-import { Table } from "react-bootstrap";
 import FormButtons from "./CommonFields/FormButtons";
 import NameEffectsCard from "./CommonFields/UnitSummaryCard";
 import FormButton from "./CommonFields/FormButton";
 import RequisitionPointSpending from "./RequisitionPointSpending";
 import ReadOnlyRow from "./CommonFields/ReadOnlyRow";
+import DraggableTable from "./CommonFields/DraggableTable";
+import { Column } from "react-table";
 
 interface ICrusadeArmyRoster {
     crusadeArmy: ICrusadeArmy;
@@ -29,7 +30,6 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
 
     useEffect(() => {
         const display = props.crusadeArmy.units.map(unit => {
-            const highestRank = unit.battleHonours[unit.battleHonours.length - 1]?.rank ?? BattleHonourRank.BattleReady;
             const crusadePoints = CalculateCrusadePoints(unit)
 
             return (
@@ -71,7 +71,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
             markedForGreatness: 0,
             name: "",
             notes: "",
-            outOfAction: [],
+            battleScars: [],
             powerLevel: 0
         }
 
@@ -107,6 +107,18 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         props.updateArmy(army);
         setIsReporting(false);
         setIsEditting(false);
+    }
+
+    function reOrderUnits(id: number, targetIndex: number): void {
+        const units = [...props.crusadeArmy.units]
+        const originalIndex = units.findIndex(u => u.id === id);
+        const unit = units.splice(originalIndex, 1)
+        units.splice(targetIndex, 0, unit[0])
+
+        const army = { ...props.crusadeArmy };
+        army.units = units;
+
+        props.updateArmy(army)
     }
 
     let crusadePoints = 0;
@@ -157,19 +169,32 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
 
     let unitsTableDisplay = null;
     if (unitsDisplay?.length !== 0) {
+        const columns: Column<ICrusadeUnit>[] = [
+            {
+                Header: 'Name',
+                accessor: 'name',
+            },
+            {
+                Header: 'CP',
+                accessor: 'crusadePoints'
+            },
+            {
+                Header: 'PL',
+                accessor: 'powerLevel'
+            }
+        ];
         unitsTableDisplay = (
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>CP</th>
-                        <th>PL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {unitsDisplay}
-                </tbody>
-            </Table>
+            <DraggableTable
+                columns={columns}
+                units={props.crusadeArmy.units}
+                updateRowPosition={reOrderUnits}
+                onRowClick={(id: number): void => {
+                    const unit = props.crusadeArmy.units.find(u => u.id === id);
+                    if (unit) {
+                        setEdittingUnit(unit)
+                    }
+                }}
+            />
         )
     }
 

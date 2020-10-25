@@ -54,13 +54,10 @@ function UnitSummaryRows(props: IUnitSummaryRowsProps): JSX.Element | null {
 
 
     let battleScarsDisplay: JSX.Element | undefined = undefined
-    if (props.unit.outOfAction && props.unit.outOfAction.length > 0) {
+    if (props.unit.battleScars && props.unit.battleScars.length > 0) {
         const battleScars: INameEffect[] = []
-        props.unit.outOfAction.forEach(outOfAction => {
-            if (!outOfAction.isActive || !outOfAction.battleScar) {
-                return;
-            }
-            battleScars.push(outOfAction.battleScar)
+        props.unit.battleScars.forEach(battleScar => {
+            battleScars.push(battleScar)
         })
 
         battleScarsDisplay = (

@@ -5,10 +5,11 @@ interface IReadOnlyRowProps {
     firstColumn: string;
     label?: boolean;
     secondColumn: React.ReactNode;
+    onClick?: () => void
 }
 
 function ReadOnlyRow(props: IReadOnlyRowProps): JSX.Element {
-    let firstColumn: React.ReactNode = props.firstColumn;
+    let firstColumn: JSX.Element | string = props.firstColumn;
     if (props.label) {
         firstColumn = (
             <Form.Label>
@@ -18,7 +19,7 @@ function ReadOnlyRow(props: IReadOnlyRowProps): JSX.Element {
     }
 
     return (
-        <Row className="mb-2">
+        <Row className="mb-2" onClick={props.onClick}>
             <Col>
                 {firstColumn}
             </Col>

@@ -1,6 +1,5 @@
 import React from "react";
-import { Row, Col, Button } from "react-bootstrap";
-import { ThemeContext } from "../App";
+import { Row, Col } from "react-bootstrap";
 import FormButton from "./FormButton";
 
 interface IFormButtonsProps {

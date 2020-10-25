@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ICrusadeUnit, BattleHonourRank } from "../Constants";
 import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
-import EditOutOfActions from "../CommonFields/EditOutOfActions";
+import EditBattleScars from "../CommonFields/EditBattleScars";
 import FormInput from "../CommonFields/FormInput";
 import { Row, Col } from "react-bootstrap";
 import { ThemeContext } from "../App";
@@ -17,14 +17,12 @@ function ReportUnit(props: IReportUnitProps) {
     const totalExperience = CalculateTotalExperience(props.unit) + 1;
     const [initialExperience] = useState(totalExperience - 1);
 
-    let crusadePoints = 0;
-    let battleHonours = props.unit.battleHonours.map(battleHonour => {
-        crusadePoints += battleHonour.crusadePoints;
+    let battleHonours = props.unit.battleHonours.map((battleHonour, index) => {
 
-        if (battleHonour.rank === BattleHonourRank.Blooded && initialExperience < 6
-            || battleHonour.rank === BattleHonourRank.BattleHardened && initialExperience < 16
-            || battleHonour.rank === BattleHonourRank.Heroic && initialExperience < 31
-            || battleHonour.rank === BattleHonourRank.Legendary && initialExperience < 51) {
+        if ((battleHonour.rank === BattleHonourRank.Blooded && initialExperience < 6)
+            || (battleHonour.rank === BattleHonourRank.BattleHardened && initialExperience < 16)
+            || (battleHonour.rank === BattleHonourRank.Heroic && initialExperience < 31)
+            || (battleHonour.rank === BattleHonourRank.Legendary && initialExperience < 51)) {
             return (
                 <FormNameEffectInputs
                     nameEffect={battleHonour.battleTrait}
@@ -53,7 +51,8 @@ function ReportUnit(props: IReportUnitProps) {
 
         return (
             <ReadOnlyRow
-                firstColumn={battleHonour.rank}
+                key={index}
+                firstColumn={battleHonour.battleTrait?.name || ""}
                 label
                 secondColumn={battleHonour.battleTrait?.effect || ""}
             />
@@ -68,11 +67,6 @@ function ReportUnit(props: IReportUnitProps) {
                         <h3 className="mt-3" style={{ borderTop: `1px solid ${value}` }}>
                             {props.unit.name}
                         </h3>
-                        <ReadOnlyRow
-                            firstColumn="Crusade Points"
-                            label
-                            secondColumn={crusadePoints}
-                        />
                         <ReadOnlyRow
                             firstColumn="Battle Participation"
                             label
@@ -117,12 +111,12 @@ function ReportUnit(props: IReportUnitProps) {
                             secondColumn={totalExperience}
                         />
                         {battleHonours}
-                        <EditOutOfActions
+                        <EditBattleScars
                             unit={props.unit}
                             editUnit={(edit) => {
                                 const u: ICrusadeUnit = {
                                     ...props.unit,
-                                    outOfAction: [...(props.unit.outOfAction || [])]
+                                    battleScars: [...(props.unit.battleScars || [])]
                                 };
                                 edit(u)
                                 props.updateUnit(u);

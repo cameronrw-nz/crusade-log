@@ -21,9 +21,9 @@ function Header(props: IHeaderProps): JSX.Element | null {
             />
         )
     }
-    const subHeaderInfos = props.subHeaderInfo?.map(subHeaderInfo => {
+    const subHeaderInfos = props.subHeaderInfo?.map((subHeaderInfo, index) => {
         return (
-            <Row>
+            <Row key={index}>
                 <b>{subHeaderInfo.value + " "}</b>{subHeaderInfo.name}
             </Row>
         )

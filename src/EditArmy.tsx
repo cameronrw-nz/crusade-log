@@ -3,10 +3,10 @@ import { ICrusadeArmy } from "./Constants";
 import { CopyToClipboard } from "./Helpers/Clipboard";
 import CopyIcon from "./Resources/Icons/CopyIcon.svg";
 import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 import FormInput from "./CommonFields/FormInput";
 import FormNameEffectInputs from "./CommonFields/FormNameEffectInputs";
-import { TwitterPicker, GithubPicker, CirclePicker } from "react-color";
+import { CirclePicker } from "react-color";
 import FormButtons from "./CommonFields/FormButtons";
 
 interface IEditArmyProps {
@@ -86,7 +86,16 @@ function EditArmy(props: IEditArmyProps) {
                             width="90vw"
                             onChange={c => editArmy((a) => a.traitColor = c.hex)}
                             color={army.traitColor || "blue"}
-                            colors={["#FF0000", "#0000FF", "#ebdb00", "#6b6b6b", "#00a00d"]}
+                            colors={[
+                                "#FF0000",
+                                "#0000FF",
+                                "#ebdb00",
+                                "#6b6b6b",
+                                "#00a00d",
+                                "#a00097",
+                                "#00a7a2",
+                                "#996401"
+                            ]}
                         />
                     </Col>
                 </Row>

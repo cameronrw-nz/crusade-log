@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { ICrusadeArmy } from "../Constants";
 import ReportSummary from "./ReportSummary";
-import { Form, Row } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 import FormButtons from "../CommonFields/FormButtons";
 import { ThemeContext } from "../App";
 import ReadOnlyRow from "../CommonFields/ReadOnlyRow";
 import { CalculateCrusadePoints } from "../Helpers/CrusadeUnitHelper";
+import FormButton from "../CommonFields/FormButton";
 
 interface IReportProps {
     crusadeArmy: ICrusadeArmy;
@@ -39,6 +40,11 @@ function Report(props: IReportProps) {
         setSelectedUnitIds(newKeys);
     }
 
+    function selectAll() {
+        let newKeys = props.crusadeArmy.units.map(u => u.id);
+        setSelectedUnitIds(newKeys)
+    }
+
     const display = props.crusadeArmy.units.map((unit) => {
         return (
             <ThemeContext.Consumer>
@@ -56,7 +62,7 @@ function Report(props: IReportProps) {
 
     let selectedPowerLevel = 0;
     let selectedCrusadePoints = 0;
-    props.crusadeArmy.units.map(unit => {
+    props.crusadeArmy.units.forEach(unit => {
         if (selectedUnitIds.includes(unit.id)) {
             selectedPowerLevel += unit.powerLevel
             selectedCrusadePoints += CalculateCrusadePoints(unit)
@@ -89,6 +95,15 @@ function Report(props: IReportProps) {
                 secondColumn={selectedCrusadePoints}
             />
             <Form>
+                <Row className="mb-2">
+                    <Col>
+                        <FormButton
+                            small
+                            name="Select All"
+                            onClick={selectAll}
+                        />
+                    </Col>
+                </Row>
                 {display}
             </Form>
             <FormButtons

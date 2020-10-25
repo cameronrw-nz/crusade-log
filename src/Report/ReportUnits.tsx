@@ -41,7 +41,7 @@ function ReportUnits(props: IReportUnitsProps) {
         }
         if (props.crusadeArmy.battleRosterUnitIds?.includes(unit.id)) {
             unitsDisplay.push(
-                <ReportUnit unit={unit} updateUnit={(u) => updateUnit(u, index)} />
+                <ReportUnit unit={unit} key={unit.id} updateUnit={(u) => updateUnit(u, index)} />
             );
         }
     })

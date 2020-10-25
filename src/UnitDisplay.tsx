@@ -15,7 +15,7 @@ interface IUnitDisplayProps {
 
 function UnitDisplay(props: IUnitDisplayProps) {
     const [isEdittingUnit, setIsEdittingUnit] = useState<boolean>(false);
-    const isNewUnit = useMemo<boolean>(() => { return props.unit.name === "" }, [])
+    const isNewUnit = useMemo<boolean>(() => { return props.unit.name === "" }, [props.unit.name])
 
     function completeEdit(unit: ICrusadeUnit) {
         props.saveUnit(unit)

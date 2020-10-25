@@ -10,12 +10,12 @@ interface INameEffectCardProps {
 function NameEffectsCard(props: INameEffectCardProps): JSX.Element | null {
     const cardContent: JSX.Element[] = [];
 
-    props.nameEffects.forEach(nameEffect => {
+    props.nameEffects.forEach((nameEffect, index) => {
         cardContent.push(
-            <>
+            <React.Fragment key={index}>
                 <Card.Subtitle className="mt-1 ml-2">{nameEffect.name}</Card.Subtitle>
                 <Card.Text className="ml-2">{nameEffect.effect}</Card.Text>
-            </>
+            </React.Fragment>
         )
     })
 
