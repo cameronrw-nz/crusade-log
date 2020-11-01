@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useState } from "react";
-import { ICrusadeUnit, BattleHonourRank } from "./Constants";
+import { ICrusadeUnit, BattleHonourRank, INameEffect } from "./Constants";
 import { CalculateTotalExperience } from "./Helpers/CrusadeUnitHelper";
 import EditBattleScars from "./CommonFields/EditBattleScars";
 import DeleteIcon from "./Resources/Icons/DeleteIcon.svg";
@@ -25,7 +26,12 @@ function EditUnit(props: IEditUnitProps) {
     function save(e: React.FormEvent | React.MouseEvent) {
         e.preventDefault()
         e.stopPropagation()
-        props.saveUnit(unit)
+
+        const newUnit = unit;
+        if (newUnit.otherTraits && newUnit.otherTraits.length > 0) {
+            newUnit.otherTraits = newUnit.otherTraits.filter(ot => ot.name !== "")
+        }
+        props.saveUnit(newUnit)
     }
 
     function editUnit(func: (u: ICrusadeUnit) => void) {
@@ -123,6 +129,82 @@ function EditUnit(props: IEditUnitProps) {
         </>
     )
 
+    function updateName(otherTraitIndex: number, value: string): void {
+        editUnit(u => {
+            if (!u.otherTraits) {
+                return;
+            }
+
+            const otherTrait = u.otherTraits[otherTraitIndex];
+            otherTrait.name = value
+        })
+    }
+
+    function addEffect(otherTraitIndex: number): void {
+        editUnit(u => {
+            if (!u.otherTraits) {
+                return;
+            }
+
+            const otherTrait = u.otherTraits[otherTraitIndex];
+            otherTrait.nameEffects.push({})
+        })
+    }
+
+    function updateOtherTraitNameEffect(otherTraitIndex: number, nameEffectIndex: number, update: (nameEffect: INameEffect) => void) {
+        editUnit(u => {
+            if (!u.otherTraits) {
+                return;
+            }
+
+            const otherTrait = u.otherTraits[otherTraitIndex];
+            const nameEffect = otherTrait.nameEffects[nameEffectIndex];
+            update(nameEffect)
+        })
+    }
+
+    let otherTraits = null
+    if (unit.otherTraits && unit.otherTraits.length > 0) {
+
+        otherTraits = unit.otherTraits.map((otherTrait, otherTraitIndex) => {
+            let otherTraitNameEffects = null
+            if (otherTrait.nameEffects && otherTrait.nameEffects.length > 0) {
+                otherTraitNameEffects = otherTrait.nameEffects.map((nameEffect, nameEffectIndex) => {
+                    return (
+                        <FormNameEffectInputs
+                            key={nameEffectIndex}
+                            nameEffect={nameEffect}
+                            onEffectChange={event => updateOtherTraitNameEffect(otherTraitIndex, nameEffectIndex, ne => ne.effect = event.target.value)}
+                            onNameChange={event => updateOtherTraitNameEffect(otherTraitIndex, nameEffectIndex, ne => ne.name = event.target.value)}
+                        />
+                    )
+                })
+            }
+            return (
+                <React.Fragment key={otherTraitIndex}>
+                    <Row className="mb-2">
+                        <Col>
+                            <Form.Control
+                                type="textbox"
+                                onChange={event => updateName(otherTraitIndex, event.target.value)}
+                                value={otherTrait.name}
+                                placeholder="Ability Name"
+                            />
+                        </Col>
+                        <Col>
+                            <FormButton
+                                small
+                                name="Add Effect"
+                                onClick={() => addEffect(otherTraitIndex)}
+                            />
+                        </Col>
+                    </Row>
+                    {otherTraitNameEffects}
+                </React.Fragment>
+            )
+        })
+    }
+
     return (
         <Form onSubmit={save} id="edit-unit">
             <Row className="my-2 mx-1 header">
@@ -205,6 +287,23 @@ function EditUnit(props: IEditUnitProps) {
                 firstColumn="Crusade Points"
                 secondColumn={crusadePoints}
             />
+            <ReadOnlyRow
+                label
+                firstColumn="Other Abilities"
+                secondColumn={
+                    <FormButton
+                        name="Add Ability"
+                        small
+                        onClick={() => editUnit(u => {
+                            if (!u.otherTraits) {
+                                u.otherTraits = []
+                            }
+                            u.otherTraits.push({ name: "", nameEffects: [{}] });
+                        })}
+                    />
+                }
+            />
+            {otherTraits}
             <FormButtons
                 primaryButtonName="Save"
                 primaryButtonOnClick={save}

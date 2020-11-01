@@ -101,7 +101,7 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
             setWarlordTraits(newWarlordTraits)
         }
         warlordTraitsDisplay.push(
-            <>
+            <React.Fragment key={index}>
                 <Row className="mb-2">
                     <Col className="pr-0">
                         <Form.Control onChange={onIdChange} value={warlordTrait.id} as="select">
@@ -136,7 +136,7 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
                     }}
                     nameEffect={warlordTrait.nameEffect}
                 />
-            </>
+            </React.Fragment>
         )
     })
 
@@ -148,7 +148,7 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
             setRelics(newRelics)
         }
         relicsDisplay.push(
-            <>
+            <React.Fragment key={index}>
                 <Row className="mb-2">
                     <Col className="pr-0">
                         <Form.Control onChange={onIdChange} value={relic.id} as="select">
@@ -183,7 +183,7 @@ function RequisitionPointSpending(props: IRequisitionPointSpendingProps): JSX.El
                     }}
                     nameEffect={relic.nameEffect}
                 />
-            </>
+            </React.Fragment>
         )
     })
 

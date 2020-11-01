@@ -108,12 +108,26 @@ function UnitSummaryRows(props: IUnitSummaryRowsProps): JSX.Element | null {
         )
     }
 
+    let otherTraitsDisplay = null
+    if (props.unit.otherTraits && props.unit.otherTraits.length > 0) {
+        otherTraitsDisplay = props.unit.otherTraits.map((otherTrait, index) => {
+            return (
+                <NameEffectsCard
+                    key={index}
+                    header={otherTrait.name}
+                    nameEffects={otherTrait.nameEffects}
+                />
+            )
+        })
+    }
+
     return (
         <>
             {warlordTraitDisplay}
             {relicDisplay}
             {battleHonourDisplay}
             {battleScarsDisplay}
+            {otherTraitsDisplay}
             <Row className="mb-2" onClick={toggleShowExperience}>
                 <Col>
                     Total Experience

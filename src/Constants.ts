@@ -17,12 +17,18 @@ export interface ICrusadeUnit {
     relic?: INameEffect;
     sequenceNumber?: number;
     warlordTrait?: INameEffect;
+    otherTraits?: IOtherTrait[]
 }
 
 interface IBattleHonour {
     crusadePoints: number;
     battleTrait?: INameEffect;
     rank: BattleHonourRank;
+}
+
+interface IOtherTrait {
+    name: string;
+    nameEffects: INameEffect[];
 }
 
 export enum BattleHonourRank {

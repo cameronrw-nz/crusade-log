@@ -1,8 +1,8 @@
 import React from "react";
 import { ICrusadeUnit, INameEffect } from "../Constants";
-import { Form, Row, Col, Button } from "react-bootstrap";
-import { ThemeContext } from "../App";
+import { Form, Row, Col } from "react-bootstrap";
 import FormNameEffectInputs from "./FormNameEffectInputs";
+import FormButton from "./FormButton";
 
 interface IEditBattleScarsProps {
     unit: ICrusadeUnit;
@@ -10,7 +10,7 @@ interface IEditBattleScarsProps {
 }
 
 function EditBattleScars(props: IEditBattleScarsProps): JSX.Element {
-    function addBattleScar(e: React.MouseEvent) {
+    function addBattleScar(e: React.MouseEvent | React.FormEvent) {
         e.preventDefault()
 
         props.editUnit((u) => {
@@ -46,33 +46,25 @@ function EditBattleScars(props: IEditBattleScarsProps): JSX.Element {
     }
 
     return (
-        <ThemeContext.Consumer>
-            {value =>
-                <Form.Group as={Row} className="mb-2" controlId={`formWarlordTrait`}>
+        <Form.Group as={Row} className="mb-2" controlId={`formWarlordTrait`}>
+            <Col>
+                <Row className="mb-2">
                     <Col>
-                        <Row className="mb-2">
-                            <Col>
-                                <Form.Label>
-                                    Battle Scars
+                        <Form.Label>
+                            Battle Scars
                                 </Form.Label>
-                            </Col>
-                            <Col>
-                                <Button
-                                    variant="outline-primary"
-                                    onClick={addBattleScar}
-                                    type="button"
-                                    block
-                                    style={{ borderColor: value, color: value }}
-                                >
-                                    Add
-                                </Button>
-                            </Col>
-                        </Row>
-                        {outOfActionDisplay}
                     </Col>
-                </Form.Group>
-            }
-        </ThemeContext.Consumer>
+                    <Col>
+                        <FormButton
+                            small
+                            onClick={addBattleScar}
+                            name="Add"
+                        />
+                    </Col>
+                </Row>
+                {outOfActionDisplay}
+            </Col>
+        </Form.Group>
     )
 }
 
