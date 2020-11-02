@@ -45,7 +45,7 @@ function Header(props: IHeaderProps): JSX.Element | null {
                             id="custom-switch"
                             className={GetClassName(context.color)}
                             label=""
-                            value={(context.isUsingAlternateName ? 1 : 0) || 0}
+                            checked={context.isUsingAlternateName || false}
                             onClick={context.toggleIsUsingAlternateName}
                         />
                     </Col>
