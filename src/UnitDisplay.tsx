@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { ICrusadeUnit } from "./Constants";
 import EditUnit from "./EditUnit";
-import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
+import { CalculateCrusadePoints, GetName } from "./Helpers/CrusadeUnitHelper";
 import Header from "./CommonFields/Header";
 import UnitSummaryRows from "./CommonFields/UnitSummary";
 import FormButtons from "./CommonFields/FormButtons";
+import { ThemeContext } from "./App";
 
 interface IUnitDisplayProps {
     deleteUnit: (unit: ICrusadeUnit) => void;
@@ -39,22 +40,26 @@ function UnitDisplay(props: IUnitDisplayProps) {
     let crusadePoints = CalculateCrusadePoints(props.unit);
 
     return (
-        <>
-            <Header
-                subHeaderInfo={[
-                    { name: "PL", value: props.unit.powerLevel },
-                    { name: "CP", value: crusadePoints },
-                ]}
-                headerText={props.unit.name}
-            />
-            <UnitSummaryRows unit={props.unit} />
-            <FormButtons
-                primaryButtonName="Edit"
-                primaryButtonOnClick={() => setIsEdittingUnit(true)}
-                secondaryButtonName="Back"
-                secondaryButtonOnClick={props.goBack}
-            />
-        </>
+        <ThemeContext.Consumer>
+            {context =>
+                <>
+                    <Header
+                        subHeaderInfo={[
+                            { name: "PL", value: props.unit.powerLevel },
+                            { name: "CP", value: crusadePoints },
+                        ]}
+                        headerText={GetName(props.unit, context.isUsingAlternateName)}
+                    />
+                    <UnitSummaryRows unit={props.unit} />
+                    <FormButtons
+                        primaryButtonName="Edit"
+                        primaryButtonOnClick={() => setIsEdittingUnit(true)}
+                        secondaryButtonName="Back"
+                        secondaryButtonOnClick={props.goBack}
+                    />
+                </>
+            }
+        </ThemeContext.Consumer>
     )
 }
 

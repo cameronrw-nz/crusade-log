@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ICrusadeUnit, BattleHonourRank } from "../Constants";
-import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
+import { CalculateTotalExperience, GetName } from "../Helpers/CrusadeUnitHelper";
 import EditBattleScars from "../CommonFields/EditBattleScars";
 import FormInput from "../CommonFields/FormInput";
 import { Row, Col } from "react-bootstrap";
@@ -61,11 +61,11 @@ function ReportUnit(props: IReportUnitProps) {
 
     return (
         <ThemeContext.Consumer>
-            {value =>
+            {context =>
                 <Row>
                     <Col>
-                        <h3 className="mt-3" style={{ borderTop: `1px solid ${value}` }}>
-                            {props.unit.name}
+                        <h3 className="mt-3" style={{ borderTop: `1px solid ${context.color}` }}>
+                            {GetName(props.unit, context.isUsingAlternateName)}
                         </h3>
                         <ReadOnlyRow
                             firstColumn="Battle Participation"

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CrusadeArmyRoster from "./CrusadeArmyRoster";
 import { ICrusadeArmy, CRUSADE_ARMIES_STORAGE_KEY } from "./Constants";
 import EditArmy from "./EditArmy";
-import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
+import { CalculateCrusadePoints, GetArmyName } from "./Helpers/CrusadeUnitHelper";
 import { Button, Row, Col, Card } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ThemeContext } from "./App";
@@ -39,7 +39,7 @@ function ArmiesList() {
                     style={{ border: `1px solid ${crusadeArmy.traitColor || "rgb(0, 123, 255)"}` }} >
                     <Card.Body>
                         <Card.Title as="h2">
-                            {crusadeArmy.name}
+                            {GetArmyName(crusadeArmy)}
                         </Card.Title>
                         <Card.Text>
                             {powerLevel + " PL "}
@@ -94,6 +94,18 @@ function ArmiesList() {
         setSelectedCrusadeArmy(undefined)
     }
 
+    function toggleIsUsingAlternateName() {
+        if (!selectedCrusadeArmy) {
+            return
+        }
+
+        const army = { ...selectedCrusadeArmy }
+        army.isUsingAlternateName = selectedCrusadeArmy.isUsingAlternateName !== undefined
+            ? !selectedCrusadeArmy.isUsingAlternateName
+            : true
+        updateArmy(army)
+    }
+
     if (edittingArmy) {
         return (
             <EditArmy
@@ -106,8 +118,14 @@ function ArmiesList() {
     }
 
     if (selectedCrusadeArmy) {
+        const context = {
+            color: selectedCrusadeArmy.traitColor || "blue",
+            isUsingAlternateName: selectedCrusadeArmy.isUsingAlternateName,
+            toggleIsUsingAlternateName: toggleIsUsingAlternateName
+        }
+
         return (
-            <ThemeContext.Provider value={selectedCrusadeArmy.traitColor || "blue"}>
+            <ThemeContext.Provider value={context}>
                 <CrusadeArmyRoster
                     deleteArmy={deleteArmy}
                     crusadeArmy={selectedCrusadeArmy}

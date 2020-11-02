@@ -1,8 +1,7 @@
 export const CRUSADE_ARMIES_STORAGE_KEY = "crusadeArmies";
 
-export interface ICrusadeUnit {
+export interface ICrusadeUnit extends IEntity {
     agendaXp: number;
-    alternateName?: string;
     battleHonours: IBattleHonour[];
     battleParticipation: number;
     battleScars: INameEffect[];
@@ -11,7 +10,6 @@ export interface ICrusadeUnit {
     id: number,
     kills: number;
     markedForGreatness: number;
-    name: string;
     notes: string;
     powerLevel: number;
     relic?: INameEffect;
@@ -51,16 +49,19 @@ export interface INameEffect {
     effect?: string;
 }
 
-export interface ICrusadeArmy {
+export interface ICrusadeArmy extends IEntity {
     battleRosterUnitIds?: number[]
     detachmentTrait?: INameEffect;
     id: number;
-    name: string;
-    alternateName?: string;
-    isAlternateNameEnabled?: boolean;
+    isUsingAlternateName?: boolean;
     requisitionPoints?: number;
     traitColor?: string;
     units: ICrusadeUnit[];
     maximumPowerLevel?: number;
+}
+
+export interface IEntity {
+    name: string;
+    alternateName?: string;
 }
 

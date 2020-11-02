@@ -34,11 +34,6 @@ html, body, #root {
             margin-bottom: 10px;
         }
     }
-
-    > div {
-        margin-right: 8px;
-        flex: 0 0 auto;
-    }
 }
 
 
@@ -132,12 +127,72 @@ td {
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {
-    border-color:grey!important;
-    background-color:grey!important;
     color: white!important;
 }
 
 .custom-control-input:checked ~ .custom-control-label::after {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E");
 }
-  
+
+.red {
+    .custom-control-input:checked  ~.custom-control-label::before {
+        border-color:red!important;
+        background-color:red!important;
+    }
+}
+
+.blue {
+    .custom-control-input:checked  ~.custom-control-label::before {
+        border-color:blue!important;
+        background-color:blue!important;
+    }
+}
+
+.yellow {
+    .custom-control-input:checked  ~.custom-control-label::before {
+        border-color:#ebdb00!important;
+        background-color:#ebdb00!important;
+    }
+}
+
+.dark-grey {
+    .custom-control-input:checked  ~.custom-control-label::before {
+        border-color:#6b6b6b!important;
+        background-color:#6b6b6b!important;
+    }
+}
+
+.green {
+    .custom-control-input:checked  ~.custom-control-label::before {
+        border-color:#00a00d!important;
+        background-color:#00a00d!important;
+    }
+}
+
+.purple {
+    .custom-control-input:checked  ~.custom-control-label::before {
+        border-color:#a00097!important;
+        background-color:#a00097!important;
+    }
+}
+
+.teal {
+    .custom-control-input:checked  ~.custom-control-label::before {
+        border-color:#00a7a2!important;
+        background-color:#00a7a2!important;
+    }
+}
+
+.brown {
+    .custom-control-input:checked  ~.custom-control-label::before {
+        border-color:#996401!important;
+        background-color:#996401!important;
+    }
+}
+
+.grey {
+    .custom-control-input:checked  ~.custom-control-label::before {
+        border-color:grey!important;
+        background-color:grey!important;
+    }
+}

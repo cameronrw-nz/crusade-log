@@ -3,7 +3,13 @@ import './App.scss';
 import ArmiesList from './ArmiesList';
 import { Container } from 'react-bootstrap';
 
-export const ThemeContext = React.createContext("blue");
+interface IContext {
+    color: string;
+    isUsingAlternateName?: boolean;
+    toggleIsUsingAlternateName?: () => void;
+}
+
+export const ThemeContext = React.createContext<IContext>({ color: "blue" });
 
 function App() {
 

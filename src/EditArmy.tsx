@@ -53,6 +53,12 @@ function EditArmy(props: IEditArmyProps) {
                     value={army.name}
                 />
                 <FormInput
+                    formName="Alternate Name"
+                    onChange={e => editArmy((a) => a.alternateName = e.target.value)}
+                    inputType="textbox"
+                    value={army.alternateName}
+                />
+                <FormInput
                     formName="Requisition Points"
                     onChange={e => editArmy((a) => a.requisitionPoints = Number.parseInt(e.target.value))}
                     inputType="number"
@@ -84,7 +90,7 @@ function EditArmy(props: IEditArmyProps) {
                     <Col>
                         <CirclePicker
                             width="90vw"
-                            onChange={c => editArmy((a) => a.traitColor = c.hex)}
+                            onChange={(c: any) => editArmy((a) => a.traitColor = c.hex)}
                             color={army.traitColor || "blue"}
                             colors={[
                                 "#FF0000",

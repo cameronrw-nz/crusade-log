@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import ReportUnit from "./ReportUnit";
 import { ICrusadeArmy, ICrusadeUnit, BattleHonourRank } from "../Constants";
-import { CalculateTotalExperience } from "../Helpers/CrusadeUnitHelper";
+import { CalculateTotalExperience, CalculateCrusadePoints } from "../Helpers/CrusadeUnitHelper";
 import { Row, Form } from "react-bootstrap";
 import FormInput from "../CommonFields/FormInput";
 import FormButtons from "../CommonFields/FormButtons";
+import Header from "../CommonFields/Header";
 
 interface IReportUnitsProps {
     crusadeArmy: ICrusadeArmy;
@@ -55,13 +56,26 @@ function ReportUnits(props: IReportUnitsProps) {
         props.updateArmy(crusadeArmy)
     }
 
+    let selectedPowerLevel = 0;
+    let selectedCrusadePoints = 0;
+    props.crusadeArmy.units.forEach(unit => {
+        if (props.crusadeArmy.battleRosterUnitIds?.includes(unit.id)) {
+            selectedPowerLevel += unit.powerLevel
+            selectedCrusadePoints += CalculateCrusadePoints(unit)
+        }
+    })
+
+
     return (
         <>
-            <Row className="my-2 mx-1 header">
-                <h2>
-                    Fill Unit Stats
-                </h2>
-            </Row>
+            <Header
+                subHeaderInfo={[
+                    { name: "PL", value: selectedPowerLevel },
+                    { name: "CP", value: selectedCrusadePoints },
+                    { name: "RP", value: props.crusadeArmy.requisitionPoints },
+                ]}
+                headerText="Fill Unit Stats"
+            />
             <Form>
                 <FormInput
                     resetFirstColSpan

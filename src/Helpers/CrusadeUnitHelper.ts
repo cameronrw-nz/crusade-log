@@ -1,4 +1,4 @@
-import { ICrusadeUnit } from "../Constants";
+import { ICrusadeUnit, IEntity, ICrusadeArmy } from "../Constants";
 
 export function CalculateTotalExperience(unit: ICrusadeUnit) {
     const totalExperience = unit.battleParticipation
@@ -25,4 +25,12 @@ export function CalculateCrusadePoints(unit: ICrusadeUnit) {
     let outOfActionCrusadePoints = 0 - (unit.battleScars?.length ?? 0);
 
     return warlordTraitCrusadePoints + relicCrusadePoints + battleHonourCrusadePoints + outOfActionCrusadePoints;
+}
+
+export function GetArmyName(crusadeArmy: ICrusadeArmy) {
+    return GetName(crusadeArmy, crusadeArmy.isUsingAlternateName)
+}
+
+export function GetName(entity: IEntity, isUsingAlternateName?: boolean) {
+    return isUsingAlternateName ? entity.alternateName || entity.name : entity.name
 }

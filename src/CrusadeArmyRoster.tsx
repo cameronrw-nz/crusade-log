@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Report from "./Report/Report";
 import { ICrusadeArmy, ICrusadeUnit } from "./Constants";
 import UnitDisplay from "./UnitDisplay";
 import EditArmy from "./EditArmy";
-import { CalculateCrusadePoints } from "./Helpers/CrusadeUnitHelper";
+import { CalculateCrusadePoints, GetArmyName } from "./Helpers/CrusadeUnitHelper";
 import Header from "./CommonFields/Header";
 import { Row, Col, Form } from "react-bootstrap";
 import FormButtons from "./CommonFields/FormButtons";
@@ -26,33 +26,6 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     const [isEditting, setIsEditting] = useState<boolean>()
     const [isReporting, setIsReporting] = useState<boolean>()
     const [isSpendingRequisition, setIsSpendingRequisition] = useState<boolean>()
-    const [unitsDisplay, setUnitsDisplay] = useState<JSX.Element[]>()
-
-    useEffect(() => {
-        const display = props.crusadeArmy.units.map(unit => {
-            const crusadePoints = CalculateCrusadePoints(unit)
-
-            return (
-                <tr
-                    key={unit.id}
-                    className="read-only-display-item"
-                    onClick={() => setEdittingUnit(unit)}
-                >
-                    <td>
-                        {unit.name}
-                    </td>
-                    <td style={{ whiteSpace: "nowrap" }}>
-                        {crusadePoints}
-                    </td>
-                    <td>
-                        {unit.powerLevel}
-                    </td>
-                </tr>
-            )
-        })
-
-        setUnitsDisplay(display);
-    }, [props.crusadeArmy, edittingUnit, isReporting])
 
     function addUnit() {
         let highestId = 0
@@ -168,7 +141,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     }
 
     let unitsTableDisplay = null;
-    if (unitsDisplay?.length !== 0) {
+    if (props.crusadeArmy.units.length !== 0) {
         const columns: Column<ICrusadeUnit>[] = [
             {
                 Header: 'Name',
@@ -186,7 +159,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         unitsTableDisplay = (
             <DraggableTable
                 columns={columns}
-                units={props.crusadeArmy.units}
+                crusadeArmy={props.crusadeArmy}
                 updateRowPosition={reOrderUnits}
                 onRowClick={(id: number): void => {
                     const unit = props.crusadeArmy.units.find(u => u.id === id);
@@ -207,6 +180,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
             />
         )
     }
+
     return (
         <>
             <Header
@@ -214,7 +188,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                     { name: "PL", value: powerLevel },
                     { name: "CP", value: crusadePoints },
                 ]}
-                headerText={props.crusadeArmy.name}
+                headerText={GetArmyName(props.crusadeArmy)}
                 onEdit={() => setIsEditting(true)}
             />
             <Row className="mb-2">
@@ -228,6 +202,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                     <FormButton
                         name="Spend"
                         onClick={() => setIsSpendingRequisition(true)}
+                        small
                     />
                 </Col>
             </Row>
@@ -235,7 +210,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
             <Row className="mb-2">
                 <Col>
                     <Form.Label>
-                        <h3>
+                        <h3 >
                             Units
                         </h3>
                     </Form.Label>
@@ -244,6 +219,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                     <FormButton
                         name="Add"
                         onClick={addUnit}
+                        small
                     />
                 </Col>
             </Row>

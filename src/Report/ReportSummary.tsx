@@ -6,7 +6,7 @@ import FormButtons from "../CommonFields/FormButtons";
 import { ThemeContext } from "../App";
 import NameEffectsCard from "../CommonFields/UnitSummaryCard";
 import Header from "../CommonFields/Header";
-import { CalculateCrusadePoints } from "../Helpers/CrusadeUnitHelper";
+import { CalculateCrusadePoints, GetName } from "../Helpers/CrusadeUnitHelper";
 
 interface IReportSummaryProps {
     crusadeArmy: ICrusadeArmy;
@@ -24,8 +24,10 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
         ) {
             unitSummaries.push(
                 <ThemeContext.Consumer key={unit.id + " Header"}>
-                    {value =>
-                        <h3 className="mt-3" style={{ borderTop: `1px solid ${value}` }}>{unit.name}</h3>
+                    {context =>
+                        <h3 className="mt-3" style={{ borderTop: `1px solid ${context.color}` }}>
+                            {GetName(unit, context.isUsingAlternateName)}
+                        </h3>
                     }
                 </ThemeContext.Consumer>
             )
@@ -59,7 +61,6 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
 
     return (
         <>
-
             <Header
                 subHeaderInfo={[
                     { name: "PL", value: selectedPowerLevel },

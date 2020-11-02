@@ -14,16 +14,16 @@ interface IFormButtonProps {
 function FormButton(props: IFormButtonProps): JSX.Element {
     return (
         <ThemeContext.Consumer>
-            {color =>
+            {context =>
                 <Button
                     variant={props.primary ? "primary" : "outline-primary"}
                     onClick={props.onClick}
                     type={props.submit ? "submit" : "button"}
                     block
                     style={{
-                        borderColor: props.color || color,
-                        color: props.primary ? "white" : props.color || color,
-                        backgroundColor: props.primary ? props.color || color : "white"
+                        borderColor: props.color || context.color,
+                        color: props.primary ? "white" : props.color || context.color,
+                        backgroundColor: props.primary ? props.color || context.color : "white"
                     }}
                     size={props.small ? undefined : "lg"}
                 >

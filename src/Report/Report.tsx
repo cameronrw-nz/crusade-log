@@ -5,8 +5,10 @@ import { Form, Row, Col } from "react-bootstrap";
 import FormButtons from "../CommonFields/FormButtons";
 import { ThemeContext } from "../App";
 import ReadOnlyRow from "../CommonFields/ReadOnlyRow";
-import { CalculateCrusadePoints } from "../Helpers/CrusadeUnitHelper";
+import { CalculateCrusadePoints, GetName } from "../Helpers/CrusadeUnitHelper";
 import FormButton from "../CommonFields/FormButton";
+import { GetClassName } from "../Helpers/ClassNameHelper";
+import Header from "../CommonFields/Header";
 
 interface IReportProps {
     crusadeArmy: ICrusadeArmy;
@@ -46,13 +48,23 @@ function Report(props: IReportProps) {
     }
 
     const display = props.crusadeArmy.units.map((unit) => {
+        const crusadePoints = CalculateCrusadePoints(unit)
         return (
             <ThemeContext.Consumer>
-                {value =>
+                {context =>
                     <Form.Group onClick={() => selectUnit(unit.id)} className="mb-1">
-                        <Form.Check type="checkbox" className="custom-control" color={value}>
-                            <Form.Check.Input className="custom-control-input mr-1" color={value} checked={selectedUnitIds.includes(unit.id)} style={{ position: "relative" }} />
-                            <Form.Check.Label className="custom-control-label" children={`${unit.name} ${unit.powerLevel}PL`} style={{ fontWeight: "unset" }} />
+                        <Form.Check type="checkbox" className={`custom-control ${GetClassName(props.crusadeArmy.traitColor)}`} color={context.color}>
+                            <Form.Check.Input
+                                className="custom-control-input mr-1"
+                                color={context.color}
+                                checked={selectedUnitIds.includes(unit.id)}
+                                style={{ position: "relative" }}
+                            />
+                            <Form.Check.Label
+                                className="custom-control-label"
+                                children={`${GetName(unit, context.isUsingAlternateName)} ${unit.powerLevel}PL  ${crusadePoints}CP`}
+                                style={{ fontWeight: "unset" }}
+                            />
                         </Form.Check>
                     </Form.Group>
                 }
@@ -81,18 +93,12 @@ function Report(props: IReportProps) {
 
     return (
         <>
-            <Row className="my-2 mx-1 header">
-                <h2>
-                    Select Battle Roster
-                </h2>
-            </Row>
-            <ReadOnlyRow
-                firstColumn="Selected Power Level"
-                secondColumn={selectedPowerLevel}
-            />
-            <ReadOnlyRow
-                firstColumn="Selected Crusade Points"
-                secondColumn={selectedCrusadePoints}
+            <Header
+                subHeaderInfo={[
+                    { name: "PL", value: selectedPowerLevel },
+                    { name: "CP", value: selectedCrusadePoints },
+                ]}
+                headerText="Battle Roster"
             />
             <Form>
                 <Row className="mb-2">

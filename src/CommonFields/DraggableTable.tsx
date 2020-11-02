@@ -2,9 +2,9 @@ import React from 'react'
 import { useTable, Column, Row } from 'react-table'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 import { TouchBackend } from "react-dnd-touch-backend"
-import { ICrusadeUnit } from '../Constants'
+import { ICrusadeUnit, ICrusadeArmy } from '../Constants'
 import ThreeDotsVerticalIcon from "../Resources/Icons/ThreeDotsVerticalIcon.svg";
-import { CalculateCrusadePoints } from '../Helpers/CrusadeUnitHelper'
+import { CalculateCrusadePoints, GetName } from '../Helpers/CrusadeUnitHelper'
 
 const DND_ITEM_TYPE = 'row'
 
@@ -92,18 +92,18 @@ function DraggableTableRow(props: IRowProps): JSX.Element {
 }
 
 interface IDraggableTableProps {
-    columns: Column<ICrusadeUnit>[]
+    columns: Column<ICrusadeUnit>[];
     onRowClick: (id: number) => void;
-    units: ICrusadeUnit[]
+    crusadeArmy: ICrusadeArmy;
     updateRowPosition?: (id: number, index: number) => void;
 }
 
 function DraggableTable(props: IDraggableTableProps) {
     const columns = React.useMemo<Column<ICrusadeUnit>[]>(() => props.columns, [props.columns])
 
-    const crusadeUnits = props.units.map(unit => {
+    const crusadeUnits = props.crusadeArmy.units.map(unit => {
         return {
-            ...unit, crusadePoints: CalculateCrusadePoints(unit)
+            ...unit, crusadePoints: CalculateCrusadePoints(unit), name: GetName(unit, props.crusadeArmy.isUsingAlternateName)
         }
     })
 
@@ -122,7 +122,7 @@ function DraggableTable(props: IDraggableTableProps) {
     })
 
     function moveRow(dragIndex: number, hoverIndex: number): void {
-        const dragRecord = props.units[dragIndex]
+        const dragRecord = props.crusadeArmy.units[dragIndex]
         props.updateRowPosition && props.updateRowPosition(dragRecord.id, hoverIndex)
     }
 

@@ -225,6 +225,12 @@ function EditUnit(props: IEditUnitProps) {
                 value={unit.name}
             />
             <FormInput
+                formName="Alternate Name"
+                inputType="textbox"
+                onChange={e => editUnit((u) => u.alternateName = e.target.value)}
+                value={unit.alternateName}
+            />
+            <FormInput
                 formName="Power Level"
                 inputType="number"
                 onChange={e => editUnit((u) => u.powerLevel = Number.parseInt(e.target.value))}
