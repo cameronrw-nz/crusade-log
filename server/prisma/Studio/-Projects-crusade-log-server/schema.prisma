@@ -1,0 +1,53 @@
+// 1
+datasource db {
+    provider = "sqlite"
+    url      = "file:./dev.db"
+}
+
+// 2
+generator client {
+    provider = "prisma-client-js"
+}
+
+model CrusadeArmy {
+    id                Int           @id @default(autoincrement())
+    requisitionPoints Int
+    traitColor        String
+    maximumPowerLevel Int
+    createdAt         DateTime      @default(now())
+    name              String        @default("")
+    detachmentTrait   NameEffect?   @relation(fields: [detachmentTraitId], references: [id])
+    detachmentTraitId Int?
+    units             CrusadeUnit[]
+}
+
+model NameEffect {
+    id           Int           @id @default(autoincrement())
+    name         String
+    effect       String
+    CrusadeArmy  CrusadeArmy[]
+    Relic        CrusadeUnit[] @relation("relic")
+    WarlordTrait CrusadeUnit[] @relation("warlordTrait")
+
+}
+
+model CrusadeUnit {
+    id                  Int          @id @default(autoincrement())
+    name                String
+    alternateName       String?
+    agendaXp            Int
+    battleParticipation Int
+    crusadePoints       Int
+    experienceLoss      Int
+    kills               Int
+    markedForGreatness  Int
+    notes               String
+    powerLevel          Int
+    relic               NameEffect?  @relation(name: "relic", fields: [relicId], references: [id])
+    relicId             Int?
+    sequenceInt         Int
+    warlordTrait        NameEffect?  @relation(name: "warlordTrait", fields: [warlordTraitId], references: [id])
+    warlordTraitId      Int?
+    CrusadeArmy         CrusadeArmy? @relation(fields: [crusadeArmyId], references: [id])
+    crusadeArmyId       Int?
+}

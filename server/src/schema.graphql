@@ -1,0 +1,38 @@
+type Query {
+    armies: [CrusadeArmy!]!
+}
+
+type CrusadeArmy {
+    name: String!
+    alternateName: String
+    battleRosterUnitIds: [Int]
+    id: Int!
+    isUsingAlternateName: Boolean!
+    requisitionPoints: Int
+    traitColor: String
+    maximumPowerLevel: Int
+    detachmentTrait: NameEffect
+    units: [CrusadeUnit]
+}
+
+type NameEffect {
+    name: String
+    effect: String
+}
+
+type CrusadeUnit {
+    id: Int!
+    name: String!
+    alternateName: String
+    agendaXp: Int!
+    battleParticipation: Int!
+    crusadePoints: Int!
+    experienceLoss: Int
+    kills: Int!
+    markedForGreatness: Int!
+    notes: String
+    powerLevel: Int!
+    relic: NameEffect
+    sequenceInt: Int
+    warlordTrait: NameEffect
+}

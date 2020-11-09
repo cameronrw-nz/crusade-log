@@ -1,0 +1,53 @@
+
+type CrusadeUnit {
+    id: Int!
+    name: String!
+    alternateName: String
+    agendaXp: Int!
+    battleHonours: [BattleHonour]!
+    battleParticipation: Int!
+    battleScars: [NameEffect]!
+    crusadePoints: Int!
+    experienceLoss: Int
+    kills: Int!
+    markedForGreatness: Int!
+    notes: String
+    powerLevel: Int!
+    relic: NameEffect
+    sequenceInt: Int
+    warlordTrait: NameEffect
+    otherTraits: [OtherTrait]
+}
+
+type BattleHonour {
+    crusadePoints: Int!
+    battleTrait: NameEffect
+    rank: String!
+}
+
+type OtherTrait {
+    name: String
+    nameEffects: [NameEffect]
+}
+
+type OutOfAction {
+    battleScar: NameEffect
+    xp: Int
+    isActive: Boolean
+}
+
+type NameEffect {
+    name: String
+    effect: String
+}
+
+type CrusadeArmy implements Entity {
+    battleRosterUnitIds: [Int]
+    detachmentTrait: NameEffect
+    id: Int!
+    isUsingAlternateName: Boolean!
+    requisitionPoints: Int
+    traitColor: String
+    units: [CrusadeUnit]!
+    maximumPowerLevel: Int
+}

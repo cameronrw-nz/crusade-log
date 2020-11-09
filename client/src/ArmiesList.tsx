@@ -6,24 +6,57 @@ import { CalculateCrusadePoints, GetArmyName } from "./Helpers/CrusadeUnitHelper
 import { Button, Row, Col, Card } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ThemeContext } from "./App";
+import { useQuery, gql } from "@apollo/client";
+
+const GET_ARMIES = gql`
+query {
+  armies {
+    name
+    alternateName
+    id
+    requisitionPoints
+    traitColor
+    maximumPowerLevel
+    detachmentTrait {
+      name
+      effect
+    }
+    units {
+      id
+      name
+      agendaXp
+      battleParticipation
+      crusadePoints
+      experienceLoss
+      kills
+      markedForGreatness
+      notes
+      powerLevel
+      warlordTrait {
+        name
+        effect
+      }
+      relic {
+        name
+        effect
+      }
+    }
+  }
+}
+`
 
 function ArmiesList() {
     const [edittingArmy, setEdittingArmy] = useState<ICrusadeArmy>()
-    const [crusadeArmies, setCrusadeArmies] = useState<ICrusadeArmy[]>();
+    const { loading, error, data } = useQuery(GET_ARMIES);
     const [selectedCrusadeArmy, setSelectedCrusadeArmy] = useState<ICrusadeArmy>();
     const [crusadeArmiesDisplay, setCrusadeArmiesDisplay] = useState<JSX.Element[]>();
 
     useEffect(() => {
-        const storageCrusadeArmies: ICrusadeArmy[] = JSON.parse(window.localStorage.getItem(CRUSADE_ARMIES_STORAGE_KEY) || "[]");
-        setCrusadeArmies(storageCrusadeArmies);
-    }, [])
-
-    useEffect(() => {
-        if (!crusadeArmies) {
+        if (loading || !data) {
             return;
         }
 
-        const display = crusadeArmies.map((crusadeArmy, index) => {
+        const display = data.armies.map((crusadeArmy: ICrusadeArmy, index: number) => {
             let crusadePoints = 0;
             let powerLevel = 0;
             crusadeArmy.units.forEach(unit => {
@@ -52,7 +85,7 @@ function ArmiesList() {
         });
 
         setCrusadeArmiesDisplay(display);
-    }, [crusadeArmies])
+    }, [loading, data])
 
     function updateArmy(crusadeArmy: ICrusadeArmy) {
         const storageCrusadeArmies: ICrusadeArmy[] = JSON.parse(window.localStorage.getItem(CRUSADE_ARMIES_STORAGE_KEY) || "[]");
@@ -65,7 +98,7 @@ function ArmiesList() {
         }
 
         window.localStorage.setItem(CRUSADE_ARMIES_STORAGE_KEY, JSON.stringify(storageCrusadeArmies));
-        setCrusadeArmies(storageCrusadeArmies)
+        //setCrusadeArmies(storageCrusadeArmies)
 
         const selectedArmy = storageCrusadeArmies.find(sca => sca.id === crusadeArmy.id);
         setSelectedCrusadeArmy(selectedArmy)
@@ -74,7 +107,7 @@ function ArmiesList() {
     function addArmy() {
         const newArmy: ICrusadeArmy = {
             name: "",
-            id: crusadeArmies?.length ?? 0,
+            id: 0,
             maximumPowerLevel: 50,
             requisitionPoints: 5,
             units: []
@@ -90,7 +123,7 @@ function ArmiesList() {
         }
 
         window.localStorage.setItem(CRUSADE_ARMIES_STORAGE_KEY, JSON.stringify(storageCrusadeArmies));
-        setCrusadeArmies(storageCrusadeArmies)
+        //setCrusadeArmies(storageCrusadeArmies)
         setSelectedCrusadeArmy(undefined)
     }
 

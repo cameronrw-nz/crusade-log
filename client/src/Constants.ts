@@ -1,4 +1,5 @@
 export const CRUSADE_ARMIES_STORAGE_KEY = "crusadeArmies";
+export const AUTH_TOKEN = 'auth-token'
 
 export interface ICrusadeUnit extends IEntity {
     agendaXp: number;
