@@ -50,7 +50,7 @@ function ReportUnits(props: IReportUnitsProps) {
     function done() {
         const crusadeArmy = { ...props.crusadeArmy }
         crusadeArmy.units = units;
-        units.forEach(u => u.battleParticipation++);
+        units.forEach(u => crusadeArmy.battleRosterUnitIds && crusadeArmy.battleRosterUnitIds.includes(u.id) && u.battleParticipation++);
         crusadeArmy.battleRosterUnitIds = undefined;
         crusadeArmy.requisitionPoints = requisitionPoints
         props.updateArmy(crusadeArmy)
