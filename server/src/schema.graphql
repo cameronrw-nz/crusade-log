@@ -2,6 +2,20 @@ type Query {
     armies: [CrusadeArmy!]!
 }
 
+type Mutation {
+    army(crusadeArmy: CrusadeArmyInput): CrusadeArmy
+}
+
+input CrusadeArmyInput {
+    name: String!
+    alternateName: String
+    id: Int!
+    isUsingAlternateName: Boolean!
+    requisitionPoints: Int
+    traitColor: String
+    maximumPowerLevel: Int
+}
+
 type CrusadeArmy {
     name: String!
     alternateName: String

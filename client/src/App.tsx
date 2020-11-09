@@ -12,7 +12,6 @@ interface IContext {
 export const ThemeContext = React.createContext<IContext>({ color: "blue" });
 
 function App() {
-
     return (
         <Container fluid className="h-100">
             <Row>
