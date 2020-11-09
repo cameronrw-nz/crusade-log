@@ -22,17 +22,19 @@ model CrusadeArmy {
 }
 
 model NameEffect {
-    id           Int           @id @default(autoincrement())
+    id           Int            @id @default(autoincrement())
     name         String
     effect       String
     CrusadeArmy  CrusadeArmy[]
-    Relic        CrusadeUnit[] @relation("relic")
-    WarlordTrait CrusadeUnit[] @relation("warlordTrait")
-
+    Relic        CrusadeUnit[]  @relation("relic")
+    WarlordTrait CrusadeUnit[]  @relation("warlordTrait")
+    BattleHonour BattleHonour[] @relation("battleTrait")
+    OtherTrait   OtherTrait?    @relation("otherTraitNameEffect", fields: [otherTraitId], references: [id])
+    otherTraitId Int?
 }
 
 model CrusadeUnit {
-    id                  Int          @id @default(autoincrement())
+    id                  Int            @id @default(autoincrement())
     name                String
     alternateName       String?
     agendaXp            Int
@@ -43,11 +45,30 @@ model CrusadeUnit {
     markedForGreatness  Int
     notes               String
     powerLevel          Int
-    relic               NameEffect?  @relation(name: "relic", fields: [relicId], references: [id])
+    relic               NameEffect?    @relation(name: "relic", fields: [relicId], references: [id])
     relicId             Int?
     sequenceInt         Int
-    warlordTrait        NameEffect?  @relation(name: "warlordTrait", fields: [warlordTraitId], references: [id])
+    warlordTrait        NameEffect?    @relation(name: "warlordTrait", fields: [warlordTraitId], references: [id])
     warlordTraitId      Int?
-    CrusadeArmy         CrusadeArmy? @relation(fields: [crusadeArmyId], references: [id])
+    CrusadeArmy         CrusadeArmy?   @relation(fields: [crusadeArmyId], references: [id])
     crusadeArmyId       Int?
+    battleHonours       BattleHonour[]
+    OtherTrait          OtherTrait[]   @relation("otherTrait")
+}
+
+model BattleHonour {
+    id            Int          @id @default(autoincrement())
+    crusadePoints Int
+    battleTrait   NameEffect?  @relation("battleTrait", fields: [battleTraitId], references: [id])
+    battleTraitId Int?
+    rank          String
+    CrusadeUnit   CrusadeUnit? @relation(fields: [crusadeUnitId], references: [id])
+    crusadeUnitId Int?
+}
+
+model OtherTrait {
+    id          Int           @id @default(autoincrement())
+    name        String
+    nameEffects NameEffect[]  @relation("otherTraitNameEffect")
+    CrusadeUnit CrusadeUnit[] @relation("otherTrait")
 }

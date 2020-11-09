@@ -15,11 +15,6 @@ type CrusadeArmy {
     units: [CrusadeUnit]
 }
 
-type NameEffect {
-    name: String
-    effect: String
-}
-
 type CrusadeUnit {
     id: Int!
     name: String!
@@ -35,4 +30,26 @@ type CrusadeUnit {
     relic: NameEffect
     sequenceInt: Int
     warlordTrait: NameEffect
+    otherTraits: [OtherTrait]
+    battleHonours: [BattleHonour]
 }
+
+type BattleHonour {
+    id: Int!
+    crusadePoints: Int!
+    battleTrait: NameEffect
+    rank: String!
+}
+
+type OtherTrait {
+    id: Int!
+    name: String
+    nameEffects: [NameEffect]
+}
+
+type NameEffect {
+    id: Int!
+    name: String
+    effect: String
+}
+

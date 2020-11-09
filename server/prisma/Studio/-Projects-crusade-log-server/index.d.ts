@@ -421,6 +421,26 @@ export declare class PrismaClient<
     * ```
     */
   get crusadeUnit(): CrusadeUnitDelegate;
+
+  /**
+   * `prisma.battleHonour`: Exposes CRUD operations for the **BattleHonour** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BattleHonours
+    * const battleHonours = await prisma.battleHonour.findMany()
+    * ```
+    */
+  get battleHonour(): BattleHonourDelegate;
+
+  /**
+   * `prisma.otherTrait`: Exposes CRUD operations for the **OtherTrait** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OtherTraits
+    * const otherTraits = await prisma.otherTrait.findMany()
+    * ```
+    */
+  get otherTrait(): OtherTraitDelegate;
 }
 
 
@@ -448,7 +468,8 @@ export declare type CrusadeArmyDistinctFieldEnum = (typeof CrusadeArmyDistinctFi
 export declare const NameEffectDistinctFieldEnum: {
   id: 'id',
   name: 'name',
-  effect: 'effect'
+  effect: 'effect',
+  otherTraitId: 'otherTraitId'
 };
 
 export declare type NameEffectDistinctFieldEnum = (typeof NameEffectDistinctFieldEnum)[keyof typeof NameEffectDistinctFieldEnum]
@@ -473,6 +494,25 @@ export declare const CrusadeUnitDistinctFieldEnum: {
 };
 
 export declare type CrusadeUnitDistinctFieldEnum = (typeof CrusadeUnitDistinctFieldEnum)[keyof typeof CrusadeUnitDistinctFieldEnum]
+
+
+export declare const BattleHonourDistinctFieldEnum: {
+  id: 'id',
+  crusadePoints: 'crusadePoints',
+  battleTraitId: 'battleTraitId',
+  rank: 'rank',
+  crusadeUnitId: 'crusadeUnitId'
+};
+
+export declare type BattleHonourDistinctFieldEnum = (typeof BattleHonourDistinctFieldEnum)[keyof typeof BattleHonourDistinctFieldEnum]
+
+
+export declare const OtherTraitDistinctFieldEnum: {
+  id: 'id',
+  name: 'name'
+};
+
+export declare type OtherTraitDistinctFieldEnum = (typeof OtherTraitDistinctFieldEnum)[keyof typeof OtherTraitDistinctFieldEnum]
 
 
 export declare const SortOrder: {
@@ -1051,6 +1091,7 @@ export type NameEffect = {
   id: number
   name: string
   effect: string
+  otherTraitId: number | null
 }
 
 
@@ -1064,35 +1105,43 @@ export type AggregateNameEffect = {
 
 export type NameEffectAvgAggregateOutputType = {
   id: number
+  otherTraitId: number | null
 }
 
 export type NameEffectSumAggregateOutputType = {
   id: number
+  otherTraitId: number | null
 }
 
 export type NameEffectMinAggregateOutputType = {
   id: number
+  otherTraitId: number | null
 }
 
 export type NameEffectMaxAggregateOutputType = {
   id: number
+  otherTraitId: number | null
 }
 
 
 export type NameEffectAvgAggregateInputType = {
   id?: true
+  otherTraitId?: true
 }
 
 export type NameEffectSumAggregateInputType = {
   id?: true
+  otherTraitId?: true
 }
 
 export type NameEffectMinAggregateInputType = {
   id?: true
+  otherTraitId?: true
 }
 
 export type NameEffectMaxAggregateInputType = {
   id?: true
+  otherTraitId?: true
 }
 
 export type AggregateNameEffectArgs = {
@@ -1126,12 +1175,17 @@ export type NameEffectSelect = {
   CrusadeArmy?: boolean | FindManyCrusadeArmyArgs
   Relic?: boolean | FindManyCrusadeUnitArgs
   WarlordTrait?: boolean | FindManyCrusadeUnitArgs
+  BattleHonour?: boolean | FindManyBattleHonourArgs
+  OtherTrait?: boolean | OtherTraitArgs
+  otherTraitId?: boolean
 }
 
 export type NameEffectInclude = {
   CrusadeArmy?: boolean | FindManyCrusadeArmyArgs
   Relic?: boolean | FindManyCrusadeUnitArgs
   WarlordTrait?: boolean | FindManyCrusadeUnitArgs
+  BattleHonour?: boolean | FindManyBattleHonourArgs
+  OtherTrait?: boolean | OtherTraitArgs
 }
 
 export type NameEffectGetPayload<
@@ -1150,7 +1204,11 @@ export type NameEffectGetPayload<
       P extends 'Relic'
       ? Array<CrusadeUnitGetPayload<S['include'][P]>> :
       P extends 'WarlordTrait'
-      ? Array<CrusadeUnitGetPayload<S['include'][P]>> : never
+      ? Array<CrusadeUnitGetPayload<S['include'][P]>> :
+      P extends 'BattleHonour'
+      ? Array<BattleHonourGetPayload<S['include'][P]>> :
+      P extends 'OtherTrait'
+      ? OtherTraitGetPayload<S['include'][P]> | null : never
     }
   : 'select' extends U
     ? {
@@ -1161,7 +1219,11 @@ export type NameEffectGetPayload<
       P extends 'Relic'
       ? Array<CrusadeUnitGetPayload<S['select'][P]>> :
       P extends 'WarlordTrait'
-      ? Array<CrusadeUnitGetPayload<S['select'][P]>> : never
+      ? Array<CrusadeUnitGetPayload<S['select'][P]>> :
+      P extends 'BattleHonour'
+      ? Array<BattleHonourGetPayload<S['select'][P]>> :
+      P extends 'OtherTrait'
+      ? OtherTraitGetPayload<S['select'][P]> | null : never
     }
   : NameEffect
 : NameEffect
@@ -1352,6 +1414,10 @@ export declare class Prisma__NameEffectClient<T> implements Promise<T> {
   Relic<T extends FindManyCrusadeUnitArgs = {}>(args?: Subset<T, FindManyCrusadeUnitArgs>): CheckSelect<T, Promise<Array<CrusadeUnit>>, Promise<Array<CrusadeUnitGetPayload<T>>>>;
 
   WarlordTrait<T extends FindManyCrusadeUnitArgs = {}>(args?: Subset<T, FindManyCrusadeUnitArgs>): CheckSelect<T, Promise<Array<CrusadeUnit>>, Promise<Array<CrusadeUnitGetPayload<T>>>>;
+
+  BattleHonour<T extends FindManyBattleHonourArgs = {}>(args?: Subset<T, FindManyBattleHonourArgs>): CheckSelect<T, Promise<Array<BattleHonour>>, Promise<Array<BattleHonourGetPayload<T>>>>;
+
+  OtherTrait<T extends OtherTraitArgs = {}>(args?: Subset<T, OtherTraitArgs>): CheckSelect<T, Prisma__OtherTraitClient<OtherTrait | null>, Prisma__OtherTraitClient<OtherTraitGetPayload<T> | null>>;
 
   private get _document();
   /**
@@ -1773,12 +1839,16 @@ export type CrusadeUnitSelect = {
   warlordTraitId?: boolean
   CrusadeArmy?: boolean | CrusadeArmyArgs
   crusadeArmyId?: boolean
+  battleHonours?: boolean | FindManyBattleHonourArgs
+  OtherTrait?: boolean | FindManyOtherTraitArgs
 }
 
 export type CrusadeUnitInclude = {
   relic?: boolean | NameEffectArgs
   warlordTrait?: boolean | NameEffectArgs
   CrusadeArmy?: boolean | CrusadeArmyArgs
+  battleHonours?: boolean | FindManyBattleHonourArgs
+  OtherTrait?: boolean | FindManyOtherTraitArgs
 }
 
 export type CrusadeUnitGetPayload<
@@ -1797,7 +1867,11 @@ export type CrusadeUnitGetPayload<
       P extends 'warlordTrait'
       ? NameEffectGetPayload<S['include'][P]> | null :
       P extends 'CrusadeArmy'
-      ? CrusadeArmyGetPayload<S['include'][P]> | null : never
+      ? CrusadeArmyGetPayload<S['include'][P]> | null :
+      P extends 'battleHonours'
+      ? Array<BattleHonourGetPayload<S['include'][P]>> :
+      P extends 'OtherTrait'
+      ? Array<OtherTraitGetPayload<S['include'][P]>> : never
     }
   : 'select' extends U
     ? {
@@ -1808,7 +1882,11 @@ export type CrusadeUnitGetPayload<
       P extends 'warlordTrait'
       ? NameEffectGetPayload<S['select'][P]> | null :
       P extends 'CrusadeArmy'
-      ? CrusadeArmyGetPayload<S['select'][P]> | null : never
+      ? CrusadeArmyGetPayload<S['select'][P]> | null :
+      P extends 'battleHonours'
+      ? Array<BattleHonourGetPayload<S['select'][P]>> :
+      P extends 'OtherTrait'
+      ? Array<OtherTraitGetPayload<S['select'][P]>> : never
     }
   : CrusadeUnit
 : CrusadeUnit
@@ -1999,6 +2077,10 @@ export declare class Prisma__CrusadeUnitClient<T> implements Promise<T> {
   warlordTrait<T extends NameEffectArgs = {}>(args?: Subset<T, NameEffectArgs>): CheckSelect<T, Prisma__NameEffectClient<NameEffect | null>, Prisma__NameEffectClient<NameEffectGetPayload<T> | null>>;
 
   CrusadeArmy<T extends CrusadeArmyArgs = {}>(args?: Subset<T, CrusadeArmyArgs>): CheckSelect<T, Prisma__CrusadeArmyClient<CrusadeArmy | null>, Prisma__CrusadeArmyClient<CrusadeArmyGetPayload<T> | null>>;
+
+  battleHonours<T extends FindManyBattleHonourArgs = {}>(args?: Subset<T, FindManyBattleHonourArgs>): CheckSelect<T, Promise<Array<BattleHonour>>, Promise<Array<BattleHonourGetPayload<T>>>>;
+
+  OtherTrait<T extends FindManyOtherTraitArgs = {}>(args?: Subset<T, FindManyOtherTraitArgs>): CheckSelect<T, Promise<Array<OtherTrait>>, Promise<Array<OtherTraitGetPayload<T>>>>;
 
   private get _document();
   /**
@@ -2226,6 +2308,1086 @@ export type CrusadeUnitArgs = {
 
 
 /**
+ * Model BattleHonour
+ */
+
+export type BattleHonour = {
+  id: number
+  crusadePoints: number
+  battleTraitId: number | null
+  rank: string
+  crusadeUnitId: number | null
+}
+
+
+export type AggregateBattleHonour = {
+  count: number
+  avg: BattleHonourAvgAggregateOutputType | null
+  sum: BattleHonourSumAggregateOutputType | null
+  min: BattleHonourMinAggregateOutputType | null
+  max: BattleHonourMaxAggregateOutputType | null
+}
+
+export type BattleHonourAvgAggregateOutputType = {
+  id: number
+  crusadePoints: number
+  battleTraitId: number | null
+  crusadeUnitId: number | null
+}
+
+export type BattleHonourSumAggregateOutputType = {
+  id: number
+  crusadePoints: number
+  battleTraitId: number | null
+  crusadeUnitId: number | null
+}
+
+export type BattleHonourMinAggregateOutputType = {
+  id: number
+  crusadePoints: number
+  battleTraitId: number | null
+  crusadeUnitId: number | null
+}
+
+export type BattleHonourMaxAggregateOutputType = {
+  id: number
+  crusadePoints: number
+  battleTraitId: number | null
+  crusadeUnitId: number | null
+}
+
+
+export type BattleHonourAvgAggregateInputType = {
+  id?: true
+  crusadePoints?: true
+  battleTraitId?: true
+  crusadeUnitId?: true
+}
+
+export type BattleHonourSumAggregateInputType = {
+  id?: true
+  crusadePoints?: true
+  battleTraitId?: true
+  crusadeUnitId?: true
+}
+
+export type BattleHonourMinAggregateInputType = {
+  id?: true
+  crusadePoints?: true
+  battleTraitId?: true
+  crusadeUnitId?: true
+}
+
+export type BattleHonourMaxAggregateInputType = {
+  id?: true
+  crusadePoints?: true
+  battleTraitId?: true
+  crusadeUnitId?: true
+}
+
+export type AggregateBattleHonourArgs = {
+  where?: BattleHonourWhereInput
+  orderBy?: Enumerable<BattleHonourOrderByInput> | BattleHonourOrderByInput
+  cursor?: BattleHonourWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<BattleHonourDistinctFieldEnum>
+  count?: true
+  avg?: BattleHonourAvgAggregateInputType
+  sum?: BattleHonourSumAggregateInputType
+  min?: BattleHonourMinAggregateInputType
+  max?: BattleHonourMaxAggregateInputType
+}
+
+export type GetBattleHonourAggregateType<T extends AggregateBattleHonourArgs> = {
+  [P in keyof T]: P extends 'count' ? number : GetBattleHonourAggregateScalarType<T[P]>
+}
+
+export type GetBattleHonourAggregateScalarType<T extends any> = {
+  [P in keyof T]: P extends keyof BattleHonourAvgAggregateOutputType ? BattleHonourAvgAggregateOutputType[P] : never
+}
+    
+    
+
+export type BattleHonourSelect = {
+  id?: boolean
+  crusadePoints?: boolean
+  battleTrait?: boolean | NameEffectArgs
+  battleTraitId?: boolean
+  rank?: boolean
+  CrusadeUnit?: boolean | CrusadeUnitArgs
+  crusadeUnitId?: boolean
+}
+
+export type BattleHonourInclude = {
+  battleTrait?: boolean | NameEffectArgs
+  CrusadeUnit?: boolean | CrusadeUnitArgs
+}
+
+export type BattleHonourGetPayload<
+  S extends boolean | null | undefined | BattleHonourArgs,
+  U = keyof S
+> = S extends true
+  ? BattleHonour
+  : S extends undefined
+  ? never
+  : S extends BattleHonourArgs | FindManyBattleHonourArgs
+  ? 'include' extends U
+    ? BattleHonour  & {
+      [P in TrueKeys<S['include']>]:
+      P extends 'battleTrait'
+      ? NameEffectGetPayload<S['include'][P]> | null :
+      P extends 'CrusadeUnit'
+      ? CrusadeUnitGetPayload<S['include'][P]> | null : never
+    }
+  : 'select' extends U
+    ? {
+      [P in TrueKeys<S['select']>]:P extends keyof BattleHonour ? BattleHonour[P]
+: 
+      P extends 'battleTrait'
+      ? NameEffectGetPayload<S['select'][P]> | null :
+      P extends 'CrusadeUnit'
+      ? CrusadeUnitGetPayload<S['select'][P]> | null : never
+    }
+  : BattleHonour
+: BattleHonour
+
+
+export interface BattleHonourDelegate {
+  /**
+   * Find zero or one BattleHonour that matches the filter.
+   * @param {FindOneBattleHonourArgs} args - Arguments to find a BattleHonour
+   * @example
+   * // Get one BattleHonour
+   * const battleHonour = await prisma.battleHonour.findOne({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findOne<T extends FindOneBattleHonourArgs>(
+    args: Subset<T, FindOneBattleHonourArgs>
+  ): CheckSelect<T, Prisma__BattleHonourClient<BattleHonour | null>, Prisma__BattleHonourClient<BattleHonourGetPayload<T> | null>>
+  /**
+   * Find the first BattleHonour that matches the filter.
+   * @param {FindFirstBattleHonourArgs} args - Arguments to find a BattleHonour
+   * @example
+   * // Get one BattleHonour
+   * const battleHonour = await prisma.battleHonour.findFirst({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findFirst<T extends FindFirstBattleHonourArgs>(
+    args?: Subset<T, FindFirstBattleHonourArgs>
+  ): CheckSelect<T, Prisma__BattleHonourClient<BattleHonour | null>, Prisma__BattleHonourClient<BattleHonourGetPayload<T> | null>>
+  /**
+   * Find zero or more BattleHonours that matches the filter.
+   * @param {FindManyBattleHonourArgs=} args - Arguments to filter and select certain fields only.
+   * @example
+   * // Get all BattleHonours
+   * const battleHonours = await prisma.battleHonour.findMany()
+   * 
+   * // Get first 10 BattleHonours
+   * const battleHonours = await prisma.battleHonour.findMany({ take: 10 })
+   * 
+   * // Only select the `id`
+   * const battleHonourWithIdOnly = await prisma.battleHonour.findMany({ select: { id: true } })
+   * 
+  **/
+  findMany<T extends FindManyBattleHonourArgs>(
+    args?: Subset<T, FindManyBattleHonourArgs>
+  ): CheckSelect<T, Promise<Array<BattleHonour>>, Promise<Array<BattleHonourGetPayload<T>>>>
+  /**
+   * Create a BattleHonour.
+   * @param {BattleHonourCreateArgs} args - Arguments to create a BattleHonour.
+   * @example
+   * // Create one BattleHonour
+   * const BattleHonour = await prisma.battleHonour.create({
+   *   data: {
+   *     // ... data to create a BattleHonour
+   *   }
+   * })
+   * 
+  **/
+  create<T extends BattleHonourCreateArgs>(
+    args: Subset<T, BattleHonourCreateArgs>
+  ): CheckSelect<T, Prisma__BattleHonourClient<BattleHonour>, Prisma__BattleHonourClient<BattleHonourGetPayload<T>>>
+  /**
+   * Delete a BattleHonour.
+   * @param {BattleHonourDeleteArgs} args - Arguments to delete one BattleHonour.
+   * @example
+   * // Delete one BattleHonour
+   * const BattleHonour = await prisma.battleHonour.delete({
+   *   where: {
+   *     // ... filter to delete one BattleHonour
+   *   }
+   * })
+   * 
+  **/
+  delete<T extends BattleHonourDeleteArgs>(
+    args: Subset<T, BattleHonourDeleteArgs>
+  ): CheckSelect<T, Prisma__BattleHonourClient<BattleHonour>, Prisma__BattleHonourClient<BattleHonourGetPayload<T>>>
+  /**
+   * Update one BattleHonour.
+   * @param {BattleHonourUpdateArgs} args - Arguments to update one BattleHonour.
+   * @example
+   * // Update one BattleHonour
+   * const battleHonour = await prisma.battleHonour.update({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provide data here
+   *   }
+   * })
+   * 
+  **/
+  update<T extends BattleHonourUpdateArgs>(
+    args: Subset<T, BattleHonourUpdateArgs>
+  ): CheckSelect<T, Prisma__BattleHonourClient<BattleHonour>, Prisma__BattleHonourClient<BattleHonourGetPayload<T>>>
+  /**
+   * Delete zero or more BattleHonours.
+   * @param {BattleHonourDeleteManyArgs} args - Arguments to filter BattleHonours to delete.
+   * @example
+   * // Delete a few BattleHonours
+   * const { count } = await prisma.battleHonour.deleteMany({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+   * 
+  **/
+  deleteMany<T extends BattleHonourDeleteManyArgs>(
+    args: Subset<T, BattleHonourDeleteManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Update zero or more BattleHonours.
+   * @param {BattleHonourUpdateManyArgs} args - Arguments to update one or more rows.
+   * @example
+   * // Update many BattleHonours
+   * const battleHonour = await prisma.battleHonour.updateMany({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provide data here
+   *   }
+   * })
+   * 
+  **/
+  updateMany<T extends BattleHonourUpdateManyArgs>(
+    args: Subset<T, BattleHonourUpdateManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Create or update one BattleHonour.
+   * @param {BattleHonourUpsertArgs} args - Arguments to update or create a BattleHonour.
+   * @example
+   * // Update or create a BattleHonour
+   * const battleHonour = await prisma.battleHonour.upsert({
+   *   create: {
+   *     // ... data to create a BattleHonour
+   *   },
+   *   update: {
+   *     // ... in case it already exists, update
+   *   },
+   *   where: {
+   *     // ... the filter for the BattleHonour we want to update
+   *   }
+   * })
+  **/
+  upsert<T extends BattleHonourUpsertArgs>(
+    args: Subset<T, BattleHonourUpsertArgs>
+  ): CheckSelect<T, Prisma__BattleHonourClient<BattleHonour>, Prisma__BattleHonourClient<BattleHonourGetPayload<T>>>
+  /**
+   * Count
+   */
+  count(args?: Omit<FindManyBattleHonourArgs, 'select' | 'include'>): Promise<number>
+
+  /**
+   * Aggregate
+   */
+  aggregate<T extends AggregateBattleHonourArgs>(args: Subset<T, AggregateBattleHonourArgs>): Promise<GetBattleHonourAggregateType<T>>
+}
+
+/**
+ * The delegate class that acts as a "Promise-like" for BattleHonour.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in 
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export declare class Prisma__BattleHonourClient<T> implements Promise<T> {
+  private readonly _dmmf;
+  private readonly _fetcher;
+  private readonly _queryType;
+  private readonly _rootField;
+  private readonly _clientMethod;
+  private readonly _args;
+  private readonly _dataPath;
+  private readonly _errorFormat;
+  private readonly _measurePerformance?;
+  private _isList;
+  private _callsite;
+  private _requestPromise?;
+  constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+  readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+  battleTrait<T extends NameEffectArgs = {}>(args?: Subset<T, NameEffectArgs>): CheckSelect<T, Prisma__NameEffectClient<NameEffect | null>, Prisma__NameEffectClient<NameEffectGetPayload<T> | null>>;
+
+  CrusadeUnit<T extends CrusadeUnitArgs = {}>(args?: Subset<T, CrusadeUnitArgs>): CheckSelect<T, Prisma__CrusadeUnitClient<CrusadeUnit | null>, Prisma__CrusadeUnitClient<CrusadeUnitGetPayload<T> | null>>;
+
+  private get _document();
+  /**
+   * Attaches callbacks for the resolution and/or rejection of the Promise.
+   * @param onfulfilled The callback to execute when the Promise is resolved.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of which ever callback is executed.
+   */
+  then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | Promise<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | Promise<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+  /**
+   * Attaches a callback for only the rejection of the Promise.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of the callback.
+   */
+  catch<TResult = never>(onrejected?: ((reason: any) => TResult | Promise<TResult>) | undefined | null): Promise<T | TResult>;
+  /**
+   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+   * resolved value cannot be modified from the callback.
+   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+   * @returns A Promise for the completion of the callback.
+   */
+  finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+}
+
+// Custom InputTypes
+
+/**
+ * BattleHonour findOne
+ */
+export type FindOneBattleHonourArgs = {
+  /**
+   * Select specific fields to fetch from the BattleHonour
+  **/
+  select?: BattleHonourSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: BattleHonourInclude | null
+  /**
+   * Filter, which BattleHonour to fetch.
+  **/
+  where: BattleHonourWhereUniqueInput
+}
+
+
+/**
+ * BattleHonour findFirst
+ */
+export type FindFirstBattleHonourArgs = {
+  /**
+   * Select specific fields to fetch from the BattleHonour
+  **/
+  select?: BattleHonourSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: BattleHonourInclude | null
+  /**
+   * Filter, which BattleHonour to fetch.
+  **/
+  where?: BattleHonourWhereInput
+  orderBy?: Enumerable<BattleHonourOrderByInput> | BattleHonourOrderByInput
+  cursor?: BattleHonourWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<BattleHonourDistinctFieldEnum>
+}
+
+
+/**
+ * BattleHonour findMany
+ */
+export type FindManyBattleHonourArgs = {
+  /**
+   * Select specific fields to fetch from the BattleHonour
+  **/
+  select?: BattleHonourSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: BattleHonourInclude | null
+  /**
+   * Filter, which BattleHonours to fetch.
+  **/
+  where?: BattleHonourWhereInput
+  /**
+   * Determine the order of the BattleHonours to fetch.
+  **/
+  orderBy?: Enumerable<BattleHonourOrderByInput> | BattleHonourOrderByInput
+  /**
+   * Sets the position for listing BattleHonours.
+  **/
+  cursor?: BattleHonourWhereUniqueInput
+  /**
+   * The number of BattleHonours to fetch. If negative number, it will take BattleHonours before the `cursor`.
+  **/
+  take?: number
+  /**
+   * Skip the first `n` BattleHonours.
+  **/
+  skip?: number
+  distinct?: Enumerable<BattleHonourDistinctFieldEnum>
+}
+
+
+/**
+ * BattleHonour create
+ */
+export type BattleHonourCreateArgs = {
+  /**
+   * Select specific fields to fetch from the BattleHonour
+  **/
+  select?: BattleHonourSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: BattleHonourInclude | null
+  /**
+   * The data needed to create a BattleHonour.
+  **/
+  data: BattleHonourCreateInput
+}
+
+
+/**
+ * BattleHonour update
+ */
+export type BattleHonourUpdateArgs = {
+  /**
+   * Select specific fields to fetch from the BattleHonour
+  **/
+  select?: BattleHonourSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: BattleHonourInclude | null
+  /**
+   * The data needed to update a BattleHonour.
+  **/
+  data: BattleHonourUpdateInput
+  /**
+   * Choose, which BattleHonour to update.
+  **/
+  where: BattleHonourWhereUniqueInput
+}
+
+
+/**
+ * BattleHonour updateMany
+ */
+export type BattleHonourUpdateManyArgs = {
+  data: BattleHonourUpdateManyMutationInput
+  where?: BattleHonourWhereInput
+}
+
+
+/**
+ * BattleHonour upsert
+ */
+export type BattleHonourUpsertArgs = {
+  /**
+   * Select specific fields to fetch from the BattleHonour
+  **/
+  select?: BattleHonourSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: BattleHonourInclude | null
+  /**
+   * The filter to search for the BattleHonour to update in case it exists.
+  **/
+  where: BattleHonourWhereUniqueInput
+  /**
+   * In case the BattleHonour found by the `where` argument doesn't exist, create a new BattleHonour with this data.
+  **/
+  create: BattleHonourCreateInput
+  /**
+   * In case the BattleHonour was found with the provided `where` argument, update it with this data.
+  **/
+  update: BattleHonourUpdateInput
+}
+
+
+/**
+ * BattleHonour delete
+ */
+export type BattleHonourDeleteArgs = {
+  /**
+   * Select specific fields to fetch from the BattleHonour
+  **/
+  select?: BattleHonourSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: BattleHonourInclude | null
+  /**
+   * Filter which BattleHonour to delete.
+  **/
+  where: BattleHonourWhereUniqueInput
+}
+
+
+/**
+ * BattleHonour deleteMany
+ */
+export type BattleHonourDeleteManyArgs = {
+  where?: BattleHonourWhereInput
+}
+
+
+/**
+ * BattleHonour without action
+ */
+export type BattleHonourArgs = {
+  /**
+   * Select specific fields to fetch from the BattleHonour
+  **/
+  select?: BattleHonourSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: BattleHonourInclude | null
+}
+
+
+
+/**
+ * Model OtherTrait
+ */
+
+export type OtherTrait = {
+  id: number
+  name: string
+}
+
+
+export type AggregateOtherTrait = {
+  count: number
+  avg: OtherTraitAvgAggregateOutputType | null
+  sum: OtherTraitSumAggregateOutputType | null
+  min: OtherTraitMinAggregateOutputType | null
+  max: OtherTraitMaxAggregateOutputType | null
+}
+
+export type OtherTraitAvgAggregateOutputType = {
+  id: number
+}
+
+export type OtherTraitSumAggregateOutputType = {
+  id: number
+}
+
+export type OtherTraitMinAggregateOutputType = {
+  id: number
+}
+
+export type OtherTraitMaxAggregateOutputType = {
+  id: number
+}
+
+
+export type OtherTraitAvgAggregateInputType = {
+  id?: true
+}
+
+export type OtherTraitSumAggregateInputType = {
+  id?: true
+}
+
+export type OtherTraitMinAggregateInputType = {
+  id?: true
+}
+
+export type OtherTraitMaxAggregateInputType = {
+  id?: true
+}
+
+export type AggregateOtherTraitArgs = {
+  where?: OtherTraitWhereInput
+  orderBy?: Enumerable<OtherTraitOrderByInput> | OtherTraitOrderByInput
+  cursor?: OtherTraitWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<OtherTraitDistinctFieldEnum>
+  count?: true
+  avg?: OtherTraitAvgAggregateInputType
+  sum?: OtherTraitSumAggregateInputType
+  min?: OtherTraitMinAggregateInputType
+  max?: OtherTraitMaxAggregateInputType
+}
+
+export type GetOtherTraitAggregateType<T extends AggregateOtherTraitArgs> = {
+  [P in keyof T]: P extends 'count' ? number : GetOtherTraitAggregateScalarType<T[P]>
+}
+
+export type GetOtherTraitAggregateScalarType<T extends any> = {
+  [P in keyof T]: P extends keyof OtherTraitAvgAggregateOutputType ? OtherTraitAvgAggregateOutputType[P] : never
+}
+    
+    
+
+export type OtherTraitSelect = {
+  id?: boolean
+  name?: boolean
+  nameEffects?: boolean | FindManyNameEffectArgs
+  CrusadeUnit?: boolean | FindManyCrusadeUnitArgs
+}
+
+export type OtherTraitInclude = {
+  nameEffects?: boolean | FindManyNameEffectArgs
+  CrusadeUnit?: boolean | FindManyCrusadeUnitArgs
+}
+
+export type OtherTraitGetPayload<
+  S extends boolean | null | undefined | OtherTraitArgs,
+  U = keyof S
+> = S extends true
+  ? OtherTrait
+  : S extends undefined
+  ? never
+  : S extends OtherTraitArgs | FindManyOtherTraitArgs
+  ? 'include' extends U
+    ? OtherTrait  & {
+      [P in TrueKeys<S['include']>]:
+      P extends 'nameEffects'
+      ? Array<NameEffectGetPayload<S['include'][P]>> :
+      P extends 'CrusadeUnit'
+      ? Array<CrusadeUnitGetPayload<S['include'][P]>> : never
+    }
+  : 'select' extends U
+    ? {
+      [P in TrueKeys<S['select']>]:P extends keyof OtherTrait ? OtherTrait[P]
+: 
+      P extends 'nameEffects'
+      ? Array<NameEffectGetPayload<S['select'][P]>> :
+      P extends 'CrusadeUnit'
+      ? Array<CrusadeUnitGetPayload<S['select'][P]>> : never
+    }
+  : OtherTrait
+: OtherTrait
+
+
+export interface OtherTraitDelegate {
+  /**
+   * Find zero or one OtherTrait that matches the filter.
+   * @param {FindOneOtherTraitArgs} args - Arguments to find a OtherTrait
+   * @example
+   * // Get one OtherTrait
+   * const otherTrait = await prisma.otherTrait.findOne({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findOne<T extends FindOneOtherTraitArgs>(
+    args: Subset<T, FindOneOtherTraitArgs>
+  ): CheckSelect<T, Prisma__OtherTraitClient<OtherTrait | null>, Prisma__OtherTraitClient<OtherTraitGetPayload<T> | null>>
+  /**
+   * Find the first OtherTrait that matches the filter.
+   * @param {FindFirstOtherTraitArgs} args - Arguments to find a OtherTrait
+   * @example
+   * // Get one OtherTrait
+   * const otherTrait = await prisma.otherTrait.findFirst({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+  **/
+  findFirst<T extends FindFirstOtherTraitArgs>(
+    args?: Subset<T, FindFirstOtherTraitArgs>
+  ): CheckSelect<T, Prisma__OtherTraitClient<OtherTrait | null>, Prisma__OtherTraitClient<OtherTraitGetPayload<T> | null>>
+  /**
+   * Find zero or more OtherTraits that matches the filter.
+   * @param {FindManyOtherTraitArgs=} args - Arguments to filter and select certain fields only.
+   * @example
+   * // Get all OtherTraits
+   * const otherTraits = await prisma.otherTrait.findMany()
+   * 
+   * // Get first 10 OtherTraits
+   * const otherTraits = await prisma.otherTrait.findMany({ take: 10 })
+   * 
+   * // Only select the `id`
+   * const otherTraitWithIdOnly = await prisma.otherTrait.findMany({ select: { id: true } })
+   * 
+  **/
+  findMany<T extends FindManyOtherTraitArgs>(
+    args?: Subset<T, FindManyOtherTraitArgs>
+  ): CheckSelect<T, Promise<Array<OtherTrait>>, Promise<Array<OtherTraitGetPayload<T>>>>
+  /**
+   * Create a OtherTrait.
+   * @param {OtherTraitCreateArgs} args - Arguments to create a OtherTrait.
+   * @example
+   * // Create one OtherTrait
+   * const OtherTrait = await prisma.otherTrait.create({
+   *   data: {
+   *     // ... data to create a OtherTrait
+   *   }
+   * })
+   * 
+  **/
+  create<T extends OtherTraitCreateArgs>(
+    args: Subset<T, OtherTraitCreateArgs>
+  ): CheckSelect<T, Prisma__OtherTraitClient<OtherTrait>, Prisma__OtherTraitClient<OtherTraitGetPayload<T>>>
+  /**
+   * Delete a OtherTrait.
+   * @param {OtherTraitDeleteArgs} args - Arguments to delete one OtherTrait.
+   * @example
+   * // Delete one OtherTrait
+   * const OtherTrait = await prisma.otherTrait.delete({
+   *   where: {
+   *     // ... filter to delete one OtherTrait
+   *   }
+   * })
+   * 
+  **/
+  delete<T extends OtherTraitDeleteArgs>(
+    args: Subset<T, OtherTraitDeleteArgs>
+  ): CheckSelect<T, Prisma__OtherTraitClient<OtherTrait>, Prisma__OtherTraitClient<OtherTraitGetPayload<T>>>
+  /**
+   * Update one OtherTrait.
+   * @param {OtherTraitUpdateArgs} args - Arguments to update one OtherTrait.
+   * @example
+   * // Update one OtherTrait
+   * const otherTrait = await prisma.otherTrait.update({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provide data here
+   *   }
+   * })
+   * 
+  **/
+  update<T extends OtherTraitUpdateArgs>(
+    args: Subset<T, OtherTraitUpdateArgs>
+  ): CheckSelect<T, Prisma__OtherTraitClient<OtherTrait>, Prisma__OtherTraitClient<OtherTraitGetPayload<T>>>
+  /**
+   * Delete zero or more OtherTraits.
+   * @param {OtherTraitDeleteManyArgs} args - Arguments to filter OtherTraits to delete.
+   * @example
+   * // Delete a few OtherTraits
+   * const { count } = await prisma.otherTrait.deleteMany({
+   *   where: {
+   *     // ... provide filter here
+   *   }
+   * })
+   * 
+  **/
+  deleteMany<T extends OtherTraitDeleteManyArgs>(
+    args: Subset<T, OtherTraitDeleteManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Update zero or more OtherTraits.
+   * @param {OtherTraitUpdateManyArgs} args - Arguments to update one or more rows.
+   * @example
+   * // Update many OtherTraits
+   * const otherTrait = await prisma.otherTrait.updateMany({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: {
+   *     // ... provide data here
+   *   }
+   * })
+   * 
+  **/
+  updateMany<T extends OtherTraitUpdateManyArgs>(
+    args: Subset<T, OtherTraitUpdateManyArgs>
+  ): Promise<BatchPayload>
+  /**
+   * Create or update one OtherTrait.
+   * @param {OtherTraitUpsertArgs} args - Arguments to update or create a OtherTrait.
+   * @example
+   * // Update or create a OtherTrait
+   * const otherTrait = await prisma.otherTrait.upsert({
+   *   create: {
+   *     // ... data to create a OtherTrait
+   *   },
+   *   update: {
+   *     // ... in case it already exists, update
+   *   },
+   *   where: {
+   *     // ... the filter for the OtherTrait we want to update
+   *   }
+   * })
+  **/
+  upsert<T extends OtherTraitUpsertArgs>(
+    args: Subset<T, OtherTraitUpsertArgs>
+  ): CheckSelect<T, Prisma__OtherTraitClient<OtherTrait>, Prisma__OtherTraitClient<OtherTraitGetPayload<T>>>
+  /**
+   * Count
+   */
+  count(args?: Omit<FindManyOtherTraitArgs, 'select' | 'include'>): Promise<number>
+
+  /**
+   * Aggregate
+   */
+  aggregate<T extends AggregateOtherTraitArgs>(args: Subset<T, AggregateOtherTraitArgs>): Promise<GetOtherTraitAggregateType<T>>
+}
+
+/**
+ * The delegate class that acts as a "Promise-like" for OtherTrait.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in 
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export declare class Prisma__OtherTraitClient<T> implements Promise<T> {
+  private readonly _dmmf;
+  private readonly _fetcher;
+  private readonly _queryType;
+  private readonly _rootField;
+  private readonly _clientMethod;
+  private readonly _args;
+  private readonly _dataPath;
+  private readonly _errorFormat;
+  private readonly _measurePerformance?;
+  private _isList;
+  private _callsite;
+  private _requestPromise?;
+  constructor(_dmmf: DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+  readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+  nameEffects<T extends FindManyNameEffectArgs = {}>(args?: Subset<T, FindManyNameEffectArgs>): CheckSelect<T, Promise<Array<NameEffect>>, Promise<Array<NameEffectGetPayload<T>>>>;
+
+  CrusadeUnit<T extends FindManyCrusadeUnitArgs = {}>(args?: Subset<T, FindManyCrusadeUnitArgs>): CheckSelect<T, Promise<Array<CrusadeUnit>>, Promise<Array<CrusadeUnitGetPayload<T>>>>;
+
+  private get _document();
+  /**
+   * Attaches callbacks for the resolution and/or rejection of the Promise.
+   * @param onfulfilled The callback to execute when the Promise is resolved.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of which ever callback is executed.
+   */
+  then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | Promise<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | Promise<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+  /**
+   * Attaches a callback for only the rejection of the Promise.
+   * @param onrejected The callback to execute when the Promise is rejected.
+   * @returns A Promise for the completion of the callback.
+   */
+  catch<TResult = never>(onrejected?: ((reason: any) => TResult | Promise<TResult>) | undefined | null): Promise<T | TResult>;
+  /**
+   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+   * resolved value cannot be modified from the callback.
+   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+   * @returns A Promise for the completion of the callback.
+   */
+  finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+}
+
+// Custom InputTypes
+
+/**
+ * OtherTrait findOne
+ */
+export type FindOneOtherTraitArgs = {
+  /**
+   * Select specific fields to fetch from the OtherTrait
+  **/
+  select?: OtherTraitSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: OtherTraitInclude | null
+  /**
+   * Filter, which OtherTrait to fetch.
+  **/
+  where: OtherTraitWhereUniqueInput
+}
+
+
+/**
+ * OtherTrait findFirst
+ */
+export type FindFirstOtherTraitArgs = {
+  /**
+   * Select specific fields to fetch from the OtherTrait
+  **/
+  select?: OtherTraitSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: OtherTraitInclude | null
+  /**
+   * Filter, which OtherTrait to fetch.
+  **/
+  where?: OtherTraitWhereInput
+  orderBy?: Enumerable<OtherTraitOrderByInput> | OtherTraitOrderByInput
+  cursor?: OtherTraitWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Enumerable<OtherTraitDistinctFieldEnum>
+}
+
+
+/**
+ * OtherTrait findMany
+ */
+export type FindManyOtherTraitArgs = {
+  /**
+   * Select specific fields to fetch from the OtherTrait
+  **/
+  select?: OtherTraitSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: OtherTraitInclude | null
+  /**
+   * Filter, which OtherTraits to fetch.
+  **/
+  where?: OtherTraitWhereInput
+  /**
+   * Determine the order of the OtherTraits to fetch.
+  **/
+  orderBy?: Enumerable<OtherTraitOrderByInput> | OtherTraitOrderByInput
+  /**
+   * Sets the position for listing OtherTraits.
+  **/
+  cursor?: OtherTraitWhereUniqueInput
+  /**
+   * The number of OtherTraits to fetch. If negative number, it will take OtherTraits before the `cursor`.
+  **/
+  take?: number
+  /**
+   * Skip the first `n` OtherTraits.
+  **/
+  skip?: number
+  distinct?: Enumerable<OtherTraitDistinctFieldEnum>
+}
+
+
+/**
+ * OtherTrait create
+ */
+export type OtherTraitCreateArgs = {
+  /**
+   * Select specific fields to fetch from the OtherTrait
+  **/
+  select?: OtherTraitSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: OtherTraitInclude | null
+  /**
+   * The data needed to create a OtherTrait.
+  **/
+  data: OtherTraitCreateInput
+}
+
+
+/**
+ * OtherTrait update
+ */
+export type OtherTraitUpdateArgs = {
+  /**
+   * Select specific fields to fetch from the OtherTrait
+  **/
+  select?: OtherTraitSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: OtherTraitInclude | null
+  /**
+   * The data needed to update a OtherTrait.
+  **/
+  data: OtherTraitUpdateInput
+  /**
+   * Choose, which OtherTrait to update.
+  **/
+  where: OtherTraitWhereUniqueInput
+}
+
+
+/**
+ * OtherTrait updateMany
+ */
+export type OtherTraitUpdateManyArgs = {
+  data: OtherTraitUpdateManyMutationInput
+  where?: OtherTraitWhereInput
+}
+
+
+/**
+ * OtherTrait upsert
+ */
+export type OtherTraitUpsertArgs = {
+  /**
+   * Select specific fields to fetch from the OtherTrait
+  **/
+  select?: OtherTraitSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: OtherTraitInclude | null
+  /**
+   * The filter to search for the OtherTrait to update in case it exists.
+  **/
+  where: OtherTraitWhereUniqueInput
+  /**
+   * In case the OtherTrait found by the `where` argument doesn't exist, create a new OtherTrait with this data.
+  **/
+  create: OtherTraitCreateInput
+  /**
+   * In case the OtherTrait was found with the provided `where` argument, update it with this data.
+  **/
+  update: OtherTraitUpdateInput
+}
+
+
+/**
+ * OtherTrait delete
+ */
+export type OtherTraitDeleteArgs = {
+  /**
+   * Select specific fields to fetch from the OtherTrait
+  **/
+  select?: OtherTraitSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: OtherTraitInclude | null
+  /**
+   * Filter which OtherTrait to delete.
+  **/
+  where: OtherTraitWhereUniqueInput
+}
+
+
+/**
+ * OtherTrait deleteMany
+ */
+export type OtherTraitDeleteManyArgs = {
+  where?: OtherTraitWhereInput
+}
+
+
+/**
+ * OtherTrait without action
+ */
+export type OtherTraitArgs = {
+  /**
+   * Select specific fields to fetch from the OtherTrait
+  **/
+  select?: OtherTraitSelect | null
+  /**
+   * Choose, which related nodes to fetch as well.
+  **/
+  include?: OtherTraitInclude | null
+}
+
+
+
+/**
  * Deep Input Types
  */
 
@@ -2269,12 +3431,16 @@ export type NameEffectWhereInput = {
   CrusadeArmy?: CrusadeArmyListRelationFilter
   Relic?: CrusadeUnitListRelationFilter
   WarlordTrait?: CrusadeUnitListRelationFilter
+  BattleHonour?: BattleHonourListRelationFilter
+  OtherTrait?: OtherTraitRelationFilter | OtherTraitWhereInput | null
+  otherTraitId?: IntNullableFilter | number | null
 }
 
 export type NameEffectOrderByInput = {
   id?: SortOrder
   name?: SortOrder
   effect?: SortOrder
+  otherTraitId?: SortOrder
 }
 
 export type NameEffectWhereUniqueInput = {
@@ -2303,6 +3469,8 @@ export type CrusadeUnitWhereInput = {
   warlordTraitId?: IntNullableFilter | number | null
   CrusadeArmy?: CrusadeArmyRelationFilter | CrusadeArmyWhereInput | null
   crusadeArmyId?: IntNullableFilter | number | null
+  battleHonours?: BattleHonourListRelationFilter
+  OtherTrait?: OtherTraitListRelationFilter
 }
 
 export type CrusadeUnitOrderByInput = {
@@ -2324,6 +3492,50 @@ export type CrusadeUnitOrderByInput = {
 }
 
 export type CrusadeUnitWhereUniqueInput = {
+  id?: number
+}
+
+export type BattleHonourWhereInput = {
+  AND?: BattleHonourWhereInput | Enumerable<BattleHonourWhereInput>
+  OR?: BattleHonourWhereInput | Enumerable<BattleHonourWhereInput>
+  NOT?: BattleHonourWhereInput | Enumerable<BattleHonourWhereInput>
+  id?: IntFilter | number
+  crusadePoints?: IntFilter | number
+  battleTrait?: NameEffectRelationFilter | NameEffectWhereInput | null
+  battleTraitId?: IntNullableFilter | number | null
+  rank?: StringFilter | string
+  CrusadeUnit?: CrusadeUnitRelationFilter | CrusadeUnitWhereInput | null
+  crusadeUnitId?: IntNullableFilter | number | null
+}
+
+export type BattleHonourOrderByInput = {
+  id?: SortOrder
+  crusadePoints?: SortOrder
+  battleTraitId?: SortOrder
+  rank?: SortOrder
+  crusadeUnitId?: SortOrder
+}
+
+export type BattleHonourWhereUniqueInput = {
+  id?: number
+}
+
+export type OtherTraitWhereInput = {
+  AND?: OtherTraitWhereInput | Enumerable<OtherTraitWhereInput>
+  OR?: OtherTraitWhereInput | Enumerable<OtherTraitWhereInput>
+  NOT?: OtherTraitWhereInput | Enumerable<OtherTraitWhereInput>
+  id?: IntFilter | number
+  name?: StringFilter | string
+  nameEffects?: NameEffectListRelationFilter
+  CrusadeUnit?: CrusadeUnitListRelationFilter
+}
+
+export type OtherTraitOrderByInput = {
+  id?: SortOrder
+  name?: SortOrder
+}
+
+export type OtherTraitWhereUniqueInput = {
   id?: number
 }
 
@@ -2361,6 +3573,8 @@ export type NameEffectCreateInput = {
   CrusadeArmy?: CrusadeArmyCreateManyWithoutDetachmentTraitInput
   Relic?: CrusadeUnitCreateManyWithoutRelicInput
   WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
+  BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
+  OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
 }
 
 export type NameEffectUpdateInput = {
@@ -2369,6 +3583,8 @@ export type NameEffectUpdateInput = {
   CrusadeArmy?: CrusadeArmyUpdateManyWithoutDetachmentTraitInput
   Relic?: CrusadeUnitUpdateManyWithoutRelicInput
   WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
+  BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
+  OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
 }
 
 export type NameEffectUpdateManyMutationInput = {
@@ -2391,6 +3607,8 @@ export type CrusadeUnitCreateInput = {
   relic?: NameEffectCreateOneWithoutRelicInput
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
+  battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
+  OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
 }
 
 export type CrusadeUnitUpdateInput = {
@@ -2408,6 +3626,8 @@ export type CrusadeUnitUpdateInput = {
   relic?: NameEffectUpdateOneWithoutRelicInput
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
+  battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
+  OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
 }
 
 export type CrusadeUnitUpdateManyMutationInput = {
@@ -2422,6 +3642,41 @@ export type CrusadeUnitUpdateManyMutationInput = {
   notes?: string | StringFieldUpdateOperationsInput
   powerLevel?: number | IntFieldUpdateOperationsInput
   sequenceInt?: number | IntFieldUpdateOperationsInput
+}
+
+export type BattleHonourCreateInput = {
+  crusadePoints: number
+  rank: string
+  battleTrait?: NameEffectCreateOneWithoutBattleHonourInput
+  CrusadeUnit?: CrusadeUnitCreateOneWithoutBattleHonoursInput
+}
+
+export type BattleHonourUpdateInput = {
+  crusadePoints?: number | IntFieldUpdateOperationsInput
+  rank?: string | StringFieldUpdateOperationsInput
+  battleTrait?: NameEffectUpdateOneWithoutBattleHonourInput
+  CrusadeUnit?: CrusadeUnitUpdateOneWithoutBattleHonoursInput
+}
+
+export type BattleHonourUpdateManyMutationInput = {
+  crusadePoints?: number | IntFieldUpdateOperationsInput
+  rank?: string | StringFieldUpdateOperationsInput
+}
+
+export type OtherTraitCreateInput = {
+  name: string
+  nameEffects?: NameEffectCreateManyWithoutOtherTraitInput
+  CrusadeUnit?: CrusadeUnitCreateManyWithoutOtherTraitInput
+}
+
+export type OtherTraitUpdateInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  nameEffects?: NameEffectUpdateManyWithoutOtherTraitInput
+  CrusadeUnit?: CrusadeUnitUpdateManyWithoutOtherTraitInput
+}
+
+export type OtherTraitUpdateManyMutationInput = {
+  name?: string | StringFieldUpdateOperationsInput
 }
 
 export type IntFilter = {
@@ -2488,6 +3743,17 @@ export type CrusadeArmyListRelationFilter = {
   none?: CrusadeArmyWhereInput
 }
 
+export type BattleHonourListRelationFilter = {
+  every?: BattleHonourWhereInput
+  some?: BattleHonourWhereInput
+  none?: BattleHonourWhereInput
+}
+
+export type OtherTraitRelationFilter = {
+  is?: OtherTraitWhereInput | null
+  isNot?: OtherTraitWhereInput | null
+}
+
 export type StringNullableFilter = {
   equals?: string | null
   in?: Enumerable<string> | null
@@ -2505,6 +3771,23 @@ export type StringNullableFilter = {
 export type CrusadeArmyRelationFilter = {
   is?: CrusadeArmyWhereInput | null
   isNot?: CrusadeArmyWhereInput | null
+}
+
+export type OtherTraitListRelationFilter = {
+  every?: OtherTraitWhereInput
+  some?: OtherTraitWhereInput
+  none?: OtherTraitWhereInput
+}
+
+export type CrusadeUnitRelationFilter = {
+  is?: CrusadeUnitWhereInput | null
+  isNot?: CrusadeUnitWhereInput | null
+}
+
+export type NameEffectListRelationFilter = {
+  every?: NameEffectWhereInput
+  some?: NameEffectWhereInput
+  none?: NameEffectWhereInput
 }
 
 export type NameEffectCreateOneWithoutCrusadeArmyInput = {
@@ -2569,6 +3852,16 @@ export type CrusadeUnitCreateManyWithoutWarlordTraitInput = {
   connect?: CrusadeUnitWhereUniqueInput | Enumerable<CrusadeUnitWhereUniqueInput>
 }
 
+export type BattleHonourCreateManyWithoutBattleTraitInput = {
+  create?: BattleHonourCreateWithoutBattleTraitInput | Enumerable<BattleHonourCreateWithoutBattleTraitInput>
+  connect?: BattleHonourWhereUniqueInput | Enumerable<BattleHonourWhereUniqueInput>
+}
+
+export type OtherTraitCreateOneWithoutNameEffectsInput = {
+  create?: OtherTraitCreateWithoutNameEffectsInput
+  connect?: OtherTraitWhereUniqueInput
+}
+
 export type CrusadeArmyUpdateManyWithoutDetachmentTraitInput = {
   create?: CrusadeArmyCreateWithoutDetachmentTraitInput | Enumerable<CrusadeArmyCreateWithoutDetachmentTraitInput>
   connect?: CrusadeArmyWhereUniqueInput | Enumerable<CrusadeArmyWhereUniqueInput>
@@ -2605,6 +3898,27 @@ export type CrusadeUnitUpdateManyWithoutWarlordTraitInput = {
   upsert?: CrusadeUnitUpsertWithWhereUniqueWithoutWarlordTraitInput | Enumerable<CrusadeUnitUpsertWithWhereUniqueWithoutWarlordTraitInput>
 }
 
+export type BattleHonourUpdateManyWithoutBattleTraitInput = {
+  create?: BattleHonourCreateWithoutBattleTraitInput | Enumerable<BattleHonourCreateWithoutBattleTraitInput>
+  connect?: BattleHonourWhereUniqueInput | Enumerable<BattleHonourWhereUniqueInput>
+  set?: BattleHonourWhereUniqueInput | Enumerable<BattleHonourWhereUniqueInput>
+  disconnect?: BattleHonourWhereUniqueInput | Enumerable<BattleHonourWhereUniqueInput>
+  delete?: BattleHonourWhereUniqueInput | Enumerable<BattleHonourWhereUniqueInput>
+  update?: BattleHonourUpdateWithWhereUniqueWithoutBattleTraitInput | Enumerable<BattleHonourUpdateWithWhereUniqueWithoutBattleTraitInput>
+  updateMany?: BattleHonourUpdateManyWithWhereNestedInput | Enumerable<BattleHonourUpdateManyWithWhereNestedInput>
+  deleteMany?: BattleHonourScalarWhereInput | Enumerable<BattleHonourScalarWhereInput>
+  upsert?: BattleHonourUpsertWithWhereUniqueWithoutBattleTraitInput | Enumerable<BattleHonourUpsertWithWhereUniqueWithoutBattleTraitInput>
+}
+
+export type OtherTraitUpdateOneWithoutNameEffectsInput = {
+  create?: OtherTraitCreateWithoutNameEffectsInput
+  connect?: OtherTraitWhereUniqueInput
+  disconnect?: boolean
+  delete?: boolean
+  update?: OtherTraitUpdateWithoutNameEffectsDataInput
+  upsert?: OtherTraitUpsertWithoutNameEffectsInput
+}
+
 export type NameEffectCreateOneWithoutRelicInput = {
   create?: NameEffectCreateWithoutRelicInput
   connect?: NameEffectWhereUniqueInput
@@ -2618,6 +3932,16 @@ export type NameEffectCreateOneWithoutWarlordTraitInput = {
 export type CrusadeArmyCreateOneWithoutUnitsInput = {
   create?: CrusadeArmyCreateWithoutUnitsInput
   connect?: CrusadeArmyWhereUniqueInput
+}
+
+export type BattleHonourCreateManyWithoutCrusadeUnitInput = {
+  create?: BattleHonourCreateWithoutCrusadeUnitInput | Enumerable<BattleHonourCreateWithoutCrusadeUnitInput>
+  connect?: BattleHonourWhereUniqueInput | Enumerable<BattleHonourWhereUniqueInput>
+}
+
+export type OtherTraitCreateManyWithoutCrusadeUnitInput = {
+  create?: OtherTraitCreateWithoutCrusadeUnitInput | Enumerable<OtherTraitCreateWithoutCrusadeUnitInput>
+  connect?: OtherTraitWhereUniqueInput | Enumerable<OtherTraitWhereUniqueInput>
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -2649,6 +3973,92 @@ export type CrusadeArmyUpdateOneWithoutUnitsInput = {
   delete?: boolean
   update?: CrusadeArmyUpdateWithoutUnitsDataInput
   upsert?: CrusadeArmyUpsertWithoutUnitsInput
+}
+
+export type BattleHonourUpdateManyWithoutCrusadeUnitInput = {
+  create?: BattleHonourCreateWithoutCrusadeUnitInput | Enumerable<BattleHonourCreateWithoutCrusadeUnitInput>
+  connect?: BattleHonourWhereUniqueInput | Enumerable<BattleHonourWhereUniqueInput>
+  set?: BattleHonourWhereUniqueInput | Enumerable<BattleHonourWhereUniqueInput>
+  disconnect?: BattleHonourWhereUniqueInput | Enumerable<BattleHonourWhereUniqueInput>
+  delete?: BattleHonourWhereUniqueInput | Enumerable<BattleHonourWhereUniqueInput>
+  update?: BattleHonourUpdateWithWhereUniqueWithoutCrusadeUnitInput | Enumerable<BattleHonourUpdateWithWhereUniqueWithoutCrusadeUnitInput>
+  updateMany?: BattleHonourUpdateManyWithWhereNestedInput | Enumerable<BattleHonourUpdateManyWithWhereNestedInput>
+  deleteMany?: BattleHonourScalarWhereInput | Enumerable<BattleHonourScalarWhereInput>
+  upsert?: BattleHonourUpsertWithWhereUniqueWithoutCrusadeUnitInput | Enumerable<BattleHonourUpsertWithWhereUniqueWithoutCrusadeUnitInput>
+}
+
+export type OtherTraitUpdateManyWithoutCrusadeUnitInput = {
+  create?: OtherTraitCreateWithoutCrusadeUnitInput | Enumerable<OtherTraitCreateWithoutCrusadeUnitInput>
+  connect?: OtherTraitWhereUniqueInput | Enumerable<OtherTraitWhereUniqueInput>
+  set?: OtherTraitWhereUniqueInput | Enumerable<OtherTraitWhereUniqueInput>
+  disconnect?: OtherTraitWhereUniqueInput | Enumerable<OtherTraitWhereUniqueInput>
+  delete?: OtherTraitWhereUniqueInput | Enumerable<OtherTraitWhereUniqueInput>
+  update?: OtherTraitUpdateWithWhereUniqueWithoutCrusadeUnitInput | Enumerable<OtherTraitUpdateWithWhereUniqueWithoutCrusadeUnitInput>
+  updateMany?: OtherTraitUpdateManyWithWhereNestedInput | Enumerable<OtherTraitUpdateManyWithWhereNestedInput>
+  deleteMany?: OtherTraitScalarWhereInput | Enumerable<OtherTraitScalarWhereInput>
+  upsert?: OtherTraitUpsertWithWhereUniqueWithoutCrusadeUnitInput | Enumerable<OtherTraitUpsertWithWhereUniqueWithoutCrusadeUnitInput>
+}
+
+export type NameEffectCreateOneWithoutBattleHonourInput = {
+  create?: NameEffectCreateWithoutBattleHonourInput
+  connect?: NameEffectWhereUniqueInput
+}
+
+export type CrusadeUnitCreateOneWithoutBattleHonoursInput = {
+  create?: CrusadeUnitCreateWithoutBattleHonoursInput
+  connect?: CrusadeUnitWhereUniqueInput
+}
+
+export type NameEffectUpdateOneWithoutBattleHonourInput = {
+  create?: NameEffectCreateWithoutBattleHonourInput
+  connect?: NameEffectWhereUniqueInput
+  disconnect?: boolean
+  delete?: boolean
+  update?: NameEffectUpdateWithoutBattleHonourDataInput
+  upsert?: NameEffectUpsertWithoutBattleHonourInput
+}
+
+export type CrusadeUnitUpdateOneWithoutBattleHonoursInput = {
+  create?: CrusadeUnitCreateWithoutBattleHonoursInput
+  connect?: CrusadeUnitWhereUniqueInput
+  disconnect?: boolean
+  delete?: boolean
+  update?: CrusadeUnitUpdateWithoutBattleHonoursDataInput
+  upsert?: CrusadeUnitUpsertWithoutBattleHonoursInput
+}
+
+export type NameEffectCreateManyWithoutOtherTraitInput = {
+  create?: NameEffectCreateWithoutOtherTraitInput | Enumerable<NameEffectCreateWithoutOtherTraitInput>
+  connect?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
+}
+
+export type CrusadeUnitCreateManyWithoutOtherTraitInput = {
+  create?: CrusadeUnitCreateWithoutOtherTraitInput | Enumerable<CrusadeUnitCreateWithoutOtherTraitInput>
+  connect?: CrusadeUnitWhereUniqueInput | Enumerable<CrusadeUnitWhereUniqueInput>
+}
+
+export type NameEffectUpdateManyWithoutOtherTraitInput = {
+  create?: NameEffectCreateWithoutOtherTraitInput | Enumerable<NameEffectCreateWithoutOtherTraitInput>
+  connect?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
+  set?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
+  disconnect?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
+  delete?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
+  update?: NameEffectUpdateWithWhereUniqueWithoutOtherTraitInput | Enumerable<NameEffectUpdateWithWhereUniqueWithoutOtherTraitInput>
+  updateMany?: NameEffectUpdateManyWithWhereNestedInput | Enumerable<NameEffectUpdateManyWithWhereNestedInput>
+  deleteMany?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
+  upsert?: NameEffectUpsertWithWhereUniqueWithoutOtherTraitInput | Enumerable<NameEffectUpsertWithWhereUniqueWithoutOtherTraitInput>
+}
+
+export type CrusadeUnitUpdateManyWithoutOtherTraitInput = {
+  create?: CrusadeUnitCreateWithoutOtherTraitInput | Enumerable<CrusadeUnitCreateWithoutOtherTraitInput>
+  connect?: CrusadeUnitWhereUniqueInput | Enumerable<CrusadeUnitWhereUniqueInput>
+  set?: CrusadeUnitWhereUniqueInput | Enumerable<CrusadeUnitWhereUniqueInput>
+  disconnect?: CrusadeUnitWhereUniqueInput | Enumerable<CrusadeUnitWhereUniqueInput>
+  delete?: CrusadeUnitWhereUniqueInput | Enumerable<CrusadeUnitWhereUniqueInput>
+  update?: CrusadeUnitUpdateWithWhereUniqueWithoutOtherTraitInput | Enumerable<CrusadeUnitUpdateWithWhereUniqueWithoutOtherTraitInput>
+  updateMany?: CrusadeUnitUpdateManyWithWhereNestedInput | Enumerable<CrusadeUnitUpdateManyWithWhereNestedInput>
+  deleteMany?: CrusadeUnitScalarWhereInput | Enumerable<CrusadeUnitScalarWhereInput>
+  upsert?: CrusadeUnitUpsertWithWhereUniqueWithoutOtherTraitInput | Enumerable<CrusadeUnitUpsertWithWhereUniqueWithoutOtherTraitInput>
 }
 
 export type NestedIntFilter = {
@@ -2717,6 +4127,8 @@ export type NameEffectCreateWithoutCrusadeArmyInput = {
   effect: string
   Relic?: CrusadeUnitCreateManyWithoutRelicInput
   WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
+  BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
+  OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
 }
 
 export type CrusadeUnitCreateWithoutCrusadeArmyInput = {
@@ -2733,6 +4145,8 @@ export type CrusadeUnitCreateWithoutCrusadeArmyInput = {
   sequenceInt: number
   relic?: NameEffectCreateOneWithoutRelicInput
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
+  battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
+  OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
 }
 
 export type NameEffectUpdateWithoutCrusadeArmyDataInput = {
@@ -2740,6 +4154,8 @@ export type NameEffectUpdateWithoutCrusadeArmyDataInput = {
   effect?: string | StringFieldUpdateOperationsInput
   Relic?: CrusadeUnitUpdateManyWithoutRelicInput
   WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
+  BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
+  OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
 }
 
 export type NameEffectUpsertWithoutCrusadeArmyInput = {
@@ -2807,6 +4223,8 @@ export type CrusadeUnitCreateWithoutRelicInput = {
   sequenceInt: number
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
+  battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
+  OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
 }
 
 export type CrusadeUnitCreateWithoutWarlordTraitInput = {
@@ -2823,6 +4241,19 @@ export type CrusadeUnitCreateWithoutWarlordTraitInput = {
   sequenceInt: number
   relic?: NameEffectCreateOneWithoutRelicInput
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
+  battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
+  OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
+}
+
+export type BattleHonourCreateWithoutBattleTraitInput = {
+  crusadePoints: number
+  rank: string
+  CrusadeUnit?: CrusadeUnitCreateOneWithoutBattleHonoursInput
+}
+
+export type OtherTraitCreateWithoutNameEffectsInput = {
+  name: string
+  CrusadeUnit?: CrusadeUnitCreateManyWithoutOtherTraitInput
 }
 
 export type CrusadeArmyUpdateWithWhereUniqueWithoutDetachmentTraitInput = {
@@ -2876,11 +4307,50 @@ export type CrusadeUnitUpsertWithWhereUniqueWithoutWarlordTraitInput = {
   create: CrusadeUnitCreateWithoutWarlordTraitInput
 }
 
+export type BattleHonourUpdateWithWhereUniqueWithoutBattleTraitInput = {
+  where: BattleHonourWhereUniqueInput
+  data: BattleHonourUpdateWithoutBattleTraitDataInput
+}
+
+export type BattleHonourUpdateManyWithWhereNestedInput = {
+  where: BattleHonourScalarWhereInput
+  data: BattleHonourUpdateManyDataInput
+}
+
+export type BattleHonourScalarWhereInput = {
+  AND?: BattleHonourScalarWhereInput | Enumerable<BattleHonourScalarWhereInput>
+  OR?: BattleHonourScalarWhereInput | Enumerable<BattleHonourScalarWhereInput>
+  NOT?: BattleHonourScalarWhereInput | Enumerable<BattleHonourScalarWhereInput>
+  id?: IntFilter | number
+  crusadePoints?: IntFilter | number
+  battleTraitId?: IntNullableFilter | number | null
+  rank?: StringFilter | string
+  crusadeUnitId?: IntNullableFilter | number | null
+}
+
+export type BattleHonourUpsertWithWhereUniqueWithoutBattleTraitInput = {
+  where: BattleHonourWhereUniqueInput
+  update: BattleHonourUpdateWithoutBattleTraitDataInput
+  create: BattleHonourCreateWithoutBattleTraitInput
+}
+
+export type OtherTraitUpdateWithoutNameEffectsDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  CrusadeUnit?: CrusadeUnitUpdateManyWithoutOtherTraitInput
+}
+
+export type OtherTraitUpsertWithoutNameEffectsInput = {
+  update: OtherTraitUpdateWithoutNameEffectsDataInput
+  create: OtherTraitCreateWithoutNameEffectsInput
+}
+
 export type NameEffectCreateWithoutRelicInput = {
   name: string
   effect: string
   CrusadeArmy?: CrusadeArmyCreateManyWithoutDetachmentTraitInput
   WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
+  BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
+  OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
 }
 
 export type NameEffectCreateWithoutWarlordTraitInput = {
@@ -2888,6 +4358,8 @@ export type NameEffectCreateWithoutWarlordTraitInput = {
   effect: string
   CrusadeArmy?: CrusadeArmyCreateManyWithoutDetachmentTraitInput
   Relic?: CrusadeUnitCreateManyWithoutRelicInput
+  BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
+  OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
 }
 
 export type CrusadeArmyCreateWithoutUnitsInput = {
@@ -2899,11 +4371,24 @@ export type CrusadeArmyCreateWithoutUnitsInput = {
   detachmentTrait?: NameEffectCreateOneWithoutCrusadeArmyInput
 }
 
+export type BattleHonourCreateWithoutCrusadeUnitInput = {
+  crusadePoints: number
+  rank: string
+  battleTrait?: NameEffectCreateOneWithoutBattleHonourInput
+}
+
+export type OtherTraitCreateWithoutCrusadeUnitInput = {
+  name: string
+  nameEffects?: NameEffectCreateManyWithoutOtherTraitInput
+}
+
 export type NameEffectUpdateWithoutRelicDataInput = {
   name?: string | StringFieldUpdateOperationsInput
   effect?: string | StringFieldUpdateOperationsInput
   CrusadeArmy?: CrusadeArmyUpdateManyWithoutDetachmentTraitInput
   WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
+  BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
+  OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
 }
 
 export type NameEffectUpsertWithoutRelicInput = {
@@ -2916,6 +4401,8 @@ export type NameEffectUpdateWithoutWarlordTraitDataInput = {
   effect?: string | StringFieldUpdateOperationsInput
   CrusadeArmy?: CrusadeArmyUpdateManyWithoutDetachmentTraitInput
   Relic?: CrusadeUnitUpdateManyWithoutRelicInput
+  BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
+  OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
 }
 
 export type NameEffectUpsertWithoutWarlordTraitInput = {
@@ -2937,6 +4424,169 @@ export type CrusadeArmyUpsertWithoutUnitsInput = {
   create: CrusadeArmyCreateWithoutUnitsInput
 }
 
+export type BattleHonourUpdateWithWhereUniqueWithoutCrusadeUnitInput = {
+  where: BattleHonourWhereUniqueInput
+  data: BattleHonourUpdateWithoutCrusadeUnitDataInput
+}
+
+export type BattleHonourUpsertWithWhereUniqueWithoutCrusadeUnitInput = {
+  where: BattleHonourWhereUniqueInput
+  update: BattleHonourUpdateWithoutCrusadeUnitDataInput
+  create: BattleHonourCreateWithoutCrusadeUnitInput
+}
+
+export type OtherTraitUpdateWithWhereUniqueWithoutCrusadeUnitInput = {
+  where: OtherTraitWhereUniqueInput
+  data: OtherTraitUpdateWithoutCrusadeUnitDataInput
+}
+
+export type OtherTraitUpdateManyWithWhereNestedInput = {
+  where: OtherTraitScalarWhereInput
+  data: OtherTraitUpdateManyDataInput
+}
+
+export type OtherTraitScalarWhereInput = {
+  AND?: OtherTraitScalarWhereInput | Enumerable<OtherTraitScalarWhereInput>
+  OR?: OtherTraitScalarWhereInput | Enumerable<OtherTraitScalarWhereInput>
+  NOT?: OtherTraitScalarWhereInput | Enumerable<OtherTraitScalarWhereInput>
+  id?: IntFilter | number
+  name?: StringFilter | string
+}
+
+export type OtherTraitUpsertWithWhereUniqueWithoutCrusadeUnitInput = {
+  where: OtherTraitWhereUniqueInput
+  update: OtherTraitUpdateWithoutCrusadeUnitDataInput
+  create: OtherTraitCreateWithoutCrusadeUnitInput
+}
+
+export type NameEffectCreateWithoutBattleHonourInput = {
+  name: string
+  effect: string
+  CrusadeArmy?: CrusadeArmyCreateManyWithoutDetachmentTraitInput
+  Relic?: CrusadeUnitCreateManyWithoutRelicInput
+  WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
+  OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
+}
+
+export type CrusadeUnitCreateWithoutBattleHonoursInput = {
+  name: string
+  alternateName?: string | null
+  agendaXp: number
+  battleParticipation: number
+  crusadePoints: number
+  experienceLoss: number
+  kills: number
+  markedForGreatness: number
+  notes: string
+  powerLevel: number
+  sequenceInt: number
+  relic?: NameEffectCreateOneWithoutRelicInput
+  warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
+  CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
+  OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
+}
+
+export type NameEffectUpdateWithoutBattleHonourDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  effect?: string | StringFieldUpdateOperationsInput
+  CrusadeArmy?: CrusadeArmyUpdateManyWithoutDetachmentTraitInput
+  Relic?: CrusadeUnitUpdateManyWithoutRelicInput
+  WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
+  OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
+}
+
+export type NameEffectUpsertWithoutBattleHonourInput = {
+  update: NameEffectUpdateWithoutBattleHonourDataInput
+  create: NameEffectCreateWithoutBattleHonourInput
+}
+
+export type CrusadeUnitUpdateWithoutBattleHonoursDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  alternateName?: string | NullableStringFieldUpdateOperationsInput | null
+  agendaXp?: number | IntFieldUpdateOperationsInput
+  battleParticipation?: number | IntFieldUpdateOperationsInput
+  crusadePoints?: number | IntFieldUpdateOperationsInput
+  experienceLoss?: number | IntFieldUpdateOperationsInput
+  kills?: number | IntFieldUpdateOperationsInput
+  markedForGreatness?: number | IntFieldUpdateOperationsInput
+  notes?: string | StringFieldUpdateOperationsInput
+  powerLevel?: number | IntFieldUpdateOperationsInput
+  sequenceInt?: number | IntFieldUpdateOperationsInput
+  relic?: NameEffectUpdateOneWithoutRelicInput
+  warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
+  CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
+  OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
+}
+
+export type CrusadeUnitUpsertWithoutBattleHonoursInput = {
+  update: CrusadeUnitUpdateWithoutBattleHonoursDataInput
+  create: CrusadeUnitCreateWithoutBattleHonoursInput
+}
+
+export type NameEffectCreateWithoutOtherTraitInput = {
+  name: string
+  effect: string
+  CrusadeArmy?: CrusadeArmyCreateManyWithoutDetachmentTraitInput
+  Relic?: CrusadeUnitCreateManyWithoutRelicInput
+  WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
+  BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
+}
+
+export type CrusadeUnitCreateWithoutOtherTraitInput = {
+  name: string
+  alternateName?: string | null
+  agendaXp: number
+  battleParticipation: number
+  crusadePoints: number
+  experienceLoss: number
+  kills: number
+  markedForGreatness: number
+  notes: string
+  powerLevel: number
+  sequenceInt: number
+  relic?: NameEffectCreateOneWithoutRelicInput
+  warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
+  CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
+  battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
+}
+
+export type NameEffectUpdateWithWhereUniqueWithoutOtherTraitInput = {
+  where: NameEffectWhereUniqueInput
+  data: NameEffectUpdateWithoutOtherTraitDataInput
+}
+
+export type NameEffectUpdateManyWithWhereNestedInput = {
+  where: NameEffectScalarWhereInput
+  data: NameEffectUpdateManyDataInput
+}
+
+export type NameEffectScalarWhereInput = {
+  AND?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
+  OR?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
+  NOT?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
+  id?: IntFilter | number
+  name?: StringFilter | string
+  effect?: StringFilter | string
+  otherTraitId?: IntNullableFilter | number | null
+}
+
+export type NameEffectUpsertWithWhereUniqueWithoutOtherTraitInput = {
+  where: NameEffectWhereUniqueInput
+  update: NameEffectUpdateWithoutOtherTraitDataInput
+  create: NameEffectCreateWithoutOtherTraitInput
+}
+
+export type CrusadeUnitUpdateWithWhereUniqueWithoutOtherTraitInput = {
+  where: CrusadeUnitWhereUniqueInput
+  data: CrusadeUnitUpdateWithoutOtherTraitDataInput
+}
+
+export type CrusadeUnitUpsertWithWhereUniqueWithoutOtherTraitInput = {
+  where: CrusadeUnitWhereUniqueInput
+  update: CrusadeUnitUpdateWithoutOtherTraitDataInput
+  create: CrusadeUnitCreateWithoutOtherTraitInput
+}
+
 export type CrusadeUnitUpdateWithoutCrusadeArmyDataInput = {
   name?: string | StringFieldUpdateOperationsInput
   alternateName?: string | NullableStringFieldUpdateOperationsInput | null
@@ -2951,6 +4601,8 @@ export type CrusadeUnitUpdateWithoutCrusadeArmyDataInput = {
   sequenceInt?: number | IntFieldUpdateOperationsInput
   relic?: NameEffectUpdateOneWithoutRelicInput
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
+  battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
+  OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
 }
 
 export type CrusadeUnitUpdateManyDataInput = {
@@ -2998,6 +4650,8 @@ export type CrusadeUnitUpdateWithoutRelicDataInput = {
   sequenceInt?: number | IntFieldUpdateOperationsInput
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
+  battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
+  OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
 }
 
 export type CrusadeUnitUpdateWithoutWarlordTraitDataInput = {
@@ -3014,6 +4668,66 @@ export type CrusadeUnitUpdateWithoutWarlordTraitDataInput = {
   sequenceInt?: number | IntFieldUpdateOperationsInput
   relic?: NameEffectUpdateOneWithoutRelicInput
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
+  battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
+  OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
+}
+
+export type BattleHonourUpdateWithoutBattleTraitDataInput = {
+  crusadePoints?: number | IntFieldUpdateOperationsInput
+  rank?: string | StringFieldUpdateOperationsInput
+  CrusadeUnit?: CrusadeUnitUpdateOneWithoutBattleHonoursInput
+}
+
+export type BattleHonourUpdateManyDataInput = {
+  crusadePoints?: number | IntFieldUpdateOperationsInput
+  rank?: string | StringFieldUpdateOperationsInput
+}
+
+export type BattleHonourUpdateWithoutCrusadeUnitDataInput = {
+  crusadePoints?: number | IntFieldUpdateOperationsInput
+  rank?: string | StringFieldUpdateOperationsInput
+  battleTrait?: NameEffectUpdateOneWithoutBattleHonourInput
+}
+
+export type OtherTraitUpdateWithoutCrusadeUnitDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  nameEffects?: NameEffectUpdateManyWithoutOtherTraitInput
+}
+
+export type OtherTraitUpdateManyDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+}
+
+export type NameEffectUpdateWithoutOtherTraitDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  effect?: string | StringFieldUpdateOperationsInput
+  CrusadeArmy?: CrusadeArmyUpdateManyWithoutDetachmentTraitInput
+  Relic?: CrusadeUnitUpdateManyWithoutRelicInput
+  WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
+  BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
+}
+
+export type NameEffectUpdateManyDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  effect?: string | StringFieldUpdateOperationsInput
+}
+
+export type CrusadeUnitUpdateWithoutOtherTraitDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  alternateName?: string | NullableStringFieldUpdateOperationsInput | null
+  agendaXp?: number | IntFieldUpdateOperationsInput
+  battleParticipation?: number | IntFieldUpdateOperationsInput
+  crusadePoints?: number | IntFieldUpdateOperationsInput
+  experienceLoss?: number | IntFieldUpdateOperationsInput
+  kills?: number | IntFieldUpdateOperationsInput
+  markedForGreatness?: number | IntFieldUpdateOperationsInput
+  notes?: string | StringFieldUpdateOperationsInput
+  powerLevel?: number | IntFieldUpdateOperationsInput
+  sequenceInt?: number | IntFieldUpdateOperationsInput
+  relic?: NameEffectUpdateOneWithoutRelicInput
+  warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
+  CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
+  battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
 }
 
 /**

@@ -3,6 +3,8 @@ import { PrismaClient } from '@prisma/client'
 
 import * as Query from './Resolvers/Query'
 import * as CrusadeArmy from './Resolvers/CrusadeArmy'
+import * as BattleHonour from './Resolvers/BattleHonour'
+import * as OtherTrait from './Resolvers/OtherTrait'
 import * as CrusadeUnit from './Resolvers/CrusadeUnit'
 import { ContextCallback, ContextParameters } from 'graphql-yoga/dist/types'
 
@@ -11,7 +13,9 @@ const prisma = new PrismaClient()
 const resolvers = {
     Query,
     CrusadeArmy,
-    CrusadeUnit
+    CrusadeUnit,
+    BattleHonour,
+    OtherTrait
 }
 
 export interface ServerContext extends ContextParameters {

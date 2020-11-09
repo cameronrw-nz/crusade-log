@@ -39,12 +39,6 @@ export enum BattleHonourRank {
     Legendary = "Legendary"
 }
 
-export interface IOutOfAction {
-    battleScar?: INameEffect;
-    xp?: number;
-    isActive: boolean;
-}
-
 export interface INameEffect {
     name?: string;
     effect?: string;

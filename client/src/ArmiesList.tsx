@@ -18,8 +18,7 @@ query {
     traitColor
     maximumPowerLevel
     detachmentTrait {
-      name
-      effect
+      ...nameEffect
     }
     units {
       id
@@ -33,15 +32,33 @@ query {
       notes
       powerLevel
       warlordTrait {
-        name
-        effect
+        ...nameEffect
       }
       relic {
+       ...nameEffect
+      }
+      battleHonours {
+        id
+        battleTrait {
+          ...nameEffect
+        }
+        rank
+      }
+      otherTraits {
+        id
         name
-        effect
+        nameEffects {
+          ...nameEffect
+        }
       }
     }
   }
+}
+
+fragment nameEffect on NameEffect {
+  id
+  name
+  effect
 }
 `
 
