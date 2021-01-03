@@ -38,6 +38,7 @@ export interface CrusadeUnitInput {
     relic: NameEffectInput | null
     warlordTrait: NameEffectInput | null
     battleHonours: BattleHonourInput[] | null
+    battleScars: NameEffectInput[] | null
 }
 
 export interface BattleHonourInput {

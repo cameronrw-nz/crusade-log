@@ -469,7 +469,8 @@ export declare const NameEffectDistinctFieldEnum: {
   id: 'id',
   name: 'name',
   effect: 'effect',
-  otherTraitId: 'otherTraitId'
+  otherTraitId: 'otherTraitId',
+  battleScarId: 'battleScarId'
 };
 
 export declare type NameEffectDistinctFieldEnum = (typeof NameEffectDistinctFieldEnum)[keyof typeof NameEffectDistinctFieldEnum]
@@ -1091,6 +1092,7 @@ export type NameEffect = {
   name: string
   effect: string
   otherTraitId: number | null
+  battleScarId: number | null
 }
 
 
@@ -1105,42 +1107,50 @@ export type AggregateNameEffect = {
 export type NameEffectAvgAggregateOutputType = {
   id: number
   otherTraitId: number | null
+  battleScarId: number | null
 }
 
 export type NameEffectSumAggregateOutputType = {
   id: number
   otherTraitId: number | null
+  battleScarId: number | null
 }
 
 export type NameEffectMinAggregateOutputType = {
   id: number
   otherTraitId: number | null
+  battleScarId: number | null
 }
 
 export type NameEffectMaxAggregateOutputType = {
   id: number
   otherTraitId: number | null
+  battleScarId: number | null
 }
 
 
 export type NameEffectAvgAggregateInputType = {
   id?: true
   otherTraitId?: true
+  battleScarId?: true
 }
 
 export type NameEffectSumAggregateInputType = {
   id?: true
   otherTraitId?: true
+  battleScarId?: true
 }
 
 export type NameEffectMinAggregateInputType = {
   id?: true
   otherTraitId?: true
+  battleScarId?: true
 }
 
 export type NameEffectMaxAggregateInputType = {
   id?: true
   otherTraitId?: true
+  battleScarId?: true
 }
 
 export type AggregateNameEffectArgs = {
@@ -1177,6 +1187,8 @@ export type NameEffectSelect = {
   BattleHonour?: boolean | FindManyBattleHonourArgs
   OtherTrait?: boolean | OtherTraitArgs
   otherTraitId?: boolean
+  BattleScar?: boolean | CrusadeUnitArgs
+  battleScarId?: boolean
 }
 
 export type NameEffectInclude = {
@@ -1185,6 +1197,7 @@ export type NameEffectInclude = {
   WarlordTrait?: boolean | FindManyCrusadeUnitArgs
   BattleHonour?: boolean | FindManyBattleHonourArgs
   OtherTrait?: boolean | OtherTraitArgs
+  BattleScar?: boolean | CrusadeUnitArgs
 }
 
 export type NameEffectGetPayload<
@@ -1207,7 +1220,9 @@ export type NameEffectGetPayload<
       P extends 'BattleHonour'
       ? Array<BattleHonourGetPayload<S['include'][P]>> :
       P extends 'OtherTrait'
-      ? OtherTraitGetPayload<S['include'][P]> | null : never
+      ? OtherTraitGetPayload<S['include'][P]> | null :
+      P extends 'BattleScar'
+      ? CrusadeUnitGetPayload<S['include'][P]> | null : never
     }
   : 'select' extends U
     ? {
@@ -1222,7 +1237,9 @@ export type NameEffectGetPayload<
       P extends 'BattleHonour'
       ? Array<BattleHonourGetPayload<S['select'][P]>> :
       P extends 'OtherTrait'
-      ? OtherTraitGetPayload<S['select'][P]> | null : never
+      ? OtherTraitGetPayload<S['select'][P]> | null :
+      P extends 'BattleScar'
+      ? CrusadeUnitGetPayload<S['select'][P]> | null : never
     }
   : NameEffect
 : NameEffect
@@ -1417,6 +1434,8 @@ export declare class Prisma__NameEffectClient<T> implements Promise<T> {
   BattleHonour<T extends FindManyBattleHonourArgs = {}>(args?: Subset<T, FindManyBattleHonourArgs>): CheckSelect<T, Promise<Array<BattleHonour>>, Promise<Array<BattleHonourGetPayload<T>>>>;
 
   OtherTrait<T extends OtherTraitArgs = {}>(args?: Subset<T, OtherTraitArgs>): CheckSelect<T, Prisma__OtherTraitClient<OtherTrait | null>, Prisma__OtherTraitClient<OtherTraitGetPayload<T> | null>>;
+
+  BattleScar<T extends CrusadeUnitArgs = {}>(args?: Subset<T, CrusadeUnitArgs>): CheckSelect<T, Prisma__CrusadeUnitClient<CrusadeUnit | null>, Prisma__CrusadeUnitClient<CrusadeUnitGetPayload<T> | null>>;
 
   private get _document();
   /**
@@ -1830,6 +1849,7 @@ export type CrusadeUnitSelect = {
   crusadeArmyId?: boolean
   battleHonours?: boolean | FindManyBattleHonourArgs
   OtherTrait?: boolean | FindManyOtherTraitArgs
+  BattleScars?: boolean | FindManyNameEffectArgs
 }
 
 export type CrusadeUnitInclude = {
@@ -1838,6 +1858,7 @@ export type CrusadeUnitInclude = {
   CrusadeArmy?: boolean | CrusadeArmyArgs
   battleHonours?: boolean | FindManyBattleHonourArgs
   OtherTrait?: boolean | FindManyOtherTraitArgs
+  BattleScars?: boolean | FindManyNameEffectArgs
 }
 
 export type CrusadeUnitGetPayload<
@@ -1860,7 +1881,9 @@ export type CrusadeUnitGetPayload<
       P extends 'battleHonours'
       ? Array<BattleHonourGetPayload<S['include'][P]>> :
       P extends 'OtherTrait'
-      ? Array<OtherTraitGetPayload<S['include'][P]>> : never
+      ? Array<OtherTraitGetPayload<S['include'][P]>> :
+      P extends 'BattleScars'
+      ? Array<NameEffectGetPayload<S['include'][P]>> : never
     }
   : 'select' extends U
     ? {
@@ -1875,7 +1898,9 @@ export type CrusadeUnitGetPayload<
       P extends 'battleHonours'
       ? Array<BattleHonourGetPayload<S['select'][P]>> :
       P extends 'OtherTrait'
-      ? Array<OtherTraitGetPayload<S['select'][P]>> : never
+      ? Array<OtherTraitGetPayload<S['select'][P]>> :
+      P extends 'BattleScars'
+      ? Array<NameEffectGetPayload<S['select'][P]>> : never
     }
   : CrusadeUnit
 : CrusadeUnit
@@ -2070,6 +2095,8 @@ export declare class Prisma__CrusadeUnitClient<T> implements Promise<T> {
   battleHonours<T extends FindManyBattleHonourArgs = {}>(args?: Subset<T, FindManyBattleHonourArgs>): CheckSelect<T, Promise<Array<BattleHonour>>, Promise<Array<BattleHonourGetPayload<T>>>>;
 
   OtherTrait<T extends FindManyOtherTraitArgs = {}>(args?: Subset<T, FindManyOtherTraitArgs>): CheckSelect<T, Promise<Array<OtherTrait>>, Promise<Array<OtherTraitGetPayload<T>>>>;
+
+  BattleScars<T extends FindManyNameEffectArgs = {}>(args?: Subset<T, FindManyNameEffectArgs>): CheckSelect<T, Promise<Array<NameEffect>>, Promise<Array<NameEffectGetPayload<T>>>>;
 
   private get _document();
   /**
@@ -3423,6 +3450,8 @@ export type NameEffectWhereInput = {
   BattleHonour?: BattleHonourListRelationFilter
   OtherTrait?: OtherTraitRelationFilter | OtherTraitWhereInput | null
   otherTraitId?: IntNullableFilter | number | null
+  BattleScar?: CrusadeUnitRelationFilter | CrusadeUnitWhereInput | null
+  battleScarId?: IntNullableFilter | number | null
 }
 
 export type NameEffectOrderByInput = {
@@ -3430,6 +3459,7 @@ export type NameEffectOrderByInput = {
   name?: SortOrder
   effect?: SortOrder
   otherTraitId?: SortOrder
+  battleScarId?: SortOrder
 }
 
 export type NameEffectWhereUniqueInput = {
@@ -3459,6 +3489,7 @@ export type CrusadeUnitWhereInput = {
   crusadeArmyId?: IntNullableFilter | number | null
   battleHonours?: BattleHonourListRelationFilter
   OtherTrait?: OtherTraitListRelationFilter
+  BattleScars?: NameEffectListRelationFilter
 }
 
 export type CrusadeUnitOrderByInput = {
@@ -3562,6 +3593,7 @@ export type NameEffectCreateInput = {
   WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
   BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
   OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
+  BattleScar?: CrusadeUnitCreateOneWithoutBattleScarsInput
 }
 
 export type NameEffectUpdateInput = {
@@ -3572,6 +3604,7 @@ export type NameEffectUpdateInput = {
   WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
   BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
   OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
+  BattleScar?: CrusadeUnitUpdateOneWithoutBattleScarsInput
 }
 
 export type NameEffectUpdateManyMutationInput = {
@@ -3595,6 +3628,7 @@ export type CrusadeUnitCreateInput = {
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
   battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
   OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectCreateManyWithoutBattleScarInput
 }
 
 export type CrusadeUnitUpdateInput = {
@@ -3613,6 +3647,7 @@ export type CrusadeUnitUpdateInput = {
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
   battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
   OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectUpdateManyWithoutBattleScarInput
 }
 
 export type CrusadeUnitUpdateManyMutationInput = {
@@ -3738,6 +3773,11 @@ export type OtherTraitRelationFilter = {
   isNot?: OtherTraitWhereInput | null
 }
 
+export type CrusadeUnitRelationFilter = {
+  is?: CrusadeUnitWhereInput | null
+  isNot?: CrusadeUnitWhereInput | null
+}
+
 export type StringNullableFilter = {
   equals?: string | null
   in?: Enumerable<string> | null
@@ -3761,11 +3801,6 @@ export type OtherTraitListRelationFilter = {
   every?: OtherTraitWhereInput
   some?: OtherTraitWhereInput
   none?: OtherTraitWhereInput
-}
-
-export type CrusadeUnitRelationFilter = {
-  is?: CrusadeUnitWhereInput | null
-  isNot?: CrusadeUnitWhereInput | null
 }
 
 export type NameEffectListRelationFilter = {
@@ -3846,6 +3881,11 @@ export type OtherTraitCreateOneWithoutNameEffectsInput = {
   connect?: OtherTraitWhereUniqueInput
 }
 
+export type CrusadeUnitCreateOneWithoutBattleScarsInput = {
+  create?: CrusadeUnitCreateWithoutBattleScarsInput
+  connect?: CrusadeUnitWhereUniqueInput
+}
+
 export type CrusadeArmyUpdateManyWithoutDetachmentTraitInput = {
   create?: CrusadeArmyCreateWithoutDetachmentTraitInput | Enumerable<CrusadeArmyCreateWithoutDetachmentTraitInput>
   connect?: CrusadeArmyWhereUniqueInput | Enumerable<CrusadeArmyWhereUniqueInput>
@@ -3903,6 +3943,15 @@ export type OtherTraitUpdateOneWithoutNameEffectsInput = {
   upsert?: OtherTraitUpsertWithoutNameEffectsInput
 }
 
+export type CrusadeUnitUpdateOneWithoutBattleScarsInput = {
+  create?: CrusadeUnitCreateWithoutBattleScarsInput
+  connect?: CrusadeUnitWhereUniqueInput
+  disconnect?: boolean
+  delete?: boolean
+  update?: CrusadeUnitUpdateWithoutBattleScarsDataInput
+  upsert?: CrusadeUnitUpsertWithoutBattleScarsInput
+}
+
 export type NameEffectCreateOneWithoutRelicInput = {
   create?: NameEffectCreateWithoutRelicInput
   connect?: NameEffectWhereUniqueInput
@@ -3926,6 +3975,11 @@ export type BattleHonourCreateManyWithoutCrusadeUnitInput = {
 export type OtherTraitCreateManyWithoutCrusadeUnitInput = {
   create?: OtherTraitCreateWithoutCrusadeUnitInput | Enumerable<OtherTraitCreateWithoutCrusadeUnitInput>
   connect?: OtherTraitWhereUniqueInput | Enumerable<OtherTraitWhereUniqueInput>
+}
+
+export type NameEffectCreateManyWithoutBattleScarInput = {
+  create?: NameEffectCreateWithoutBattleScarInput | Enumerable<NameEffectCreateWithoutBattleScarInput>
+  connect?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -3981,6 +4035,18 @@ export type OtherTraitUpdateManyWithoutCrusadeUnitInput = {
   updateMany?: OtherTraitUpdateManyWithWhereNestedInput | Enumerable<OtherTraitUpdateManyWithWhereNestedInput>
   deleteMany?: OtherTraitScalarWhereInput | Enumerable<OtherTraitScalarWhereInput>
   upsert?: OtherTraitUpsertWithWhereUniqueWithoutCrusadeUnitInput | Enumerable<OtherTraitUpsertWithWhereUniqueWithoutCrusadeUnitInput>
+}
+
+export type NameEffectUpdateManyWithoutBattleScarInput = {
+  create?: NameEffectCreateWithoutBattleScarInput | Enumerable<NameEffectCreateWithoutBattleScarInput>
+  connect?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
+  set?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
+  disconnect?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
+  delete?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
+  update?: NameEffectUpdateWithWhereUniqueWithoutBattleScarInput | Enumerable<NameEffectUpdateWithWhereUniqueWithoutBattleScarInput>
+  updateMany?: NameEffectUpdateManyWithWhereNestedInput | Enumerable<NameEffectUpdateManyWithWhereNestedInput>
+  deleteMany?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
+  upsert?: NameEffectUpsertWithWhereUniqueWithoutBattleScarInput | Enumerable<NameEffectUpsertWithWhereUniqueWithoutBattleScarInput>
 }
 
 export type NameEffectCreateOneWithoutBattleHonourInput = {
@@ -4113,6 +4179,7 @@ export type NameEffectCreateWithoutCrusadeArmyInput = {
   WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
   BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
   OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
+  BattleScar?: CrusadeUnitCreateOneWithoutBattleScarsInput
 }
 
 export type CrusadeUnitCreateWithoutCrusadeArmyInput = {
@@ -4130,6 +4197,7 @@ export type CrusadeUnitCreateWithoutCrusadeArmyInput = {
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
   battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
   OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectCreateManyWithoutBattleScarInput
 }
 
 export type NameEffectUpdateWithoutCrusadeArmyDataInput = {
@@ -4139,6 +4207,7 @@ export type NameEffectUpdateWithoutCrusadeArmyDataInput = {
   WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
   BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
   OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
+  BattleScar?: CrusadeUnitUpdateOneWithoutBattleScarsInput
 }
 
 export type NameEffectUpsertWithoutCrusadeArmyInput = {
@@ -4206,6 +4275,7 @@ export type CrusadeUnitCreateWithoutRelicInput = {
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
   battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
   OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectCreateManyWithoutBattleScarInput
 }
 
 export type CrusadeUnitCreateWithoutWarlordTraitInput = {
@@ -4223,6 +4293,7 @@ export type CrusadeUnitCreateWithoutWarlordTraitInput = {
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
   battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
   OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectCreateManyWithoutBattleScarInput
 }
 
 export type BattleHonourCreateWithoutBattleTraitInput = {
@@ -4234,6 +4305,24 @@ export type BattleHonourCreateWithoutBattleTraitInput = {
 export type OtherTraitCreateWithoutNameEffectsInput = {
   name: string
   CrusadeUnit?: CrusadeUnitCreateManyWithoutOtherTraitInput
+}
+
+export type CrusadeUnitCreateWithoutBattleScarsInput = {
+  name: string
+  alternateName?: string | null
+  agendaXp: number
+  battleParticipation: number
+  experienceLoss: number
+  kills: number
+  markedForGreatness: number
+  notes?: string | null
+  powerLevel: number
+  sequenceNumber: number
+  relic?: NameEffectCreateOneWithoutRelicInput
+  warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
+  CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
+  battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
+  OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
 }
 
 export type CrusadeArmyUpdateWithWhereUniqueWithoutDetachmentTraitInput = {
@@ -4324,6 +4413,29 @@ export type OtherTraitUpsertWithoutNameEffectsInput = {
   create: OtherTraitCreateWithoutNameEffectsInput
 }
 
+export type CrusadeUnitUpdateWithoutBattleScarsDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  alternateName?: string | NullableStringFieldUpdateOperationsInput | null
+  agendaXp?: number | IntFieldUpdateOperationsInput
+  battleParticipation?: number | IntFieldUpdateOperationsInput
+  experienceLoss?: number | IntFieldUpdateOperationsInput
+  kills?: number | IntFieldUpdateOperationsInput
+  markedForGreatness?: number | IntFieldUpdateOperationsInput
+  notes?: string | NullableStringFieldUpdateOperationsInput | null
+  powerLevel?: number | IntFieldUpdateOperationsInput
+  sequenceNumber?: number | IntFieldUpdateOperationsInput
+  relic?: NameEffectUpdateOneWithoutRelicInput
+  warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
+  CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
+  battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
+  OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
+}
+
+export type CrusadeUnitUpsertWithoutBattleScarsInput = {
+  update: CrusadeUnitUpdateWithoutBattleScarsDataInput
+  create: CrusadeUnitCreateWithoutBattleScarsInput
+}
+
 export type NameEffectCreateWithoutRelicInput = {
   name: string
   effect: string
@@ -4331,6 +4443,7 @@ export type NameEffectCreateWithoutRelicInput = {
   WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
   BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
   OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
+  BattleScar?: CrusadeUnitCreateOneWithoutBattleScarsInput
 }
 
 export type NameEffectCreateWithoutWarlordTraitInput = {
@@ -4340,6 +4453,7 @@ export type NameEffectCreateWithoutWarlordTraitInput = {
   Relic?: CrusadeUnitCreateManyWithoutRelicInput
   BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
   OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
+  BattleScar?: CrusadeUnitCreateOneWithoutBattleScarsInput
 }
 
 export type CrusadeArmyCreateWithoutUnitsInput = {
@@ -4362,6 +4476,16 @@ export type OtherTraitCreateWithoutCrusadeUnitInput = {
   nameEffects?: NameEffectCreateManyWithoutOtherTraitInput
 }
 
+export type NameEffectCreateWithoutBattleScarInput = {
+  name: string
+  effect: string
+  CrusadeArmy?: CrusadeArmyCreateManyWithoutDetachmentTraitInput
+  Relic?: CrusadeUnitCreateManyWithoutRelicInput
+  WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
+  BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
+  OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
+}
+
 export type NameEffectUpdateWithoutRelicDataInput = {
   name?: string | StringFieldUpdateOperationsInput
   effect?: string | StringFieldUpdateOperationsInput
@@ -4369,6 +4493,7 @@ export type NameEffectUpdateWithoutRelicDataInput = {
   WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
   BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
   OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
+  BattleScar?: CrusadeUnitUpdateOneWithoutBattleScarsInput
 }
 
 export type NameEffectUpsertWithoutRelicInput = {
@@ -4383,6 +4508,7 @@ export type NameEffectUpdateWithoutWarlordTraitDataInput = {
   Relic?: CrusadeUnitUpdateManyWithoutRelicInput
   BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
   OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
+  BattleScar?: CrusadeUnitUpdateOneWithoutBattleScarsInput
 }
 
 export type NameEffectUpsertWithoutWarlordTraitInput = {
@@ -4439,6 +4565,33 @@ export type OtherTraitUpsertWithWhereUniqueWithoutCrusadeUnitInput = {
   create: OtherTraitCreateWithoutCrusadeUnitInput
 }
 
+export type NameEffectUpdateWithWhereUniqueWithoutBattleScarInput = {
+  where: NameEffectWhereUniqueInput
+  data: NameEffectUpdateWithoutBattleScarDataInput
+}
+
+export type NameEffectUpdateManyWithWhereNestedInput = {
+  where: NameEffectScalarWhereInput
+  data: NameEffectUpdateManyDataInput
+}
+
+export type NameEffectScalarWhereInput = {
+  AND?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
+  OR?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
+  NOT?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
+  id?: IntFilter | number
+  name?: StringFilter | string
+  effect?: StringFilter | string
+  otherTraitId?: IntNullableFilter | number | null
+  battleScarId?: IntNullableFilter | number | null
+}
+
+export type NameEffectUpsertWithWhereUniqueWithoutBattleScarInput = {
+  where: NameEffectWhereUniqueInput
+  update: NameEffectUpdateWithoutBattleScarDataInput
+  create: NameEffectCreateWithoutBattleScarInput
+}
+
 export type NameEffectCreateWithoutBattleHonourInput = {
   name: string
   effect: string
@@ -4446,6 +4599,7 @@ export type NameEffectCreateWithoutBattleHonourInput = {
   Relic?: CrusadeUnitCreateManyWithoutRelicInput
   WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
   OtherTrait?: OtherTraitCreateOneWithoutNameEffectsInput
+  BattleScar?: CrusadeUnitCreateOneWithoutBattleScarsInput
 }
 
 export type CrusadeUnitCreateWithoutBattleHonoursInput = {
@@ -4463,6 +4617,7 @@ export type CrusadeUnitCreateWithoutBattleHonoursInput = {
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
   OtherTrait?: OtherTraitCreateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectCreateManyWithoutBattleScarInput
 }
 
 export type NameEffectUpdateWithoutBattleHonourDataInput = {
@@ -4472,6 +4627,7 @@ export type NameEffectUpdateWithoutBattleHonourDataInput = {
   Relic?: CrusadeUnitUpdateManyWithoutRelicInput
   WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
   OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
+  BattleScar?: CrusadeUnitUpdateOneWithoutBattleScarsInput
 }
 
 export type NameEffectUpsertWithoutBattleHonourInput = {
@@ -4494,6 +4650,7 @@ export type CrusadeUnitUpdateWithoutBattleHonoursDataInput = {
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
   OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectUpdateManyWithoutBattleScarInput
 }
 
 export type CrusadeUnitUpsertWithoutBattleHonoursInput = {
@@ -4508,6 +4665,7 @@ export type NameEffectCreateWithoutOtherTraitInput = {
   Relic?: CrusadeUnitCreateManyWithoutRelicInput
   WarlordTrait?: CrusadeUnitCreateManyWithoutWarlordTraitInput
   BattleHonour?: BattleHonourCreateManyWithoutBattleTraitInput
+  BattleScar?: CrusadeUnitCreateOneWithoutBattleScarsInput
 }
 
 export type CrusadeUnitCreateWithoutOtherTraitInput = {
@@ -4525,26 +4683,12 @@ export type CrusadeUnitCreateWithoutOtherTraitInput = {
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
   battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectCreateManyWithoutBattleScarInput
 }
 
 export type NameEffectUpdateWithWhereUniqueWithoutOtherTraitInput = {
   where: NameEffectWhereUniqueInput
   data: NameEffectUpdateWithoutOtherTraitDataInput
-}
-
-export type NameEffectUpdateManyWithWhereNestedInput = {
-  where: NameEffectScalarWhereInput
-  data: NameEffectUpdateManyDataInput
-}
-
-export type NameEffectScalarWhereInput = {
-  AND?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
-  OR?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
-  NOT?: NameEffectScalarWhereInput | Enumerable<NameEffectScalarWhereInput>
-  id?: IntFilter | number
-  name?: StringFilter | string
-  effect?: StringFilter | string
-  otherTraitId?: IntNullableFilter | number | null
 }
 
 export type NameEffectUpsertWithWhereUniqueWithoutOtherTraitInput = {
@@ -4579,6 +4723,7 @@ export type CrusadeUnitUpdateWithoutCrusadeArmyDataInput = {
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
   battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
   OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectUpdateManyWithoutBattleScarInput
 }
 
 export type CrusadeUnitUpdateManyDataInput = {
@@ -4626,6 +4771,7 @@ export type CrusadeUnitUpdateWithoutRelicDataInput = {
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
   battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
   OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectUpdateManyWithoutBattleScarInput
 }
 
 export type CrusadeUnitUpdateWithoutWarlordTraitDataInput = {
@@ -4643,6 +4789,7 @@ export type CrusadeUnitUpdateWithoutWarlordTraitDataInput = {
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
   battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
   OtherTrait?: OtherTraitUpdateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectUpdateManyWithoutBattleScarInput
 }
 
 export type BattleHonourUpdateWithoutBattleTraitDataInput = {
@@ -4671,6 +4818,21 @@ export type OtherTraitUpdateManyDataInput = {
   name?: string | StringFieldUpdateOperationsInput
 }
 
+export type NameEffectUpdateWithoutBattleScarDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  effect?: string | StringFieldUpdateOperationsInput
+  CrusadeArmy?: CrusadeArmyUpdateManyWithoutDetachmentTraitInput
+  Relic?: CrusadeUnitUpdateManyWithoutRelicInput
+  WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
+  BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
+  OtherTrait?: OtherTraitUpdateOneWithoutNameEffectsInput
+}
+
+export type NameEffectUpdateManyDataInput = {
+  name?: string | StringFieldUpdateOperationsInput
+  effect?: string | StringFieldUpdateOperationsInput
+}
+
 export type NameEffectUpdateWithoutOtherTraitDataInput = {
   name?: string | StringFieldUpdateOperationsInput
   effect?: string | StringFieldUpdateOperationsInput
@@ -4678,11 +4840,7 @@ export type NameEffectUpdateWithoutOtherTraitDataInput = {
   Relic?: CrusadeUnitUpdateManyWithoutRelicInput
   WarlordTrait?: CrusadeUnitUpdateManyWithoutWarlordTraitInput
   BattleHonour?: BattleHonourUpdateManyWithoutBattleTraitInput
-}
-
-export type NameEffectUpdateManyDataInput = {
-  name?: string | StringFieldUpdateOperationsInput
-  effect?: string | StringFieldUpdateOperationsInput
+  BattleScar?: CrusadeUnitUpdateOneWithoutBattleScarsInput
 }
 
 export type CrusadeUnitUpdateWithoutOtherTraitDataInput = {
@@ -4700,6 +4858,7 @@ export type CrusadeUnitUpdateWithoutOtherTraitDataInput = {
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
   battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
+  BattleScars?: NameEffectUpdateManyWithoutBattleScarInput
 }
 
 /**

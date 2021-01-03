@@ -15,7 +15,9 @@ export async function otherTraits(parent: CrusadeUnit, args: any, context: Serve
 }
 
 export async function battleHonours(parent: CrusadeUnit, args: any, context: ServerContext, info: any): Promise<any> {
-    const battleHonours = await context.prisma.battleHonour.findMany({ where: { crusadeUnitId: parent.id } })
-    console.log(parent.id + " " + parent.name)
-    return battleHonours
+    return await context.prisma.battleHonour.findMany({ where: { crusadeUnitId: parent.id } })
+}
+
+export async function battleScars(parent: CrusadeUnit, args: any, context: ServerContext, info: any): Promise<any> {
+    return await context.prisma.nameEffect.findMany({ where: { battleScarId: parent.id } })
 }

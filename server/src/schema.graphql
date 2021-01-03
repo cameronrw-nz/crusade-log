@@ -86,6 +86,7 @@ type CrusadeUnit {
     sequenceNumber: Int
     otherTraits: [OtherTrait]
     battleHonours: [BattleHonour]
+    battleScars: [NameEffect]
 }
 
 type BattleHonour {

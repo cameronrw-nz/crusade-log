@@ -50,6 +50,15 @@ async function UpdateUnit(existingUnit: CrusadeUnit, crusadeUnitInput: CrusadeUn
         }
     }
 
+    let battleScars = undefined;
+    if (crusadeUnitInput.battleHonours) {
+        battleScars = [];
+        for (let index = 0; index < crusadeUnitInput.battleScars.length; index++) {
+            const battleScar = crusadeUnitInput.battleScars[index];
+            battleScars.push(await SaveNameEffect(battleScar, prisma));
+        }
+    }
+
     return await prisma.crusadeUnit.update({
         where: { id: crusadeUnitInput.id },
         data: {
@@ -67,6 +76,7 @@ async function UpdateUnit(existingUnit: CrusadeUnit, crusadeUnitInput: CrusadeUn
             warlordTrait: warlordTrait ? { connect: { id: warlordTrait.id } } : undefined,
             relic: relic ? { connect: { id: relic.id } } : undefined,
             battleHonours: battleHonours ? { connect: battleHonours.map(bh => { return { id: bh.id } }) } : undefined,
+            BattleScars: battleScars ? { connect: battleScars.map(bs => { return { id: bs.id } }) } : undefined,
             CrusadeArmy: { connect: { id: existingUnit.crusadeArmyId } }
         }
     })
@@ -94,6 +104,13 @@ async function CreateUnit(crusadeUnitInput: CrusadeUnitInput, crusadeArmyId: num
         })
     }
 
+    let battleScars = undefined;
+    if (crusadeUnitInput.battleScars) {
+        battleScars = crusadeUnitInput.battleScars.map(bs => {
+            return { name: bs.name, effect: bs.effect }
+        })
+    }
+
     return await prisma.crusadeUnit.create({
         data: {
             name: crusadeUnitInput.name,
@@ -114,6 +131,9 @@ async function CreateUnit(crusadeUnitInput: CrusadeUnitInput, crusadeArmyId: num
                 : undefined,
             battleHonours: battleHonours
                 ? { create: battleHonours }
+                : undefined,
+            BattleScars: battleScars
+                ? { create: battleScars }
                 : undefined,
             CrusadeArmy: { connect: { id: crusadeArmyId } }
         }

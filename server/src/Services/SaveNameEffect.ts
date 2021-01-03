@@ -17,7 +17,7 @@ export async function SaveNameEffect(nameEffectInput: NameEffectInput, prisma: P
 }
 
 async function UpdateNameEffect(existingNameEffect: NameEffect, nameEffectInput: NameEffectInput, prisma: PrismaClient<PrismaClientOptions, never>): Promise<NameEffect> {
-    const { id, otherTraitId, ...editableFields } = existingNameEffect;
+    const { id, otherTraitId, battleScarId, ...editableFields } = existingNameEffect;
     return await prisma.nameEffect.update({
         where: { id: nameEffectInput.id },
         data: {

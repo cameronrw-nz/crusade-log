@@ -31,6 +31,8 @@ model NameEffect {
     BattleHonour BattleHonour[] @relation("battleTrait")
     OtherTrait   OtherTrait?    @relation("otherTraitNameEffect", fields: [otherTraitId], references: [id])
     otherTraitId Int?
+    BattleScar   CrusadeUnit?   @relation("battleScars", fields: [battleScarId], references: [id])
+    battleScarId Int?
 }
 
 model CrusadeUnit {
@@ -53,6 +55,7 @@ model CrusadeUnit {
     crusadeArmyId       Int?
     battleHonours       BattleHonour[]
     OtherTrait          OtherTrait[]   @relation("otherTrait")
+    BattleScars         NameEffect[]   @relation("battleScars")
 }
 
 model BattleHonour {

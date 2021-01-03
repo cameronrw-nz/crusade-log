@@ -36,6 +36,10 @@ query {
         rank
         crusadePoints
       }
+      battleScars {
+        name
+        effect
+      }
       otherTraits {
         id
         name
