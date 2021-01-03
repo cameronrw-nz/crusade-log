@@ -481,14 +481,13 @@ export declare const CrusadeUnitDistinctFieldEnum: {
   alternateName: 'alternateName',
   agendaXp: 'agendaXp',
   battleParticipation: 'battleParticipation',
-  crusadePoints: 'crusadePoints',
   experienceLoss: 'experienceLoss',
   kills: 'kills',
   markedForGreatness: 'markedForGreatness',
   notes: 'notes',
   powerLevel: 'powerLevel',
   relicId: 'relicId',
-  sequenceInt: 'sequenceInt',
+  sequenceNumber: 'sequenceNumber',
   warlordTraitId: 'warlordTraitId',
   crusadeArmyId: 'crusadeArmyId'
 };
@@ -1654,14 +1653,13 @@ export type CrusadeUnit = {
   alternateName: string | null
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
-  notes: string
+  notes: string | null
   powerLevel: number
   relicId: number | null
-  sequenceInt: number
+  sequenceNumber: number
   warlordTraitId: number | null
   crusadeArmyId: number | null
 }
@@ -1679,13 +1677,12 @@ export type CrusadeUnitAvgAggregateOutputType = {
   id: number
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
   powerLevel: number
   relicId: number | null
-  sequenceInt: number
+  sequenceNumber: number
   warlordTraitId: number | null
   crusadeArmyId: number | null
 }
@@ -1694,13 +1691,12 @@ export type CrusadeUnitSumAggregateOutputType = {
   id: number
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
   powerLevel: number
   relicId: number | null
-  sequenceInt: number
+  sequenceNumber: number
   warlordTraitId: number | null
   crusadeArmyId: number | null
 }
@@ -1709,13 +1705,12 @@ export type CrusadeUnitMinAggregateOutputType = {
   id: number
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
   powerLevel: number
   relicId: number | null
-  sequenceInt: number
+  sequenceNumber: number
   warlordTraitId: number | null
   crusadeArmyId: number | null
 }
@@ -1724,13 +1719,12 @@ export type CrusadeUnitMaxAggregateOutputType = {
   id: number
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
   powerLevel: number
   relicId: number | null
-  sequenceInt: number
+  sequenceNumber: number
   warlordTraitId: number | null
   crusadeArmyId: number | null
 }
@@ -1740,13 +1734,12 @@ export type CrusadeUnitAvgAggregateInputType = {
   id?: true
   agendaXp?: true
   battleParticipation?: true
-  crusadePoints?: true
   experienceLoss?: true
   kills?: true
   markedForGreatness?: true
   powerLevel?: true
   relicId?: true
-  sequenceInt?: true
+  sequenceNumber?: true
   warlordTraitId?: true
   crusadeArmyId?: true
 }
@@ -1755,13 +1748,12 @@ export type CrusadeUnitSumAggregateInputType = {
   id?: true
   agendaXp?: true
   battleParticipation?: true
-  crusadePoints?: true
   experienceLoss?: true
   kills?: true
   markedForGreatness?: true
   powerLevel?: true
   relicId?: true
-  sequenceInt?: true
+  sequenceNumber?: true
   warlordTraitId?: true
   crusadeArmyId?: true
 }
@@ -1770,13 +1762,12 @@ export type CrusadeUnitMinAggregateInputType = {
   id?: true
   agendaXp?: true
   battleParticipation?: true
-  crusadePoints?: true
   experienceLoss?: true
   kills?: true
   markedForGreatness?: true
   powerLevel?: true
   relicId?: true
-  sequenceInt?: true
+  sequenceNumber?: true
   warlordTraitId?: true
   crusadeArmyId?: true
 }
@@ -1785,13 +1776,12 @@ export type CrusadeUnitMaxAggregateInputType = {
   id?: true
   agendaXp?: true
   battleParticipation?: true
-  crusadePoints?: true
   experienceLoss?: true
   kills?: true
   markedForGreatness?: true
   powerLevel?: true
   relicId?: true
-  sequenceInt?: true
+  sequenceNumber?: true
   warlordTraitId?: true
   crusadeArmyId?: true
 }
@@ -1826,7 +1816,6 @@ export type CrusadeUnitSelect = {
   alternateName?: boolean
   agendaXp?: boolean
   battleParticipation?: boolean
-  crusadePoints?: boolean
   experienceLoss?: boolean
   kills?: boolean
   markedForGreatness?: boolean
@@ -1834,7 +1823,7 @@ export type CrusadeUnitSelect = {
   powerLevel?: boolean
   relic?: boolean | NameEffectArgs
   relicId?: boolean
-  sequenceInt?: boolean
+  sequenceNumber?: boolean
   warlordTrait?: boolean | NameEffectArgs
   warlordTraitId?: boolean
   CrusadeArmy?: boolean | CrusadeArmyArgs
@@ -3456,15 +3445,14 @@ export type CrusadeUnitWhereInput = {
   alternateName?: StringNullableFilter | string | null
   agendaXp?: IntFilter | number
   battleParticipation?: IntFilter | number
-  crusadePoints?: IntFilter | number
   experienceLoss?: IntFilter | number
   kills?: IntFilter | number
   markedForGreatness?: IntFilter | number
-  notes?: StringFilter | string
+  notes?: StringNullableFilter | string | null
   powerLevel?: IntFilter | number
   relic?: NameEffectRelationFilter | NameEffectWhereInput | null
   relicId?: IntNullableFilter | number | null
-  sequenceInt?: IntFilter | number
+  sequenceNumber?: IntFilter | number
   warlordTrait?: NameEffectRelationFilter | NameEffectWhereInput | null
   warlordTraitId?: IntNullableFilter | number | null
   CrusadeArmy?: CrusadeArmyRelationFilter | CrusadeArmyWhereInput | null
@@ -3479,14 +3467,13 @@ export type CrusadeUnitOrderByInput = {
   alternateName?: SortOrder
   agendaXp?: SortOrder
   battleParticipation?: SortOrder
-  crusadePoints?: SortOrder
   experienceLoss?: SortOrder
   kills?: SortOrder
   markedForGreatness?: SortOrder
   notes?: SortOrder
   powerLevel?: SortOrder
   relicId?: SortOrder
-  sequenceInt?: SortOrder
+  sequenceNumber?: SortOrder
   warlordTraitId?: SortOrder
   crusadeArmyId?: SortOrder
 }
@@ -3597,13 +3584,12 @@ export type CrusadeUnitCreateInput = {
   alternateName?: string | null
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
-  notes: string
+  notes?: string | null
   powerLevel: number
-  sequenceInt: number
+  sequenceNumber: number
   relic?: NameEffectCreateOneWithoutRelicInput
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
@@ -3616,13 +3602,12 @@ export type CrusadeUnitUpdateInput = {
   alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   agendaXp?: number | IntFieldUpdateOperationsInput
   battleParticipation?: number | IntFieldUpdateOperationsInput
-  crusadePoints?: number | IntFieldUpdateOperationsInput
   experienceLoss?: number | IntFieldUpdateOperationsInput
   kills?: number | IntFieldUpdateOperationsInput
   markedForGreatness?: number | IntFieldUpdateOperationsInput
-  notes?: string | StringFieldUpdateOperationsInput
+  notes?: string | NullableStringFieldUpdateOperationsInput | null
   powerLevel?: number | IntFieldUpdateOperationsInput
-  sequenceInt?: number | IntFieldUpdateOperationsInput
+  sequenceNumber?: number | IntFieldUpdateOperationsInput
   relic?: NameEffectUpdateOneWithoutRelicInput
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
@@ -3635,13 +3620,12 @@ export type CrusadeUnitUpdateManyMutationInput = {
   alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   agendaXp?: number | IntFieldUpdateOperationsInput
   battleParticipation?: number | IntFieldUpdateOperationsInput
-  crusadePoints?: number | IntFieldUpdateOperationsInput
   experienceLoss?: number | IntFieldUpdateOperationsInput
   kills?: number | IntFieldUpdateOperationsInput
   markedForGreatness?: number | IntFieldUpdateOperationsInput
-  notes?: string | StringFieldUpdateOperationsInput
+  notes?: string | NullableStringFieldUpdateOperationsInput | null
   powerLevel?: number | IntFieldUpdateOperationsInput
-  sequenceInt?: number | IntFieldUpdateOperationsInput
+  sequenceNumber?: number | IntFieldUpdateOperationsInput
 }
 
 export type BattleHonourCreateInput = {
@@ -4136,13 +4120,12 @@ export type CrusadeUnitCreateWithoutCrusadeArmyInput = {
   alternateName?: string | null
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
-  notes: string
+  notes?: string | null
   powerLevel: number
-  sequenceInt: number
+  sequenceNumber: number
   relic?: NameEffectCreateOneWithoutRelicInput
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
   battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
@@ -4182,14 +4165,13 @@ export type CrusadeUnitScalarWhereInput = {
   alternateName?: StringNullableFilter | string | null
   agendaXp?: IntFilter | number
   battleParticipation?: IntFilter | number
-  crusadePoints?: IntFilter | number
   experienceLoss?: IntFilter | number
   kills?: IntFilter | number
   markedForGreatness?: IntFilter | number
-  notes?: StringFilter | string
+  notes?: StringNullableFilter | string | null
   powerLevel?: IntFilter | number
   relicId?: IntNullableFilter | number | null
-  sequenceInt?: IntFilter | number
+  sequenceNumber?: IntFilter | number
   warlordTraitId?: IntNullableFilter | number | null
   crusadeArmyId?: IntNullableFilter | number | null
 }
@@ -4214,13 +4196,12 @@ export type CrusadeUnitCreateWithoutRelicInput = {
   alternateName?: string | null
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
-  notes: string
+  notes?: string | null
   powerLevel: number
-  sequenceInt: number
+  sequenceNumber: number
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
   battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
@@ -4232,13 +4213,12 @@ export type CrusadeUnitCreateWithoutWarlordTraitInput = {
   alternateName?: string | null
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
-  notes: string
+  notes?: string | null
   powerLevel: number
-  sequenceInt: number
+  sequenceNumber: number
   relic?: NameEffectCreateOneWithoutRelicInput
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
   battleHonours?: BattleHonourCreateManyWithoutCrusadeUnitInput
@@ -4473,13 +4453,12 @@ export type CrusadeUnitCreateWithoutBattleHonoursInput = {
   alternateName?: string | null
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
-  notes: string
+  notes?: string | null
   powerLevel: number
-  sequenceInt: number
+  sequenceNumber: number
   relic?: NameEffectCreateOneWithoutRelicInput
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
@@ -4505,13 +4484,12 @@ export type CrusadeUnitUpdateWithoutBattleHonoursDataInput = {
   alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   agendaXp?: number | IntFieldUpdateOperationsInput
   battleParticipation?: number | IntFieldUpdateOperationsInput
-  crusadePoints?: number | IntFieldUpdateOperationsInput
   experienceLoss?: number | IntFieldUpdateOperationsInput
   kills?: number | IntFieldUpdateOperationsInput
   markedForGreatness?: number | IntFieldUpdateOperationsInput
-  notes?: string | StringFieldUpdateOperationsInput
+  notes?: string | NullableStringFieldUpdateOperationsInput | null
   powerLevel?: number | IntFieldUpdateOperationsInput
-  sequenceInt?: number | IntFieldUpdateOperationsInput
+  sequenceNumber?: number | IntFieldUpdateOperationsInput
   relic?: NameEffectUpdateOneWithoutRelicInput
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
@@ -4537,13 +4515,12 @@ export type CrusadeUnitCreateWithoutOtherTraitInput = {
   alternateName?: string | null
   agendaXp: number
   battleParticipation: number
-  crusadePoints: number
   experienceLoss: number
   kills: number
   markedForGreatness: number
-  notes: string
+  notes?: string | null
   powerLevel: number
-  sequenceInt: number
+  sequenceNumber: number
   relic?: NameEffectCreateOneWithoutRelicInput
   warlordTrait?: NameEffectCreateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyCreateOneWithoutUnitsInput
@@ -4592,13 +4569,12 @@ export type CrusadeUnitUpdateWithoutCrusadeArmyDataInput = {
   alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   agendaXp?: number | IntFieldUpdateOperationsInput
   battleParticipation?: number | IntFieldUpdateOperationsInput
-  crusadePoints?: number | IntFieldUpdateOperationsInput
   experienceLoss?: number | IntFieldUpdateOperationsInput
   kills?: number | IntFieldUpdateOperationsInput
   markedForGreatness?: number | IntFieldUpdateOperationsInput
-  notes?: string | StringFieldUpdateOperationsInput
+  notes?: string | NullableStringFieldUpdateOperationsInput | null
   powerLevel?: number | IntFieldUpdateOperationsInput
-  sequenceInt?: number | IntFieldUpdateOperationsInput
+  sequenceNumber?: number | IntFieldUpdateOperationsInput
   relic?: NameEffectUpdateOneWithoutRelicInput
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
   battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
@@ -4610,13 +4586,12 @@ export type CrusadeUnitUpdateManyDataInput = {
   alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   agendaXp?: number | IntFieldUpdateOperationsInput
   battleParticipation?: number | IntFieldUpdateOperationsInput
-  crusadePoints?: number | IntFieldUpdateOperationsInput
   experienceLoss?: number | IntFieldUpdateOperationsInput
   kills?: number | IntFieldUpdateOperationsInput
   markedForGreatness?: number | IntFieldUpdateOperationsInput
-  notes?: string | StringFieldUpdateOperationsInput
+  notes?: string | NullableStringFieldUpdateOperationsInput | null
   powerLevel?: number | IntFieldUpdateOperationsInput
-  sequenceInt?: number | IntFieldUpdateOperationsInput
+  sequenceNumber?: number | IntFieldUpdateOperationsInput
 }
 
 export type CrusadeArmyUpdateWithoutDetachmentTraitDataInput = {
@@ -4641,13 +4616,12 @@ export type CrusadeUnitUpdateWithoutRelicDataInput = {
   alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   agendaXp?: number | IntFieldUpdateOperationsInput
   battleParticipation?: number | IntFieldUpdateOperationsInput
-  crusadePoints?: number | IntFieldUpdateOperationsInput
   experienceLoss?: number | IntFieldUpdateOperationsInput
   kills?: number | IntFieldUpdateOperationsInput
   markedForGreatness?: number | IntFieldUpdateOperationsInput
-  notes?: string | StringFieldUpdateOperationsInput
+  notes?: string | NullableStringFieldUpdateOperationsInput | null
   powerLevel?: number | IntFieldUpdateOperationsInput
-  sequenceInt?: number | IntFieldUpdateOperationsInput
+  sequenceNumber?: number | IntFieldUpdateOperationsInput
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
   battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
@@ -4659,13 +4633,12 @@ export type CrusadeUnitUpdateWithoutWarlordTraitDataInput = {
   alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   agendaXp?: number | IntFieldUpdateOperationsInput
   battleParticipation?: number | IntFieldUpdateOperationsInput
-  crusadePoints?: number | IntFieldUpdateOperationsInput
   experienceLoss?: number | IntFieldUpdateOperationsInput
   kills?: number | IntFieldUpdateOperationsInput
   markedForGreatness?: number | IntFieldUpdateOperationsInput
-  notes?: string | StringFieldUpdateOperationsInput
+  notes?: string | NullableStringFieldUpdateOperationsInput | null
   powerLevel?: number | IntFieldUpdateOperationsInput
-  sequenceInt?: number | IntFieldUpdateOperationsInput
+  sequenceNumber?: number | IntFieldUpdateOperationsInput
   relic?: NameEffectUpdateOneWithoutRelicInput
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput
   battleHonours?: BattleHonourUpdateManyWithoutCrusadeUnitInput
@@ -4717,13 +4690,12 @@ export type CrusadeUnitUpdateWithoutOtherTraitDataInput = {
   alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   agendaXp?: number | IntFieldUpdateOperationsInput
   battleParticipation?: number | IntFieldUpdateOperationsInput
-  crusadePoints?: number | IntFieldUpdateOperationsInput
   experienceLoss?: number | IntFieldUpdateOperationsInput
   kills?: number | IntFieldUpdateOperationsInput
   markedForGreatness?: number | IntFieldUpdateOperationsInput
-  notes?: string | StringFieldUpdateOperationsInput
+  notes?: string | NullableStringFieldUpdateOperationsInput | null
   powerLevel?: number | IntFieldUpdateOperationsInput
-  sequenceInt?: number | IntFieldUpdateOperationsInput
+  sequenceNumber?: number | IntFieldUpdateOperationsInput
   relic?: NameEffectUpdateOneWithoutRelicInput
   warlordTrait?: NameEffectUpdateOneWithoutWarlordTraitInput
   CrusadeArmy?: CrusadeArmyUpdateOneWithoutUnitsInput

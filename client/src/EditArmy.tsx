@@ -32,9 +32,15 @@ function EditArmy(props: IEditArmyProps) {
         }
     }
 
+    function saveArmy(e: React.FormEvent | React.MouseEvent) {
+        e.preventDefault()
+        e.stopPropagation()
+        props.saveArmy(army)
+    }
+
     return (
         <>
-            <Form onSubmit={() => props.saveArmy(army)} >
+            <Form onSubmit={saveArmy} >
                 <Row className="my-2 mx-1 header">
                     <h2>
                         {isNewArmy ? "Add Army" : "Edit Army"}
@@ -136,7 +142,7 @@ function EditArmy(props: IEditArmyProps) {
                 </Row>
                 <FormButtons
                     primaryButtonName="Save"
-                    primaryButtonOnClick={() => props.saveArmy(army)}
+                    primaryButtonOnClick={saveArmy}
                     secondaryButtonName="Back"
                     secondaryButtonOnClick={props.goBack}
                     color={army.traitColor}

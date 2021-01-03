@@ -39,15 +39,14 @@ model CrusadeUnit {
     alternateName       String?
     agendaXp            Int
     battleParticipation Int
-    crusadePoints       Int
     experienceLoss      Int
     kills               Int
     markedForGreatness  Int
-    notes               String
+    notes               String?
     powerLevel          Int
     relic               NameEffect?    @relation(name: "relic", fields: [relicId], references: [id])
     relicId             Int?
-    sequenceInt         Int
+    sequenceNumber      Int
     warlordTrait        NameEffect?    @relation(name: "warlordTrait", fields: [warlordTraitId], references: [id])
     warlordTraitId      Int?
     CrusadeArmy         CrusadeArmy?   @relation(fields: [crusadeArmyId], references: [id])

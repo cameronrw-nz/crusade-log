@@ -5,7 +5,9 @@
     "main": "index.ts",
     "scripts": {
         "start": "ts-node src/index.ts",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prisma-studio": "npx prisma studio --experimental",
+        "update-db": "npx prisma migrate save --experimental && npx prisma migrate up --experimental && npx prisma generate"
     },
     "author": "",
     "license": "ISC",

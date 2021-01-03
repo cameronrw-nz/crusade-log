@@ -10,6 +10,8 @@ import FormButtons from "./CommonFields/FormButtons";
 import ReadOnlyRow from "./CommonFields/ReadOnlyRow";
 import FormNameEffectInputs from "./CommonFields/FormNameEffectInputs";
 import FormButton from "./CommonFields/FormButton";
+import CopyIcon from "./Resources/Icons/CopyIcon.svg";
+import { CopyToClipboard } from "./Helpers/Clipboard";
 
 interface IEditUnitProps {
     deleteUnit: (unit: ICrusadeUnit) => void;
@@ -310,6 +312,35 @@ function EditUnit(props: IEditUnitProps) {
                 }
             />
             {otherTraits}
+            <Row className="mb-2">
+                <Col>
+                    <Form.Label>
+                        Copy from Clipboard
+                        </Form.Label>
+                </Col>
+                <Col>
+                    <img
+                        className="icon"
+                        src={CopyIcon}
+                        alt="Edit Links"
+                        onClick={() => CopyToClipboard(props.unit)}
+                    />
+                </Col>
+            </Row>
+            <Row className="mb-2">
+                <Col>
+                    <Form.Control
+                        as="textarea"
+                        rows={5}
+                        onChange={e => {
+                            const newUnit: ICrusadeUnit = JSON.parse(e.target.value)
+                            newUnit.id = unit.id;
+                            setUnit(newUnit)
+                        }}
+                        value={JSON.stringify(unit)}
+                    />
+                </Col>
+            </Row>
             <FormButtons
                 primaryButtonName="Save"
                 primaryButtonOnClick={save}

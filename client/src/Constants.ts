@@ -6,7 +6,6 @@ export interface ICrusadeUnit extends IEntity {
     battleHonours: IBattleHonour[];
     battleParticipation: number;
     battleScars: INameEffect[];
-    crusadePoints: number;
     experienceLoss?: number;
     id: number,
     kills: number;
@@ -19,7 +18,7 @@ export interface ICrusadeUnit extends IEntity {
     otherTraits?: IOtherTrait[]
 }
 
-interface IBattleHonour {
+export interface IBattleHonour {
     crusadePoints: number;
     battleTrait?: INameEffect;
     rank: BattleHonourRank;

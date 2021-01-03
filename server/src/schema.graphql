@@ -3,17 +3,58 @@ type Query {
 }
 
 type Mutation {
-    army(crusadeArmy: CrusadeArmyInput): CrusadeArmy
+    army(crusadeArmy: CrusadeArmyInput!): CrusadeArmy!
+    unit(crusadeUnit: CrusadeUnitInput!, crusadeArmyId: Int!): CrusadeUnit!
 }
 
 input CrusadeArmyInput {
     name: String!
     alternateName: String
     id: Int!
-    isUsingAlternateName: Boolean!
+    isUsingAlternateName: Boolean
     requisitionPoints: Int
     traitColor: String
     maximumPowerLevel: Int
+    detachmentTrait: NameEffectInput
+    units: [CrusadeUnitInput]
+}
+
+input CrusadeUnitInput {
+    id: Int!
+    name: String!
+    alternateName: String
+    agendaXp: Int!
+    battleParticipation: Int!
+    experienceLoss: Int
+    kills: Int!
+    markedForGreatness: Int!
+    notes: String
+    powerLevel: Int!
+    sequenceNumber: Int
+    relic: NameEffectInput
+    battleScars: [NameEffectInput]
+    warlordTrait: NameEffectInput
+    battleHonours: [BattleHonourInput]
+    otherTraits: [OtherTraitInput]
+}
+
+input BattleHonourInput {
+    id: Int
+    crusadePoints: Int!
+    battleTrait: NameEffectInput
+    rank: String!
+}
+
+input OtherTraitInput {
+    id: Int!
+    name: String
+    nameEffects: [NameEffectInput]
+}
+
+input NameEffectInput {
+    id: Int
+    name: String
+    effect: String
 }
 
 type CrusadeArmy {
@@ -35,15 +76,14 @@ type CrusadeUnit {
     alternateName: String
     agendaXp: Int!
     battleParticipation: Int!
-    crusadePoints: Int!
     experienceLoss: Int
     kills: Int!
     markedForGreatness: Int!
     notes: String
     powerLevel: Int!
     relic: NameEffect
-    sequenceInt: Int
     warlordTrait: NameEffect
+    sequenceNumber: Int
     otherTraits: [OtherTrait]
     battleHonours: [BattleHonour]
 }

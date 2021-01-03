@@ -91,15 +91,22 @@ function DraggableTableRow(props: IRowProps): JSX.Element {
     )
 }
 
+export interface ICrusadeUnitTableProps {
+    name: string
+    crusadePoints: number;
+    id: number;
+    powerLevel: number;
+}
+
 interface IDraggableTableProps {
-    columns: Column<ICrusadeUnit>[];
+    columns: Column<ICrusadeUnitTableProps>[];
     onRowClick: (id: number) => void;
     crusadeArmy: ICrusadeArmy;
     updateRowPosition?: (id: number, index: number) => void;
 }
 
 function DraggableTable(props: IDraggableTableProps) {
-    const columns = React.useMemo<Column<ICrusadeUnit>[]>(() => props.columns, [props.columns])
+    const columns = React.useMemo<Column<ICrusadeUnitTableProps>[]>(() => props.columns, [props.columns])
 
     const crusadeUnits = props.crusadeArmy.units.map(unit => {
         return {
@@ -146,7 +153,7 @@ function DraggableTable(props: IDraggableTableProps) {
                             return (
                                 <DraggableTableRow
                                     index={index}
-                                    row={row}
+                                    row={row as any}
                                     onRowClick={() => props.onRowClick(row.original.id)}
                                     moveRow={moveRow}
                                     updateRowPosition={props.updateRowPosition}

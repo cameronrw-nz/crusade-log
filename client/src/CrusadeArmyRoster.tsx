@@ -11,8 +11,10 @@ import NameEffectsCard from "./CommonFields/UnitSummaryCard";
 import FormButton from "./CommonFields/FormButton";
 import RequisitionPointSpending from "./RequisitionPointSpending";
 import ReadOnlyRow from "./CommonFields/ReadOnlyRow";
-import DraggableTable from "./CommonFields/DraggableTable";
+import DraggableTable, { ICrusadeUnitTableProps } from "./CommonFields/DraggableTable";
 import { Column } from "react-table";
+import { SAVE_UNIT } from "./GraphQLOperations/SaveUnit";
+import { useMutation } from "@apollo/client";
 
 interface ICrusadeArmyRoster {
     crusadeArmy: ICrusadeArmy;
@@ -26,6 +28,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     const [isEditting, setIsEditting] = useState<boolean>()
     const [isReporting, setIsReporting] = useState<boolean>()
     const [isSpendingRequisition, setIsSpendingRequisition] = useState<boolean>()
+    const [saveIndividualUnit] = useMutation<ICrusadeUnit>(SAVE_UNIT)
 
     function addUnit() {
         let highestId = 0
@@ -35,23 +38,24 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
             }
         })
         const newUnit: ICrusadeUnit = {
-            id: highestId + 1,
+            id: -1,
             agendaXp: 0,
             battleHonours: [],
             battleParticipation: 0,
-            crusadePoints: 0,
             kills: 0,
             markedForGreatness: 0,
             name: "",
             notes: "",
             battleScars: [],
-            powerLevel: 0
+            powerLevel: 0,
+            sequenceNumber: props.crusadeArmy.units.length,
+            experienceLoss: 0
         }
 
         setEdittingUnit(newUnit);
     }
 
-    function saveUnit(unit: ICrusadeUnit) {
+    async function saveUnit(unit: ICrusadeUnit) {
         const crusadeArmy = { ...props.crusadeArmy }
         var existingIndex = crusadeArmy.units.findIndex(u => u.id === unit.id);
         if (existingIndex >= 0) {
@@ -60,8 +64,9 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         else {
             crusadeArmy.units.push(unit);
         }
+        const updatedUnit = await saveIndividualUnit({ variables: { crusadeUnit: unit, crusadeArmyId: props.crusadeArmy.id } })
+        console.table(updatedUnit)
 
-        props.updateArmy(crusadeArmy)
         setEdittingUnit(unit);
     }
 
@@ -77,9 +82,9 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
     }
 
     function saveArmy(army: ICrusadeArmy) {
-        props.updateArmy(army);
         setIsReporting(false);
         setIsEditting(false);
+        props.updateArmy(army);
     }
 
     function reOrderUnits(id: number, targetIndex: number): void {
@@ -142,7 +147,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
 
     let unitsTableDisplay = null;
     if (props.crusadeArmy.units.length !== 0) {
-        const columns: Column<ICrusadeUnit>[] = [
+        const columns: Column<ICrusadeUnitTableProps>[] = [
             {
                 Header: 'Name',
                 accessor: 'name',
