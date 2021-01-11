@@ -14,6 +14,7 @@ query {
     }
     units {
       id
+      alternateName
       name
       agendaXp
       battleParticipation
@@ -37,8 +38,7 @@ query {
         crusadePoints
       }
       battleScars {
-        name
-        effect
+        ...nameEffect
       }
       otherTraits {
         id

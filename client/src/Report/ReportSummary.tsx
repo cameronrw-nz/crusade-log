@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { ICrusadeArmy } from "../Constants";
 import UnitSummaryRows from "../CommonFields/UnitSummary";
 import ReportUnits from "./ReportUnits";
@@ -15,6 +15,7 @@ interface IReportSummaryProps {
 }
 
 function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
+    const context = useContext(ThemeContext);
     const [isContinuing, setIsContinuing] = useState<boolean>();
 
     const unitSummaries: JSX.Element[] = [];
@@ -23,13 +24,9 @@ function ReportSummary(props: IReportSummaryProps): JSX.Element | null {
             && props.crusadeArmy.battleRosterUnitIds.includes(unit.id)
         ) {
             unitSummaries.push(
-                <ThemeContext.Consumer key={unit.id + " Header"}>
-                    {context =>
-                        <h3 className="mt-3" style={{ borderTop: `1px solid ${context.color}` }}>
-                            {GetName(unit, context.isUsingAlternateName)}
-                        </h3>
-                    }
-                </ThemeContext.Consumer>
+                <h3 className="mt-3" key={unit.id + " Header"} style={{ borderTop: `1px solid ${context.color}` }}>
+                    {GetName(unit, context.isUsingAlternateName)}
+                </h3>
             )
             unitSummaries.push(
                 <UnitSummaryRows

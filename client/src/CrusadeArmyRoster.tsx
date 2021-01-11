@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Report from "./Report/Report";
 import { ICrusadeArmy, ICrusadeUnit } from "./Constants";
 import UnitDisplay from "./UnitDisplay";
 import EditArmy from "./EditArmy";
-import { CalculateCrusadePoints, GetArmyName } from "./Helpers/CrusadeUnitHelper";
+import { CalculateCrusadePoints, GetName } from "./Helpers/CrusadeUnitHelper";
 import Header from "./CommonFields/Header";
 import { Row, Col, Form } from "react-bootstrap";
 import FormButtons from "./CommonFields/FormButtons";
@@ -15,6 +15,7 @@ import DraggableTable, { ICrusadeUnitTableProps } from "./CommonFields/Draggable
 import { Column } from "react-table";
 import { SAVE_UNIT } from "./GraphQLOperations/SaveUnit";
 import { useMutation } from "@apollo/client";
+import { ThemeContext } from "./App";
 
 interface ICrusadeArmyRoster {
     crusadeArmy: ICrusadeArmy;
@@ -24,6 +25,7 @@ interface ICrusadeArmyRoster {
 }
 
 function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
+    const context = useContext(ThemeContext);
     const [edittingUnit, setEdittingUnit] = useState<ICrusadeUnit>()
     const [isEditting, setIsEditting] = useState<boolean>()
     const [isReporting, setIsReporting] = useState<boolean>()
@@ -145,7 +147,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         )
     }
 
-    let unitsTableDisplay = null;
+    let unitsTableDisplay: JSX.Element | null = null;
     if (props.crusadeArmy.units.length !== 0) {
         const columns: Column<ICrusadeUnitTableProps>[] = [
             {
@@ -176,7 +178,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
         )
     }
 
-    let detachmentTraitCard = undefined
+    let detachmentTraitCard: JSX.Element | null = null
     if (props.crusadeArmy.detachmentTrait) {
         detachmentTraitCard = (
             <NameEffectsCard
@@ -193,7 +195,7 @@ function CrusadeArmyRoster(props: ICrusadeArmyRoster) {
                     { name: "PL", value: powerLevel },
                     { name: "CP", value: crusadePoints },
                 ]}
-                headerText={GetArmyName(props.crusadeArmy)}
+                headerText={GetName(props.crusadeArmy, context.isUsingAlternateName)}
                 onEdit={() => setIsEditting(true)}
             />
             <Row className="mb-2">

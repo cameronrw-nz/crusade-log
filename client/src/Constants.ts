@@ -1,4 +1,4 @@
-export const CRUSADE_ARMIES_STORAGE_KEY = "crusadeArmies";
+export const ARMIES_ARE_USING_ALTERNATE_NAME = "armiesAreUsingAlternateName";
 export const AUTH_TOKEN = 'auth-token'
 
 export interface ICrusadeUnit extends IEntity {
@@ -47,7 +47,6 @@ export interface ICrusadeArmy extends IEntity {
     battleRosterUnitIds?: number[]
     detachmentTrait?: INameEffect;
     id: number;
-    isUsingAlternateName?: boolean;
     requisitionPoints?: number;
     traitColor?: string;
     units: ICrusadeUnit[];
@@ -59,3 +58,7 @@ export interface IEntity {
     alternateName?: string;
 }
 
+export interface IArmiesUsingAlternateName {
+    armyId: number;
+    isUsingAlternateName: boolean;
+}

@@ -3,9 +3,9 @@ import { useQuery, useMutation } from "@apollo/client";
 import { Button, Row, Col, Card } from "react-bootstrap";
 
 import CrusadeArmyRoster from "./CrusadeArmyRoster";
-import { ICrusadeArmy, CRUSADE_ARMIES_STORAGE_KEY, INameEffect, ICrusadeUnit, IBattleHonour } from "./Constants";
+import { ICrusadeArmy, ARMIES_ARE_USING_ALTERNATE_NAME, INameEffect, ICrusadeUnit, IBattleHonour, IArmiesUsingAlternateName } from "./Constants";
 import EditArmy from "./EditArmy";
-import { CalculateCrusadePoints, GetArmyName } from "./Helpers/CrusadeUnitHelper";
+import { CalculateCrusadePoints, GetName } from "./Helpers/CrusadeUnitHelper";
 import { ThemeContext } from "./App";
 import { FETCH_ARMIES } from "./GraphQLOperations/FetchArmies";
 
@@ -18,6 +18,8 @@ function ArmiesList() {
     const [saveArmy] = useMutation(SAVE_ARMIES)
     const [selectedCrusadeArmy, setSelectedCrusadeArmy] = useState<ICrusadeArmy>();
     const [crusadeArmiesDisplay, setCrusadeArmiesDisplay] = useState<JSX.Element[]>();
+    const [armiesAreUsingAlternateName, setArmiesAreUsingAlternateName] =
+        useState<IArmiesUsingAlternateName[]>(JSON.parse(window.localStorage.getItem(ARMIES_ARE_USING_ALTERNATE_NAME) || "[]"));
 
     useEffect(() => {
         if (loading || !data) {
@@ -53,6 +55,14 @@ function ArmiesList() {
 
                     unit.battleHonours = battleHonours
                 }
+                if (u.battleScars) {
+                    const battleScars = u.battleScars.map(bs => {
+                        const { __typename: e, ...battleScar } = bs as INameEffect & { __typename: any }
+                        return battleScar
+                    })
+
+                    unit.battleScars = battleScars
+                }
                 return unit
             })
 
@@ -64,6 +74,8 @@ function ArmiesList() {
             })
 
             armies.push(army);
+            const isUsingAlternateName =
+                armiesAreUsingAlternateName.find(a => a.armyId === army.id)?.isUsingAlternateName ?? false
 
             return (
                 <Card
@@ -73,7 +85,7 @@ function ArmiesList() {
                     style={{ border: `1px solid ${army.traitColor || "rgb(0, 123, 255)"}` }} >
                     <Card.Body>
                         <Card.Title as="h2">
-                            {GetArmyName(army)}
+                            {GetName(army, isUsingAlternateName)}
                         </Card.Title>
                         <Card.Text>
                             {powerLevel + " PL "}
@@ -88,6 +100,10 @@ function ArmiesList() {
         setCrusadeArmiesDisplay(display);
     }, [loading, data])
 
+    useEffect(() => {
+
+    }, [selectedCrusadeArmy])
+
     async function updateArmy(crusadeArmy: ICrusadeArmy) {
         console.log("updating army")
 
@@ -100,19 +116,6 @@ function ArmiesList() {
         if (!updatedCrusadeArmy) {
             return;
         }
-        console.table(response.data)
-
-        const storageCrusadeArmies: ICrusadeArmy[] = JSON.parse(window.localStorage.getItem(CRUSADE_ARMIES_STORAGE_KEY) || "[]");
-        const crusadeArmyIndex = storageCrusadeArmies.findIndex(army => updatedCrusadeArmy && army.id === updatedCrusadeArmy.id)
-        if (crusadeArmyIndex >= 0) {
-            storageCrusadeArmies.splice(crusadeArmyIndex, 1, updatedCrusadeArmy)
-        }
-        else {
-            storageCrusadeArmies.push(updatedCrusadeArmy);
-        }
-
-        window.localStorage.setItem(CRUSADE_ARMIES_STORAGE_KEY, JSON.stringify(storageCrusadeArmies));
-        //setCrusadeArmies(storageCrusadeArmies)
 
         setEdittingArmy(undefined)
         setSelectedCrusadeArmy(updatedCrusadeArmy)
@@ -131,27 +134,30 @@ function ArmiesList() {
     }
 
     function deleteArmy(deletingArmy: ICrusadeArmy) {
-        const storageCrusadeArmies: ICrusadeArmy[] = JSON.parse(window.localStorage.getItem(CRUSADE_ARMIES_STORAGE_KEY) || "[]");
-        const crusadeArmyIndex = storageCrusadeArmies.findIndex(army => army.id === deletingArmy.id)
-        if (crusadeArmyIndex >= 0) {
-            storageCrusadeArmies.splice(crusadeArmyIndex, 1)
-        }
-
-        window.localStorage.setItem(CRUSADE_ARMIES_STORAGE_KEY, JSON.stringify(storageCrusadeArmies));
-        //setCrusadeArmies(storageCrusadeArmies)
-        setSelectedCrusadeArmy(undefined)
+        throw new Error("Not implemented.")
     }
 
     function toggleIsUsingAlternateName() {
+        const storageCrusadeArmies: IArmiesUsingAlternateName[] = JSON.parse(window.localStorage.getItem(ARMIES_ARE_USING_ALTERNATE_NAME) || "[]");
         if (!selectedCrusadeArmy) {
             return
         }
 
-        const army = { ...selectedCrusadeArmy }
-        army.isUsingAlternateName = selectedCrusadeArmy.isUsingAlternateName !== undefined
-            ? !selectedCrusadeArmy.isUsingAlternateName
-            : true
-        updateArmy(army)
+        let newValue = false;
+        let armyIsUsingAlternateName = storageCrusadeArmies.find(army => army.armyId === selectedCrusadeArmy.id)
+        if (armyIsUsingAlternateName) {
+            armyIsUsingAlternateName.isUsingAlternateName = !armyIsUsingAlternateName.isUsingAlternateName
+        }
+        else {
+            armyIsUsingAlternateName = {
+                armyId: selectedCrusadeArmy.id,
+                isUsingAlternateName: false
+            }
+            storageCrusadeArmies.push(armyIsUsingAlternateName)
+        }
+
+        window.localStorage.setItem(ARMIES_ARE_USING_ALTERNATE_NAME, JSON.stringify(storageCrusadeArmies));
+        setArmiesAreUsingAlternateName(storageCrusadeArmies)
     }
 
     if (edittingArmy) {
@@ -168,7 +174,7 @@ function ArmiesList() {
     if (selectedCrusadeArmy) {
         const context = {
             color: selectedCrusadeArmy.traitColor || "blue",
-            isUsingAlternateName: selectedCrusadeArmy.isUsingAlternateName,
+            isUsingAlternateName: armiesAreUsingAlternateName?.find(army => army.armyId === selectedCrusadeArmy.id)?.isUsingAlternateName ?? false,
             toggleIsUsingAlternateName: toggleIsUsingAlternateName
         }
 

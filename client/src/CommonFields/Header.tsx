@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import EditIcon from "../Resources/Icons/EditIcon.svg";
 import { Row, Col, Form } from "react-bootstrap";
@@ -12,6 +12,8 @@ interface IHeaderProps {
 }
 
 function Header(props: IHeaderProps): JSX.Element | null {
+    const context = useContext(ThemeContext);
+
     let editIcon: JSX.Element | undefined = undefined;
     if (props.onEdit) {
         editIcon = (
@@ -32,29 +34,25 @@ function Header(props: IHeaderProps): JSX.Element | null {
     })
 
     return (
-        <ThemeContext.Consumer>
-            {context =>
-                <Row className="my-2 mx-1 header">
-                    <Col as="h2" className="p-0" xs={9}>
-                        {props.headerText}
-                        {editIcon}
-                    </Col>
-                    <Col xs={2} className="p-0 pt-2">
-                        <Form.Check
-                            type="switch"
-                            id="custom-switch"
-                            className={GetClassName(context.color)}
-                            label=""
-                            checked={context.isUsingAlternateName || false}
-                            onClick={context.toggleIsUsingAlternateName}
-                        />
-                    </Col>
-                    <Col xs={1} className="pl-0">
-                        {subHeaderInfos}
-                    </Col>
-                </Row>
-            }
-        </ThemeContext.Consumer>
+        <Row className="my-2 mx-1 header">
+            <Col as="h2" className="p-0" xs={9}>
+                {props.headerText}
+                {editIcon}
+            </Col>
+            <Col xs={2} className="p-0 pt-2">
+                <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    className={GetClassName(context.color)}
+                    label=""
+                    checked={context.isUsingAlternateName || false}
+                    onClick={context.toggleIsUsingAlternateName}
+                />
+            </Col>
+            <Col xs={1} className="pl-0">
+                {subHeaderInfos}
+            </Col>
+        </Row>
     )
 }
 

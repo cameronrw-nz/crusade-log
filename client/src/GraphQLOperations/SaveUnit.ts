@@ -5,6 +5,7 @@ mutation unit($crusadeUnit: CrusadeUnitInput!, $crusadeArmyId: Int!) {
   unit(crusadeUnit: $crusadeUnit, crusadeArmyId: $crusadeArmyId) {
     id
     name
+    alternateName
     agendaXp
     battleParticipation
     experienceLoss

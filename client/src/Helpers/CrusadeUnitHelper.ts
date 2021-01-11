@@ -27,10 +27,6 @@ export function CalculateCrusadePoints(unit: ICrusadeUnit) {
     return warlordTraitCrusadePoints + relicCrusadePoints + battleHonourCrusadePoints + outOfActionCrusadePoints;
 }
 
-export function GetArmyName(crusadeArmy: ICrusadeArmy) {
-    return GetName(crusadeArmy, crusadeArmy.isUsingAlternateName)
-}
-
 export function GetName(entity: IEntity, isUsingAlternateName?: boolean) {
     return isUsingAlternateName ? entity.alternateName || entity.name : entity.name
 }

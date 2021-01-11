@@ -8,6 +8,7 @@ export interface CrusadeArmyInput {
     traitColor: string
     maximumPowerLevel: number
     createdAt: Date
+    alternateName: string | null
     name: string | null
     detachmentTrait: NameEffectInput | null
     units: CrusadeUnitInput[]

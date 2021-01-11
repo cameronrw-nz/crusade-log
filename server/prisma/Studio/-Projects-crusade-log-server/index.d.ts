@@ -454,6 +454,7 @@ export declare class PrismaClient<
 
 export declare const CrusadeArmyDistinctFieldEnum: {
   id: 'id',
+  alternateName: 'alternateName',
   requisitionPoints: 'requisitionPoints',
   traitColor: 'traitColor',
   maximumPowerLevel: 'maximumPowerLevel',
@@ -530,6 +531,7 @@ export declare type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 export type CrusadeArmy = {
   id: number
+  alternateName: string | null
   requisitionPoints: number
   traitColor: string
   maximumPowerLevel: number
@@ -630,6 +632,7 @@ export type GetCrusadeArmyAggregateScalarType<T extends any> = {
 
 export type CrusadeArmySelect = {
   id?: boolean
+  alternateName?: boolean
   requisitionPoints?: boolean
   traitColor?: boolean
   maximumPowerLevel?: boolean
@@ -3413,6 +3416,7 @@ export type CrusadeArmyWhereInput = {
   OR?: CrusadeArmyWhereInput | Enumerable<CrusadeArmyWhereInput>
   NOT?: CrusadeArmyWhereInput | Enumerable<CrusadeArmyWhereInput>
   id?: IntFilter | number
+  alternateName?: StringNullableFilter | string | null
   requisitionPoints?: IntFilter | number
   traitColor?: StringFilter | string
   maximumPowerLevel?: IntFilter | number
@@ -3425,6 +3429,7 @@ export type CrusadeArmyWhereInput = {
 
 export type CrusadeArmyOrderByInput = {
   id?: SortOrder
+  alternateName?: SortOrder
   requisitionPoints?: SortOrder
   traitColor?: SortOrder
   maximumPowerLevel?: SortOrder
@@ -3558,6 +3563,7 @@ export type OtherTraitWhereUniqueInput = {
 }
 
 export type CrusadeArmyCreateInput = {
+  alternateName?: string | null
   requisitionPoints: number
   traitColor: string
   maximumPowerLevel: number
@@ -3568,6 +3574,7 @@ export type CrusadeArmyCreateInput = {
 }
 
 export type CrusadeArmyUpdateInput = {
+  alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   requisitionPoints?: number | IntFieldUpdateOperationsInput
   traitColor?: string | StringFieldUpdateOperationsInput
   maximumPowerLevel?: number | IntFieldUpdateOperationsInput
@@ -3578,6 +3585,7 @@ export type CrusadeArmyUpdateInput = {
 }
 
 export type CrusadeArmyUpdateManyMutationInput = {
+  alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   requisitionPoints?: number | IntFieldUpdateOperationsInput
   traitColor?: string | StringFieldUpdateOperationsInput
   maximumPowerLevel?: number | IntFieldUpdateOperationsInput
@@ -3709,6 +3717,20 @@ export type IntFilter = {
   not?: number | NestedIntFilter
 }
 
+export type StringNullableFilter = {
+  equals?: string | null
+  in?: Enumerable<string> | null
+  notIn?: Enumerable<string> | null
+  lt?: string
+  lte?: string
+  gt?: string
+  gte?: string
+  contains?: string
+  startsWith?: string
+  endsWith?: string
+  not?: string | NestedStringNullableFilter | null
+}
+
 export type StringFilter = {
   equals?: string
   in?: Enumerable<string>
@@ -3778,20 +3800,6 @@ export type CrusadeUnitRelationFilter = {
   isNot?: CrusadeUnitWhereInput | null
 }
 
-export type StringNullableFilter = {
-  equals?: string | null
-  in?: Enumerable<string> | null
-  notIn?: Enumerable<string> | null
-  lt?: string
-  lte?: string
-  gt?: string
-  gte?: string
-  contains?: string
-  startsWith?: string
-  endsWith?: string
-  not?: string | NestedStringNullableFilter | null
-}
-
 export type CrusadeArmyRelationFilter = {
   is?: CrusadeArmyWhereInput | null
   isNot?: CrusadeArmyWhereInput | null
@@ -3817,6 +3825,10 @@ export type NameEffectCreateOneWithoutCrusadeArmyInput = {
 export type CrusadeUnitCreateManyWithoutCrusadeArmyInput = {
   create?: CrusadeUnitCreateWithoutCrusadeArmyInput | Enumerable<CrusadeUnitCreateWithoutCrusadeArmyInput>
   connect?: CrusadeUnitWhereUniqueInput | Enumerable<CrusadeUnitWhereUniqueInput>
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -3982,10 +3994,6 @@ export type NameEffectCreateManyWithoutBattleScarInput = {
   connect?: NameEffectWhereUniqueInput | Enumerable<NameEffectWhereUniqueInput>
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type NameEffectUpdateOneWithoutRelicInput = {
   create?: NameEffectCreateWithoutRelicInput
   connect?: NameEffectWhereUniqueInput
@@ -4122,6 +4130,20 @@ export type NestedIntFilter = {
   not?: number | NestedIntFilter
 }
 
+export type NestedStringNullableFilter = {
+  equals?: string | null
+  in?: Enumerable<string> | null
+  notIn?: Enumerable<string> | null
+  lt?: string
+  lte?: string
+  gt?: string
+  gte?: string
+  contains?: string
+  startsWith?: string
+  endsWith?: string
+  not?: string | NestedStringNullableFilter | null
+}
+
 export type NestedStringFilter = {
   equals?: string
   in?: Enumerable<string>
@@ -4156,20 +4178,6 @@ export type NestedIntNullableFilter = {
   gt?: number
   gte?: number
   not?: number | NestedIntNullableFilter | null
-}
-
-export type NestedStringNullableFilter = {
-  equals?: string | null
-  in?: Enumerable<string> | null
-  notIn?: Enumerable<string> | null
-  lt?: string
-  lte?: string
-  gt?: string
-  gte?: string
-  contains?: string
-  startsWith?: string
-  endsWith?: string
-  not?: string | NestedStringNullableFilter | null
 }
 
 export type NameEffectCreateWithoutCrusadeArmyInput = {
@@ -4252,6 +4260,7 @@ export type CrusadeUnitUpsertWithWhereUniqueWithoutCrusadeArmyInput = {
 }
 
 export type CrusadeArmyCreateWithoutDetachmentTraitInput = {
+  alternateName?: string | null
   requisitionPoints: number
   traitColor: string
   maximumPowerLevel: number
@@ -4340,6 +4349,7 @@ export type CrusadeArmyScalarWhereInput = {
   OR?: CrusadeArmyScalarWhereInput | Enumerable<CrusadeArmyScalarWhereInput>
   NOT?: CrusadeArmyScalarWhereInput | Enumerable<CrusadeArmyScalarWhereInput>
   id?: IntFilter | number
+  alternateName?: StringNullableFilter | string | null
   requisitionPoints?: IntFilter | number
   traitColor?: StringFilter | string
   maximumPowerLevel?: IntFilter | number
@@ -4457,6 +4467,7 @@ export type NameEffectCreateWithoutWarlordTraitInput = {
 }
 
 export type CrusadeArmyCreateWithoutUnitsInput = {
+  alternateName?: string | null
   requisitionPoints: number
   traitColor: string
   maximumPowerLevel: number
@@ -4517,6 +4528,7 @@ export type NameEffectUpsertWithoutWarlordTraitInput = {
 }
 
 export type CrusadeArmyUpdateWithoutUnitsDataInput = {
+  alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   requisitionPoints?: number | IntFieldUpdateOperationsInput
   traitColor?: string | StringFieldUpdateOperationsInput
   maximumPowerLevel?: number | IntFieldUpdateOperationsInput
@@ -4740,6 +4752,7 @@ export type CrusadeUnitUpdateManyDataInput = {
 }
 
 export type CrusadeArmyUpdateWithoutDetachmentTraitDataInput = {
+  alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   requisitionPoints?: number | IntFieldUpdateOperationsInput
   traitColor?: string | StringFieldUpdateOperationsInput
   maximumPowerLevel?: number | IntFieldUpdateOperationsInput
@@ -4749,6 +4762,7 @@ export type CrusadeArmyUpdateWithoutDetachmentTraitDataInput = {
 }
 
 export type CrusadeArmyUpdateManyDataInput = {
+  alternateName?: string | NullableStringFieldUpdateOperationsInput | null
   requisitionPoints?: number | IntFieldUpdateOperationsInput
   traitColor?: string | StringFieldUpdateOperationsInput
   maximumPowerLevel?: number | IntFieldUpdateOperationsInput

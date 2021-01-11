@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useMemo, useContext } from 'react'
 import { useTable, Column, Row } from 'react-table'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 import { TouchBackend } from "react-dnd-touch-backend"
 import { ICrusadeUnit, ICrusadeArmy } from '../Constants'
 import ThreeDotsVerticalIcon from "../Resources/Icons/ThreeDotsVerticalIcon.svg";
 import { CalculateCrusadePoints, GetName } from '../Helpers/CrusadeUnitHelper'
+import { ThemeContext } from '../App'
 
 const DND_ITEM_TYPE = 'row'
 
@@ -106,11 +107,12 @@ interface IDraggableTableProps {
 }
 
 function DraggableTable(props: IDraggableTableProps) {
-    const columns = React.useMemo<Column<ICrusadeUnitTableProps>[]>(() => props.columns, [props.columns])
+    const columns = useMemo<Column<ICrusadeUnitTableProps>[]>(() => props.columns, [props.columns])
+    const context = useContext(ThemeContext);
 
     const crusadeUnits = props.crusadeArmy.units.map(unit => {
         return {
-            ...unit, crusadePoints: CalculateCrusadePoints(unit), name: GetName(unit, props.crusadeArmy.isUsingAlternateName)
+            ...unit, crusadePoints: CalculateCrusadePoints(unit), name: GetName(unit, context.isUsingAlternateName)
         }
     })
 

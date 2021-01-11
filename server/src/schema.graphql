@@ -62,7 +62,6 @@ type CrusadeArmy {
     alternateName: String
     battleRosterUnitIds: [Int]
     id: Int!
-    isUsingAlternateName: Boolean!
     requisitionPoints: Int
     traitColor: String
     maximumPowerLevel: Int

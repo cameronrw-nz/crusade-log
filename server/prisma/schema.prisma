@@ -11,6 +11,7 @@ generator client {
 
 model CrusadeArmy {
     id                Int           @id @default(autoincrement())
+    alternateName     String?
     requisitionPoints Int
     traitColor        String
     maximumPowerLevel Int

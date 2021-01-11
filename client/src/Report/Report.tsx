@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { ICrusadeArmy } from "../Constants";
 import ReportSummary from "./ReportSummary";
 import { Form, Row, Col } from "react-bootstrap";
 import FormButtons from "../CommonFields/FormButtons";
 import { ThemeContext } from "../App";
-import ReadOnlyRow from "../CommonFields/ReadOnlyRow";
 import { CalculateCrusadePoints, GetName } from "../Helpers/CrusadeUnitHelper";
 import FormButton from "../CommonFields/FormButton";
 import { GetClassName } from "../Helpers/ClassNameHelper";
@@ -17,6 +16,7 @@ interface IReportProps {
 }
 
 function Report(props: IReportProps) {
+    const context = useContext(ThemeContext);
     const [selectedUnitIds, setSelectedUnitIds] = useState<number[]>([])
 
     function Continue() {
@@ -49,26 +49,23 @@ function Report(props: IReportProps) {
 
     const display = props.crusadeArmy.units.map((unit) => {
         const crusadePoints = CalculateCrusadePoints(unit)
+
         return (
-            <ThemeContext.Consumer>
-                {context =>
-                    <Form.Group onClick={() => selectUnit(unit.id)} className="mb-1">
-                        <Form.Check type="checkbox" className={`custom-control ${GetClassName(props.crusadeArmy.traitColor)}`} color={context.color}>
-                            <Form.Check.Input
-                                className="custom-control-input mr-1"
-                                color={context.color}
-                                checked={selectedUnitIds.includes(unit.id)}
-                                style={{ position: "relative" }}
-                            />
-                            <Form.Check.Label
-                                className="custom-control-label"
-                                children={`${GetName(unit, context.isUsingAlternateName)} ${unit.powerLevel}PL  ${crusadePoints}CP`}
-                                style={{ fontWeight: "unset" }}
-                            />
-                        </Form.Check>
-                    </Form.Group>
-                }
-            </ThemeContext.Consumer>
+            <Form.Group onClick={() => selectUnit(unit.id)} className="mb-1">
+                <Form.Check type="checkbox" className={`custom-control ${GetClassName(props.crusadeArmy.traitColor)}`} color={context.color}>
+                    <Form.Check.Input
+                        className="custom-control-input mr-1"
+                        color={context.color}
+                        checked={selectedUnitIds.includes(unit.id)}
+                        style={{ position: "relative" }}
+                    />
+                    <Form.Check.Label
+                        className="custom-control-label"
+                        children={`${GetName(unit, context.isUsingAlternateName)} ${unit.powerLevel}PL  ${crusadePoints}CP`}
+                        style={{ fontWeight: "unset" }}
+                    />
+                </Form.Check>
+            </Form.Group>
         )
     })
 

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { ICrusadeUnit } from "./Constants";
 import EditUnit from "./EditUnit";
 import { CalculateCrusadePoints, GetName } from "./Helpers/CrusadeUnitHelper";
@@ -15,6 +15,7 @@ interface IUnitDisplayProps {
 }
 
 function UnitDisplay(props: IUnitDisplayProps) {
+    const context = useContext(ThemeContext);
     const [isEdittingUnit, setIsEdittingUnit] = useState<boolean>(false);
     const isNewUnit = useMemo<boolean>(() => { return props.unit.name === "" }, [props.unit.name])
 
@@ -40,26 +41,22 @@ function UnitDisplay(props: IUnitDisplayProps) {
     let crusadePoints = CalculateCrusadePoints(props.unit);
 
     return (
-        <ThemeContext.Consumer>
-            {context =>
-                <>
-                    <Header
-                        subHeaderInfo={[
-                            { name: "PL", value: props.unit.powerLevel },
-                            { name: "CP", value: crusadePoints },
-                        ]}
-                        headerText={GetName(props.unit, context.isUsingAlternateName)}
-                    />
-                    <UnitSummaryRows unit={props.unit} />
-                    <FormButtons
-                        primaryButtonName="Edit"
-                        primaryButtonOnClick={() => setIsEdittingUnit(true)}
-                        secondaryButtonName="Back"
-                        secondaryButtonOnClick={props.goBack}
-                    />
-                </>
-            }
-        </ThemeContext.Consumer>
+        <>
+            <Header
+                subHeaderInfo={[
+                    { name: "PL", value: props.unit.powerLevel },
+                    { name: "CP", value: crusadePoints },
+                ]}
+                headerText={GetName(props.unit, context.isUsingAlternateName)}
+            />
+            <UnitSummaryRows unit={props.unit} />
+            <FormButtons
+                primaryButtonName="Edit"
+                primaryButtonOnClick={() => setIsEdittingUnit(true)}
+                secondaryButtonName="Back"
+                secondaryButtonOnClick={props.goBack}
+            />
+        </>
     )
 }
 

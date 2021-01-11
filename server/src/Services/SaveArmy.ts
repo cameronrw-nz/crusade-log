@@ -35,6 +35,7 @@ async function UpdateArmy(existingArmy: CrusadeArmy, crusadeArmyInput: CrusadeAr
         data: {
             ...editableFields,
             name: crusadeArmyInput.name,
+            alternateName: crusadeArmyInput.alternateName,
             requisitionPoints: crusadeArmyInput.requisitionPoints,
             maximumPowerLevel: crusadeArmyInput.maximumPowerLevel,
             traitColor: crusadeArmyInput.traitColor,
