@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5f8aee5e2bc8443951b4175793aa28ea",
+    "revision": "8e5b17a16135a420068fef77209d8881",
     "url": "/crusade-log/index.html"
   },
   {
-    "revision": "f6dfa67061d25d9224fa",
+    "revision": "3f2a7aa874af78a078e9",
     "url": "/crusade-log/static/css/2.2a86faee.chunk.css"
   },
   {
-    "revision": "0693b5f3b7d609c61864",
-    "url": "/crusade-log/static/css/main.1f4bb620.chunk.css"
+    "revision": "2786b1dae639312c3b5d",
+    "url": "/crusade-log/static/css/main.df72837d.chunk.css"
   },
   {
-    "revision": "f6dfa67061d25d9224fa",
-    "url": "/crusade-log/static/js/2.89e6cc04.chunk.js"
+    "revision": "3f2a7aa874af78a078e9",
+    "url": "/crusade-log/static/js/2.8ab24217.chunk.js"
   },
   {
     "revision": "8a137f586fcebb1a370343eb47b7677c",
-    "url": "/crusade-log/static/js/2.89e6cc04.chunk.js.LICENSE.txt"
+    "url": "/crusade-log/static/js/2.8ab24217.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "0693b5f3b7d609c61864",
-    "url": "/crusade-log/static/js/main.978f775c.chunk.js"
+    "revision": "2786b1dae639312c3b5d",
+    "url": "/crusade-log/static/js/main.6c5ecdc0.chunk.js"
   },
   {
     "revision": "ad56156e9493334dbb9e",
