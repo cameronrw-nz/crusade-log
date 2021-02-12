@@ -28,44 +28,7 @@ function ArmiesList() {
 
         const armies: ICrusadeArmy[] = [];
 
-        const display = data.armies.map((crusadeArmy: ICrusadeArmy & { __typename: any }, index: number) => {
-            const { __typename: b, ...army } = crusadeArmy;
-            if (army.detachmentTrait) {
-                const { __typename: a, ...detachmentTrait } = army.detachmentTrait as INameEffect & { __typename: any }
-                army.detachmentTrait = detachmentTrait
-            }
-            army.units = crusadeArmy.units.map(u => {
-                const { __typename: c, ...unit } = u as ICrusadeUnit & { __typename: any };
-                if (u.warlordTrait) {
-                    const { __typename: a, ...warlordTrait } = u.warlordTrait as INameEffect & { __typename: any }
-                    unit.warlordTrait = warlordTrait
-                }
-                if (u.relic) {
-                    const { __typename: a, ...relic } = u.relic as INameEffect & { __typename: any }
-                    unit.relic = relic
-                }
-                if (u.battleHonours) {
-                    const battleHonours = u.battleHonours.map(bh => {
-                        const { __typename: d, ...battleHonour } = (bh as IBattleHonour & { __typename: any })
-                        const { __typename: e, ...battleTrait } = battleHonour.battleTrait as INameEffect & { __typename: any }
-                        battleHonour.battleTrait = battleTrait;
-
-                        return battleHonour
-                    })
-
-                    unit.battleHonours = battleHonours
-                }
-                if (u.battleScars) {
-                    const battleScars = u.battleScars.map(bs => {
-                        const { __typename: e, ...battleScar } = bs as INameEffect & { __typename: any }
-                        return battleScar
-                    })
-
-                    unit.battleScars = battleScars
-                }
-                return unit
-            })
-
+        const display = data.armies.map((army: ICrusadeArmy, index: number) => {
             let crusadePoints = 0;
             let powerLevel = 0;
             army.units.forEach(unit => {
